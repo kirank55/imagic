@@ -8,7 +8,7 @@ const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
 const COOKIE_SESSION_KEY = "session-id";
 
 export const sessionSchema = z.object({
-  id: z.string(),
+  userId: z.string(),
   username: z.string(),
 });
 
@@ -53,7 +53,7 @@ export async function createUserSession(
   cookies: Pick<Cookies, "set">
 ) {
   const sessionId = crypto.randomBytes(512).toString("hex").normalize();
-  await redis.set(`session:${sessionId}`, sessionSchema.parse(user), {
+  await redis.set(`session:${sessionId}`, user, {
     ex: SESSION_EXPIRATION_SECONDS,
   });
 

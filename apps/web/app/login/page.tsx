@@ -1,72 +1,107 @@
-"use client"
-import { useRouter } from 'next/navigation';
-// import Footer from 'components/layouts/Footer';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setLoading(true);
-    setError('');
+    setError("");
+
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setError(data.message || 'Invalid credentials');
+        setError(data.message || "Invalid credentials");
       } else {
-        // Optionally redirect or show success
-        setError('');
+        setError("");
+        console.log(data);
 
-        console.log(data)
-
-        router.push("/profile")
-        router.refresh(); // This will trigger a server re-render of the layout and Navbar
+        router.push("/profile");
+        // This will trigger a server re-render of the layout and Navbar
+        router.refresh();
       }
     } catch (err: unknown) {
       console.log(err);
-      setError('Something went wrong');
-    } finally {
-      setLoading(false);
+      setError("Something went wrong");
     }
+
+    setLoading(false);
   };
 
   return (
     <div id="login-page">
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15vh' }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "15vh",
+        }}
+      >
         <h1>Login</h1>
-        <form onSubmit={handleSubmit} style={{ minWidth: 320, maxWidth: 400, width: '100%', display: 'flex', flexDirection: 'column', gap: 16, background: '#fff', padding: 32, borderRadius: 8, boxShadow: '0 2px 16px #0001' }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            minWidth: 320,
+            maxWidth: 400,
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            background: "#fff",
+            padding: 32,
+            borderRadius: 8,
+            boxShadow: "0 2px 16px #0001",
+          }}
+        >
           <input
             type="email"
             placeholder="Email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ padding: 12, borderRadius: 4, border: '1px solid #ccc' }}
+            style={{ padding: 12, borderRadius: 4, border: "1px solid #ccc" }}
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ padding: 12, borderRadius: 4, border: '1px solid #ccc' }}
+            style={{ padding: 12, borderRadius: 4, border: "1px solid #ccc" }}
           />
-          <button type="submit" disabled={loading} style={{ padding: 12, borderRadius: 4, background: '#222', color: '#fff', border: 'none', fontWeight: 600 }}>
-            {loading ? 'Logging in...' : 'Login'}
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              padding: 12,
+              borderRadius: 4,
+              background: "#222",
+              color: "#fff",
+              border: "none",
+              fontWeight: 600,
+            }}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
-          {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
+          {error && (
+            <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+          )}
         </form>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

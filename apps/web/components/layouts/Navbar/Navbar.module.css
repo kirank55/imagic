@@ -1,0 +1,56 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+}
+
+.links a {
+  color: #4a4a4a;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.links a:hover {
+  color: #000;
+}
+
+.auth {
+  display: flex;
+  gap: 1rem;
+}
+
+.loginButton,
+.signupButton{
+  /* background: none; */
+  background-color: #000;
+  color: #fff;
+  border:none;
+  padding: 1em;
+  cursor: pointer;
+  margin: 10px;
+}
+
+@media (max-width:576px) {
+.navbar {
+flex-direction: column;
+}
+}

@@ -1,12 +1,11 @@
-
-import FileInputContainer from "components/ui/FileInput";
+import GlobalFileInput from "components/ui/GlobalFileInput";
 
 import NewImageHandlerComponent from "./NewImageHandlerComponent";
 
 const New = () => {
   return (
     <>
-      <FileInputContainer feature={"Uploading"} />
+      <GlobalFileInput feature={"Uploading"} />
 
       <NewImageHandlerComponent />
     </>
@@ -14,5 +13,3 @@ const New = () => {
 };
 
 export default New;
-
-

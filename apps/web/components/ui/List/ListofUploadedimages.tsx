@@ -1,6 +1,6 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
-import"./list.css"
+import "./list.css";
 
 export type FileData = {
   uuid: string;
@@ -10,22 +10,19 @@ export type FileData = {
   originalSize?: string;
   compressedSize?: string;
   error?: boolean;
-  uploadStatus:boolean;
+  uploadStatus: boolean;
 };
 
-import fileContext from "context/fileContext/fileContext";
+import fileContext from "context/uploadPagefileContext/fileContext";
 
-import { FileContextType } from "context/fileContext/types";
+import { FileContextType } from "context/uploadPagefileContext/types";
 
 import ImagesUploadedtoBucketListitem from "./ImagesUploadedtoBucketListitem";
 
-
-
-
-const ListofUploadedimages: React.FC = ( ) => {
+const ListofUploadedimages: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
-    const fileCtx = useContext(fileContext);
+  const fileCtx = useContext(fileContext);
 
   if (!fileCtx) {
     throw new Error(
@@ -44,8 +41,8 @@ const ListofUploadedimages: React.FC = ( ) => {
     setImagesUploadedtoBucket([]); // Clear compressed images on new upload
     if (UploadedFiles.length === 0) return;
 
-async function uploadAll(){
-  console.log(UploadedFiles)
+    async function uploadAll() {
+      console.log(UploadedFiles);
 
       const newCompressed: FileData[] = [];
       for (const file of UploadedFiles) {
@@ -64,7 +61,7 @@ async function uploadAll(){
             name: file.filedata.name,
             // originalSize: returnFileSize(file.filedata.size),
             // compressedSize: new_size,
-            uploadStatus: true
+            uploadStatus: true,
           };
           newCompressed.push(newfile);
         } catch {
@@ -78,13 +75,10 @@ async function uploadAll(){
         }
       }
       setImagesUploadedtoBucket(newCompressed);
-}
+    }
 
     uploadAll();
-
-  }, [UploadedFiles,setImagesUploadedtoBucket]);
-
-
+  }, [UploadedFiles, setImagesUploadedtoBucket]);
 
   useEffect(() => {
     if (ImagesUploadedtoBucket.length < UploadedFiles.length) {
@@ -93,21 +87,15 @@ async function uploadAll(){
       setLoading(false);
     }
 
-    console.log([UploadedFiles, ImagesUploadedtoBucket])
-
+    console.log([UploadedFiles, ImagesUploadedtoBucket]);
   }, [UploadedFiles, ImagesUploadedtoBucket]);
-
 
   return (
     <>
-      {loading && (
-        <div>Loading...</div>
-      )}
-
+      {loading && <div>Loading...</div>}
       Uploaded images...
-
       {ImagesUploadedtoBucket.map((file) => (
-        <ImagesUploadedtoBucketListitem key={file.uuid} file={file}  />
+        <ImagesUploadedtoBucketListitem key={file.uuid} file={file} />
       ))}
     </>
   );

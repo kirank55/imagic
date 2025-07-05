@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import React, { useContext } from "react";
 
 import ListofUploadedimages from "../List/ListofUploadedimages";
 // import "../ListOfConvertedFiles/list.css";
-import fileContext from "context/fileContext/fileContext";
-import { FileContextType } from "context/fileContext/types"; // Adjust the import path as necessary
+import fileContext from "context/uploadPagefileContext/fileContext";
+import { FileContextType } from "context/uploadPagefileContext/types"; // Adjust the import path as necessary
 
 type FileData = { uuid: string; filedata: File };
 
@@ -29,7 +29,6 @@ const ImageUploadComponent: React.FC = () => {
   // const handleClearAllClick = () => {
   //   setUploadedFiles([]);
   // };
- 
 
   return (
     <div className="converted-files">
@@ -57,19 +56,15 @@ const ImageUploadComponent: React.FC = () => {
           </button>
         </div>
       </div> */}
-    
+
       {UploadedFiles.length !== 0 && (
         <div className="converted-files">
-       
           <div className="convfileheading">
-            <h2>Images uploaded successfully</h2>
-s
+            <h2>Images uploaded successfully</h2>s
           </div>
 
           <ol className="converted-files-list">
-            
-              <ListofUploadedimages />
-   
+            <ListofUploadedimages />
           </ol>
         </div>
       )}

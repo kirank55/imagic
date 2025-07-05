@@ -5,10 +5,11 @@ import fileContext from "./fileContext";
 const fileContextProvider = ({ children }) => {
 
 	const [UploadedFiles, setUploadedFiles] = useState([]);
-	const [ImagesUploadedtoBucket, setImagesUploadedtoBucket] = useState([]);
-	const [CompressionLevel, setCompressionLevel] = useState("high");
-	const [Compressedimages, setCompressedimages] = useState([]);
-	const [zipStatus, setZipStatus] = useState(false);
+
+	// const [ImagesUploadedtoBucket, setImagesUploadedtoBucket] = useState([]);
+	// const [CompressionLevel, setCompressionLevel] = useState("high");
+	// const [Compressedimages, setCompressedimages] = useState([]);
+	// const [zipStatus, setZipStatus] = useState(false);
 	const [userId, setUserId] = useState(null);
 
 	useEffect(() => {
@@ -32,35 +33,24 @@ const fileContextProvider = ({ children }) => {
 	}, []);
 
 	// Fetch images when userId is available
-	useEffect(() => {
-		if (!userId) return;
-		fetch(`/api/my-images?userId=${userId}`)
-			.then(res => res.json())
-			.then(data => {
-				console.log("from my-images", data);
+	// useEffect(() => {
+	// 	if (!userId) return;
+	// 	fetch(`/api/my-images?userId=${userId}`)
+	// 		.then(res => res.json())
+	// 		.then(data => {
+	// 			console.log("from my-images", data);
 
-				if (data.success && Array.isArray(data.images)) {
-					setImagesUploadedtoBucket(data.images);
-				}
-			});
-	}, [userId, setImagesUploadedtoBucket]);
+	// 			if (data.success && Array.isArray(data.images)) {
+	// 				setImagesUploadedtoBucket(data.images);
+	// 			}
+	// 		});
+	// }, [userId, setImagesUploadedtoBucket]);
 
-	useEffect(() => {	
-		console.log("from ImagesUploadedtoBucket", ImagesUploadedtoBucket);
-	}, [ImagesUploadedtoBucket]);
 
 	return (
 		<fileContext.Provider value={{
 			UploadedFiles,
 			setUploadedFiles,
-			CompressionLevel,
-			setCompressionLevel,
-			Compressedimages,
-			setCompressedimages,
-			zipStatus,
-			setZipStatus,
-			ImagesUploadedtoBucket,
-			setImagesUploadedtoBucket,
 			userId
 		}}>
 			{children}

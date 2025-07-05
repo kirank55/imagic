@@ -15,9 +15,9 @@ export type FileData = {
   uploadStatus: boolean;
 };
 
-import fileContext from "context/fileContext/fileContext";
+import fileContext from "context/uploadPagefileContext/fileContext";
 
-import { FileContextType } from "context/fileContext/types";
+import { FileContextType } from "context/uploadPagefileContext/types";
 
 import ImagesUploadedtoBucketListitem from "./ImagesUploadedtoBucketListitem";
 

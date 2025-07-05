@@ -1,7 +1,7 @@
-"use client"
-import React, { useEffect, useState,useContext } from "react";
+"use client";
+import React, { useEffect, useState, useContext } from "react";
 
-import"./list.css"
+import "./list.css";
 
 export type FileData = {
   uuid: string;
@@ -13,18 +13,20 @@ export type FileData = {
   error?: boolean;
 };
 
-
-import fileContext from "context/fileContext/fileContext";
-import { FileContextType } from "context/fileContext/types";
+import fileContext from "context/uploadPagefileContext/fileContext";
+import { FileContextType } from "context/uploadPagefileContext/types";
 import CompressedImageListitem from "./CompressedImageListitem";
-import { calc_image_size, image_to_base64, reduce_image_file_size, returnFileSize } from "@repo/ui/util/helpers";
+import {
+  calc_image_size,
+  image_to_base64,
+  reduce_image_file_size,
+  returnFileSize,
+} from "@repo/ui/util/helpers";
 
-
-
-const ListofCompressedimages: React.FC = ( ) => {
+const ListofCompressedimages: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
-    const fileCtx = useContext(fileContext);
+  const fileCtx = useContext(fileContext);
 
   if (!fileCtx) {
     throw new Error(
@@ -80,7 +82,6 @@ const ListofCompressedimages: React.FC = ( ) => {
     }
 
     compressAll();
-
   }, [UploadedFiles, CompressionLevel, setCompressedimages]);
 
   useEffect(() => {
@@ -88,26 +89,26 @@ const ListofCompressedimages: React.FC = ( ) => {
   }, [Compressedimages]);
 
   useEffect(() => {
-
     if (Compressedimages.length < UploadedFiles.length) {
       setLoading(true);
     } else {
       setLoading(false);
     }
 
-    console.log([UploadedFiles, Compressedimages])
-
+    console.log([UploadedFiles, Compressedimages]);
   }, [UploadedFiles, Compressedimages]);
-
 
   return (
     <>
-      {loading && (
-        <div>Loading...</div>
-      )}
+      {loading && <div>Loading...</div>}
 
       {Compressedimages.map((file) => (
-        <CompressedImageListitem key={file.uuid} file={file} setUploadedFiles={setUploadedFiles} setCompressedimages={setCompressedimages} />
+        <CompressedImageListitem
+          key={file.uuid}
+          file={file}
+          setUploadedFiles={setUploadedFiles}
+          setCompressedimages={setCompressedimages}
+        />
       ))}
     </>
   );

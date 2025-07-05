@@ -1,21 +1,19 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 
 import "components/ui/List/list.css";
 
-import fileContext from "context/fileContext/fileContext";
-import { FileContextType } from "context/fileContext/types"; // Adjust the import path as necessary
-
 import ListofUploadedimages from "./ListofUploadedimages";
+import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";
 
 const NewImageHandlerComponent: React.FC = () => {
-  const fileCtx = useContext(fileContext);
+  // const fileCtx = useContext(fileContext);
 
-  if (!fileCtx) {
-    throw new Error(
-      "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
-    );
-  }
+  // if (!fileCtx) {
+  //   throw new Error(
+  //     "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
+  //   );
+  // }
 
   const {
     UploadedFiles,
@@ -24,7 +22,7 @@ const NewImageHandlerComponent: React.FC = () => {
     // setCompressionLevel,
     // Compressedimages,
     // setCompressedimages,
-  } = fileCtx as FileContextType;
+  } = useUploadPageFileContext();
 
   // const handleClearAllClick = () => {
   //   setUploadedFiles([]);

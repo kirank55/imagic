@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext } from "react";
 import "./my-images.css";
-import fileContext from "context/fileContext/fileContext";
-import { FileContextType } from "context/fileContext/types";
+import fileContext from "context/uploadPagefileContext/fileContext";
+import { FileContextType } from "context/uploadPagefileContext/types";
 import Image from "next/image";
 
 // Dummy data for demonstration. Replace with real data fetching logic.

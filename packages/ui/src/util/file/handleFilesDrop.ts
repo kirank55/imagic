@@ -2,32 +2,51 @@ import {
   preventDefaultAndPropagation,
   removeDraggingFileClass,
 } from "../helpers";
+
 import { v4 as uuidv4 } from "uuid";
 
 export interface HandleFilesByDropEvent extends DragEvent {
   dataTransfer: DataTransfer;
 }
+
 /**
- * Utility to convert a FileList to an array of UploadedFile objects with UUIDs.
+ * Converts a FileList to an array of UploadedFile objects, each with a unique UUID.
+ * Skips files that are already in the currentFiles array (by name and size).
  */
 function fileListToUploadedFiles(
-  fileList: FileList,
-  currentFiles: UploadedFile[]
+  fileList: FileList
+  // currentFiles: UploadedFile[]
 ): UploadedFile[] {
-  const files = Array.from(fileList);
-  const deduped = deduplicateFilesByNameAndSize(files, currentFiles);
-  return deduped.map((file) => ({ uuid: uuidv4(), filedata: file }));
+  // Convert FileList to a regular array
+  const filesArray = Array.from(fileList);
+
+  // Remove files that are already uploaded (by name and size)
+  // const uniqueFiles = removeDuplicateFiles(filesArray, currentFiles);
+
+  // Create UploadedFile objects with a new UUID for each file
+  return filesArray.map((file) => ({
+    uuid: uuidv4(),
+    filedata: file,
+  }));
 }
 
-function deduplicateFilesByNameAndSize(
-  newFiles: File[],
-  currentFiles: UploadedFile[]
-): File[] {
-  const existing = new Set(
-    currentFiles.map((f) => `${f.filedata.name}_${f.filedata.size}`)
-  );
-  return newFiles.filter((f) => !existing.has(`${f.name}_${f.size}`));
-}
+/**
+ * Removes files from newFiles that already exist in currentFiles (by name and size).
+ */
+// function removeDuplicateFiles(
+//   newFiles: File[],
+//   currentFiles: UploadedFile[]
+// ): File[] {
+//   // Create a set of "name_size" strings for existing files
+//   const existingFilesSet = new Set(
+//     currentFiles.map((uploaded) => `${uploaded.filedata.name}_${uploaded.filedata.size}`)
+//   );
+
+//   // Only keep files that are not in the existingFilesSet
+//   return newFiles.filter(
+//     (file) => !existingFilesSet.has(`${file.name}_${file.size}`)
+//   );
+// }
 
 /**
  * Handles files dropped via drag-and-drop.
@@ -39,14 +58,15 @@ export async function handleFilesByDrop(
   preventDefaultAndPropagation(event);
 
   const droppedFiles: FileList = event.dataTransfer.files;
+
   if (droppedFiles.length > 0) {
     // Clear state before adding new files
     setUploadedFiles(() => []);
-    setUploadedFiles((currentFiles: UploadedFile[]) => {
-      const newFiles = fileListToUploadedFiles(droppedFiles, currentFiles);
-      const merged = [...currentFiles, ...newFiles];
-      return merged;
-    });
+
+    // Convert FileList to UploadedFile objects and set state
+    const newFiles = fileListToUploadedFiles(droppedFiles);
+    setUploadedFiles(() => newFiles);
+
     removeDraggingFileClass();
   }
 }
@@ -98,11 +118,11 @@ export async function handleFilesByInput(
   if (droppedfiles.length > 0) {
     // Clear state before adding new files
     setUploadedFiles(() => []);
-    setUploadedFiles((currentFiles: UploadedFile[]) => {
-      const newFiles = fileListToUploadedFiles(droppedfiles, currentFiles);
-      const merged = [...currentFiles, ...newFiles];
-      return merged;
-    });
+
+    // Convert FileList to UploadedFile objects and set state
+    const newFiles = fileListToUploadedFiles(droppedfiles);
+    setUploadedFiles(() => newFiles);
+
     removeDraggingFileClass();
   }
 }

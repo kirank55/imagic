@@ -1,5 +1,6 @@
 "use client";
-import FileContextProvider from "context/fileContext/FileContextProvider";
+import FileContextProvider from "context/uploadPagefileContext/FileContextProvider";
+import UserContextProvider from "context/UserContext/UserContextProvider";
 
 export default function Layout({
   children,
@@ -7,10 +8,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <FileContextProvider>
-        {children}
-      </FileContextProvider>
-    </>
+    <UserContextProvider>
+      <FileContextProvider>{children}</FileContextProvider>
+    </UserContextProvider>
   );
 }

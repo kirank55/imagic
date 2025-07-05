@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import ListofCompressedimages from "../List/List";
 // import "../ListOfConvertedFiles/list.css";
-import fileContext from "context/fileContext/fileContext";
-import { FileContextType } from "context/fileContext/types"; // Adjust the import path as necessary
+import fileContext from "context/uploadPagefileContext/fileContext";
+import { FileContextType } from "context/uploadPagefileContext/types"; // Adjust the import path as necessary
 
 type FileData = { uuid: string; filedata: File };
 
@@ -97,8 +97,7 @@ const ImageCompressComponent: React.FC = () => {
             </div>
           </div>
           <ol className="converted-files-list">
-            
-              <ListofCompressedimages />
+            <ListofCompressedimages />
             {/* 
             UploadedFiles={UploadedFiles}
             setUploadedFiles={setUploadedFiles}

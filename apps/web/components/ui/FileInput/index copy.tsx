@@ -1,11 +1,19 @@
-"use client"
+"use client";
 import React, { useContext, useRef } from "react";
 
-import { FileContextType } from "context/fileContext/types";
-import fileContext from "context/fileContext/fileContext";
+import { FileContextType } from "context/uploadPagefileContext/types";
+import fileContext from "context/uploadPagefileContext/fileContext";
 
-import { preventDefaultAndPropagation, removeDraggingFileClass } from "@repo/ui/util/helpers";
-import { handleFilesByDrop, HandleFilesByDropEvent, handleFilesByInput, HandleFilesByInputEvent } from "@repo/ui/util/file/handleFilesDrop";
+import {
+  preventDefaultAndPropagation,
+  removeDraggingFileClass,
+} from "@repo/ui/util/helpers";
+import {
+  handleFilesByDrop,
+  HandleFilesByDropEvent,
+  handleFilesByInput,
+  HandleFilesByInputEvent,
+} from "@repo/ui/util/file/handleFilesDrop";
 
 import "./fileinput.css";
 import "./ui.css";
@@ -16,7 +24,9 @@ const FileInput: React.FC = () => {
   const fileCtx = useContext(fileContext);
 
   if (!fileCtx) {
-    throw new Error("fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider.");
+    throw new Error(
+      "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
+    );
   }
 
   const { setUploadedFiles } = fileCtx as FileContextType;
@@ -24,7 +34,9 @@ const FileInput: React.FC = () => {
   function addDraggingFileClass(event: React.DragEvent<HTMLElement>): void {
     preventDefaultAndPropagation(event);
     document.body.classList.add("dragging-file");
-    document.querySelector(".file-drag-overlay")?.classList.add("dragging-file");
+    document
+      .querySelector(".file-drag-overlay")
+      ?.classList.add("dragging-file");
   }
 
   return (
@@ -32,12 +44,15 @@ const FileInput: React.FC = () => {
       <div
         className="file-drag-overlay"
         onDragLeave={removeDraggingFileClass}
-        onDrop={e => handleFilesByDrop(e as unknown as HandleFilesByDropEvent, setUploadedFiles)}
+        onDrop={(e) =>
+          handleFilesByDrop(
+            e as unknown as HandleFilesByDropEvent,
+            setUploadedFiles
+          )
+        }
         onDragEnter={preventDefaultAndPropagation}
         onDragOver={preventDefaultAndPropagation}
       >
-
-
         <div className="drop-files">
           <i className="fa-solid fa-plus add-file-icon" />
           <p>Drop your files </p>
@@ -74,7 +89,12 @@ const FileInput: React.FC = () => {
               name="file_uploads"
               multiple
               ref={fileInput}
-              onChange={e => handleFilesByInput(e as unknown as HandleFilesByInputEvent, setUploadedFiles)}
+              onChange={(e) =>
+                handleFilesByInput(
+                  e as unknown as HandleFilesByInputEvent,
+                  setUploadedFiles
+                )
+              }
             />
             <button>Upload files</button>
           </form>

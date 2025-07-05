@@ -1,28 +1,41 @@
-import fileContext from "context/fileContext/fileContext";
-import { useContext } from "react";
-import { FileContextType } from "context/fileContext/types";
-import { FileData } from "components/ui/List/List";
+// import fileContext from "context/uploadPagefileContext/fileContext";
+// import { useContext } from "react";
+// import { FileContextType } from "context/uploadPagefileContext/types";
+import { FileData } from "./ListofUploadedimages";
 import Link from "next/link";
+// import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";
 
 const ImagesUploadedtoBucketListitem = ({ file }: { file: FileData }) => {
-  const fileCtx = useContext(fileContext);
+  // const fileCtx = useContext(fileContext);
 
-  if (!fileCtx) {
-    throw new Error(
-      "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
+  // if (!fileCtx) {
+  //   throw new Error(
+  //     "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
+  //   );
+  // }
+
+  // const { UploadedFiles } = useUploadPageFileContext();
+  // setUploadedFiles,
+  // ImagesUploadedtoBucket,
+  // setImagesUploadedtoBucket,
+  // } = fileCtx as FileContextType;
+
+  const { error, loading } = file;
+
+  // console.log(UploadedFiles);
+
+  if (loading) {
+    return (
+      <li className="converted-file loading" id={file.uuid} key={file.uuid}>
+        <div className="converted-file-content">
+          <span className="fileimg">
+            <i className="fa-solid fa-spinner fa-spin" />
+          </span>
+          <span className="filename">{file.name} is uploading...</span>
+        </div>
+      </li>
     );
   }
-
-  const {
-    UploadedFiles,
-    // setUploadedFiles,
-    // ImagesUploadedtoBucket,
-    // setImagesUploadedtoBucket,
-  } = fileCtx as FileContextType;
-
-  const { error } = file;
-
-  console.log(UploadedFiles);
 
   return (
     <>

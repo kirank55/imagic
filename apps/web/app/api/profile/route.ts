@@ -8,10 +8,10 @@ export async function GET() {
       redirectIfNotFound: false,
     });
 
-    if (fullUser && fullUser.data && fullUser.data.username) {
+    if (fullUser && fullUser.username) {
       return NextResponse.json({
-        username: fullUser.data.username,
-        userId: fullUser.data.id,
+        username: fullUser.username,
+        userId: fullUser.userId,
       });
     }
 

@@ -1,6 +1,6 @@
-import fileContext from "context/fileContext/fileContext";
+import fileContext from "context/uploadPagefileContext/fileContext";
 import { useContext } from "react";
-import { FileContextType } from "context/fileContext/types";
+import { FileContextType } from "context/uploadPagefileContext/types";
 import { FileData } from "components/ui/List/List";
 
 const ImagesUploadedtoBucketListitem = ({ file }: { file: FileData }) => {

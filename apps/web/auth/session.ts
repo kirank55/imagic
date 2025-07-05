@@ -1,39 +1,39 @@
-import { z } from "zod"
-import crypto from "crypto"
-import redis from "database/redis"
-
+import { z } from "zod";
+import crypto from "crypto";
+import redis from "database/redis";
+import { UserDetailsForCookieType } from "types/userTypes";
 
 // Seven days in seconds
-const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
-const COOKIE_SESSION_KEY = "session-id"
+const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
+const COOKIE_SESSION_KEY = "session-id";
 
 export const sessionSchema = z.object({
   id: z.string(),
   username: z.string(),
-})
+});
 
-type UserSession = z.infer<typeof sessionSchema>
+type UserSession = z.infer<typeof sessionSchema>;
 
 export type Cookies = {
   set: (
     key: string,
     value: string,
     options: {
-      secure?: boolean
-      httpOnly?: boolean
-      sameSite?: "strict" | "lax"
-      expires?: number
+      secure?: boolean;
+      httpOnly?: boolean;
+      sameSite?: "strict" | "lax";
+      expires?: number;
     }
-  ) => void
-  get: (key: string) => { name: string; value: string } | undefined
-  delete: (key: string) => void
-}
+  ) => void;
+  get: (key: string) => { name: string; value: string } | undefined;
+  delete: (key: string) => void;
+};
 
 export function getUserFromSession(cookies: Pick<Cookies, "get">) {
-  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value
-  if (sessionId == null) return null
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value;
+  if (sessionId == null) return null;
 
-  return getUserSessionById(sessionId)
+  return getUserSessionById(sessionId);
 }
 
 // export async function updateUserSessionData(
@@ -49,15 +49,15 @@ export function getUserFromSession(cookies: Pick<Cookies, "get">) {
 // }
 
 export async function createUserSession(
-  user: UserSession,
+  user: UserDetailsForCookieType,
   cookies: Pick<Cookies, "set">
 ) {
-  const sessionId = crypto.randomBytes(512).toString("hex").normalize()
+  const sessionId = crypto.randomBytes(512).toString("hex").normalize();
   await redis.set(`session:${sessionId}`, sessionSchema.parse(user), {
     ex: SESSION_EXPIRATION_SECONDS,
-  })
+  });
 
-  setCookie(sessionId, cookies)
+  setCookie(sessionId, cookies);
 }
 
 // export async function updateUserSessionExpiration(
@@ -78,11 +78,11 @@ export async function createUserSession(
 export async function destroyUserSession(
   cookies: Pick<Cookies, "get" | "delete">
 ) {
-  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value
-  if (sessionId == null) return null
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value;
+  if (sessionId == null) return null;
 
-  await redis.del(`session:${sessionId}`)
-  cookies.delete(COOKIE_SESSION_KEY)
+  await redis.del(`session:${sessionId}`);
+  cookies.delete(COOKIE_SESSION_KEY);
 }
 
 function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
@@ -91,13 +91,13 @@ function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
     httpOnly: true,
     sameSite: "lax",
     expires: Date.now() + SESSION_EXPIRATION_SECONDS * 1000,
-  })
+  });
 }
 
 async function getUserSessionById(sessionId: string) {
-  const rawUser = await redis.get(`session:${sessionId}`)
+  const rawUser = await redis.get(`session:${sessionId}`);
 
-  const { success, data: user } = sessionSchema.safeParse(rawUser)
+  const { success, data: user } = sessionSchema.safeParse(rawUser);
 
-  return success ? user : null
+  return success ? user : null;
 }

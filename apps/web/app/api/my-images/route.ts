@@ -4,6 +4,7 @@ import Image from "database/models/image";
 
 export async function GET(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId");
+
   if (!userId) {
     console.log("no userId provided");
     return NextResponse.json(
@@ -11,16 +12,27 @@ export async function GET(req: NextRequest) {
       { status: 400 }
     );
   }
+
   try {
     await connectDB();
+
     const images = await Image.find({ userId }).sort({ uploadedAt: -1 }).lean();
-    console.log("img comp");
+    if (!images || images.length === 0) {
+      console.log("no images found for user", userId);
+      return NextResponse.json(
+        { success: false, message: "No images found for this user" },
+        { status: 404 }
+      );
+    }
+
     const imagesPlain = images.map((img) => ({
       ...img,
       _id: img._id ? img._id.toString() : "",
       uploadedAt: img.uploadedAt ? new Date(img.uploadedAt).toISOString() : "",
     }));
+
     console.log({ images: imagesPlain });
+
     return NextResponse.json({ success: true, images: imagesPlain });
   } catch (error) {
     console.error(error);

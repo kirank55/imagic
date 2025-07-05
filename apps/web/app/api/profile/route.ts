@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-// import { getUserFromSession } from 'auth/session';
+import { NextResponse } from "next/server";
 import { getCurrentUser } from "auth/currentUser";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const fullUser = await getCurrentUser({
       withFullUser: true,

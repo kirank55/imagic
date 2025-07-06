@@ -1,5 +1,5 @@
 "use client"
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import fileContext from "./fileContext";
 
 const fileContextProvider = ({ children }) => {

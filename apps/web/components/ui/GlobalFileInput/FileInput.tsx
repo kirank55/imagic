@@ -1,8 +1,5 @@
 "use client";
-import React, { useContext, useRef } from "react";
-
-import { FileContextType } from "context/uploadPagefileContext/types";
-import fileContext from "context/uploadPagefileContext/fileContext";
+import React, { useRef } from "react";
 
 import {
   preventDefaultAndPropagation,
@@ -10,26 +7,24 @@ import {
 } from "@repo/ui/util/helpers";
 import {
   handleFilesByDrop,
-  HandleFilesByDropEvent,
   handleFilesByInput,
-  HandleFilesByInputEvent,
 } from "@repo/ui/util/file/handleFilesDrop";
+
+import {
+  HandleFilesByDropEvent,
+  HandleFilesByInputEvent,
+  SetUploadedFiles,
+} from "@repo/ui/types/Filetype";
 
 import "./fileinput.css";
 import "./ui.css";
 
-const FileInput: React.FC = () => {
+const FileInput = ({
+  setUploadedFiles,
+}: {
+  setUploadedFiles: SetUploadedFiles;
+}) => {
   const fileInput = useRef<HTMLInputElement>(null);
-
-  const fileCtx = useContext(fileContext);
-
-  if (!fileCtx) {
-    throw new Error(
-      "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
-    );
-  }
-
-  const { setUploadedFiles } = fileCtx as FileContextType;
 
   function addDraggingFileClass(event: React.DragEvent<HTMLElement>): void {
     preventDefaultAndPropagation(event);
@@ -64,7 +59,6 @@ const FileInput: React.FC = () => {
           <div className="file-upload styled-corner">
             <div
               className="file-upload-area noselect"
-              // onDrop={e => handleFilesByDrop(e as unknown as HandleFilesByDropEvent, setUploadedFiles)}
               onClick={() => fileInput.current && fileInput.current.click()}
               onDragEnter={addDraggingFileClass}
               onDragOver={addDraggingFileClass}

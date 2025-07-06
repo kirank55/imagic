@@ -1,29 +1,19 @@
 "use client";
+import React from "react";
+
 import {
-  handleFilesByDrop,
+  FileInputContainerProps,
   HandleFilesByDropEvent,
-} from "@repo/ui/util/file/handleFilesDrop";
+} from "@repo/ui/types/Filetype";
+
+import { handleFilesByDrop } from "@repo/ui/util/file/handleFilesDrop";
+
 import FileInput from "./FileInput";
-
-import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";
-
-type FileInputContainerProps = {
-  feature: string;
-};
 
 export default function FileInputContainer({
   feature,
+  setUploadedFiles,
 }: FileInputContainerProps) {
-  // const fileCtx = useContext(fileContext);
-
-  // if (!fileCtx) {
-  //   throw new Error(
-  //     "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
-  //   );
-  // }
-
-  const { setUploadedFiles } = useUploadPageFileContext();
-
   return (
     <div
       className="file-input-container"
@@ -40,7 +30,7 @@ export default function FileInputContainer({
         </h1>
       </div>
 
-      <FileInput />
+      <FileInput setUploadedFiles={setUploadedFiles} />
     </div>
   );
 }

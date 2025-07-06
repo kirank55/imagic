@@ -7,32 +7,14 @@ import ListofUploadedimages from "./ListofUploadedimages";
 import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";
 
 const NewImageHandlerComponent: React.FC = () => {
-  // const fileCtx = useContext(fileContext);
-
-  // if (!fileCtx) {
-  //   throw new Error(
-  //     "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
-  //   );
-  // }
-
-  const {
-    UploadedFiles,
-    // setUploadedFiles,
-    // CompressionLevel,
-    // setCompressionLevel,
-    // Compressedimages,
-    // setCompressedimages,
-  } = useUploadPageFileContext();
-
-  // const handleClearAllClick = () => {
-  //   setUploadedFiles([]);
-  // };
+  const { UploadedFiles } = useUploadPageFileContext();
 
   return (
     <div className="converted-files">
       <h3 style={{ textAlign: "center" }}>
         10kb of Minimum Image size required.
       </h3>
+
       {/* <div className="convfileheading">
         <h2>Compression Level</h2>
         <div style={{ display: "flex", justifyContent: "center" }}>

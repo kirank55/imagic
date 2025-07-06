@@ -35,9 +35,11 @@ export function removeDraggingFileClass() {
   }
 }
 
-
-
-export async function reduce_image_file_size(base64Str: string, imageType: string, compressionLevel: "high" | "medium") {
+export async function reduce_image_file_size(
+  base64Str: string,
+  imageType: string,
+  compressionLevel: "high" | "medium"
+) {
   return await new Promise<string>((resolve) => {
     const img = new window.Image();
     img.src = base64Str;

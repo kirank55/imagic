@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.840.0",
+    "@aws-sdk/s3-request-presigner": "^3.842.0",
     "@repo/ui": "workspace:*",
     "@upstash/redis": "^1.35.0",
     "bcryptjs": "^3.0.2",

@@ -1,45 +1,18 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import "./my-images.css";
-import fileContext from "context/uploadPagefileContext/fileContext";
-import { FileContextType } from "context/uploadPagefileContext/types";
 import Image from "next/image";
-
-// Dummy data for demonstration. Replace with real data fetching logic.
-const images = [
-  {
-    id: "1",
-    src: "/public/sample1.jpg",
-    name: "Sample 1",
-  },
-  {
-    id: "2",
-    src: "/public/sample2.jpg",
-    name: "Sample 2",
-  },
-  {
-    id: "3",
-    src: "/public/sample3.jpg",
-    name: "Sample 3",
-  },
-];
+import { useMyImageContext } from "context/myImagePageContext/useUploadPageFileContext";
 
 const MyImagesPage: React.FC = () => {
-  const fileCtx = useContext(fileContext);
+  const { myImageFiles } = useMyImageContext();
 
-  if (!fileCtx) {
-    throw new Error(
-      "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
-    );
-  }
-
-  const { ImagesUploadedtoBucket } = fileCtx as FileContextType;
-
+  console.log(myImageFiles);
   return (
     <div className="gallery-container">
       <h1>My Images</h1>
       <div className="gallery-grid">
-        {ImagesUploadedtoBucket.map((img) => (
+        {/* {myImageFiles.map((img) => (
           <div className="gallery-item" key={img._id}>
             <div className="image-wrapper">
               <Image
@@ -52,12 +25,12 @@ const MyImagesPage: React.FC = () => {
               />
             </div>
             <div className="toolbar">
-              <a href={`/tools/my-images/${img.uuid}`} className="open-btn">
+              <a href={`/tools/my-images/${img._id}`} className="open-btn">
                 Open
               </a>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

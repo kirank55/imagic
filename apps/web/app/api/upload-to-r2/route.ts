@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import connectDB from "database/db";
 import Image from "database/models/image";
+import crypto from "crypto";
+
+// Helper function to generate a unique key for R2
+function generateUniqueKey(originalFilename: string): string {
+  const uuid = crypto.randomUUID();
+  const extension = originalFilename.split(".").pop() || "";
+  return `${uuid}${extension ? `.${extension}` : ""}`;
+}
 
 const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID!;
 const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY!;
@@ -33,8 +41,9 @@ export async function POST(req: NextRequest) {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
-  // Use userId as folder prefix
-  const key = `${userId}/${file.name}-${Date.now()}`;
+  // Generate a unique key for the image
+  const key = `${userId}/${generateUniqueKey(file.name)}`;
+  console.log("Generated upload key:", key);
 
   try {
     await s3.send(
@@ -43,6 +52,10 @@ export async function POST(req: NextRequest) {
         Key: key,
         Body: buffer,
         ContentType: file.type,
+        Metadata: {
+          originalFilename: file.name,
+          userId: userId,
+        },
       })
     );
 
@@ -54,16 +67,26 @@ export async function POST(req: NextRequest) {
       await connectDB();
       await Image.create({
         userId,
-        url: publicUrl,
+        url: key, // Store the key directly instead of the public URL
         name: file.name,
         uploadedAt: new Date(),
+        originalUrl: publicUrl, // Optionally store the original URL as reference
       });
     } catch (mongoError) {
       console.error("MongoDB insert error:", mongoError);
-      // Optionally, you can still return success if upload worked
+      // Even if MongoDB insert fails, we should still have the upload key
+      return NextResponse.json({
+        success: true,
+        key: key,
+        message: "Upload successful but metadata storage failed",
+      });
     }
 
-    return NextResponse.json({ success: true, url: publicUrl });
+    return NextResponse.json({
+      success: true,
+      key: key,
+      url: publicUrl, // Include both key and URL in response
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

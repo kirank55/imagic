@@ -2,83 +2,6 @@ import { UploadToR2 } from "./UploadToR2";
 
 import { UploadedFile, UploadedFileItem } from "@repo/ui/types/Filetype";
 
-// const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/bmp"];
-// function isAcceptedType(file: File) {
-//   return ACCEPTED_TYPES.includes(file.type);
-// }
-
-// export async function uploadAll(
-//   UploadedFiles: UploadedFile,
-//   setUploadedFiles: React.Dispatch<React.SetStateAction<UploadedFile>>,
-//   userId: string | null
-// ) {
-//   if (UploadedFiles.length === 0) return;
-//   if (!userId) return; // Ensure userId is available before uploading
-
-//   for (const file of UploadedFiles) {
-//     if (file.uploadStatus) continue; // Skip if already uploaded
-
-//     try {
-//       if (!isAcceptedType(file.filedata)) {
-//         const errorFile: UploadedFileItem = {
-//           uuid: file.uuid,
-//           filedata: file.filedata,
-//           error: true,
-//           name: file.filedata.name,
-//           uploadStatus: false,
-//         };
-
-//         // update UploadedFiles with errorFile using setUploadedFiles
-//         setUploadedFiles((prevFiles) =>
-//           prevFiles.map((f) => (f.uuid === file.uuid ? errorFile : f))
-//         );
-//         continue;
-//       }
-
-//       // Set loading state for the file
-//       const loadingFile: UploadedFileItem = {
-//         uuid: file.uuid,
-//         filedata: file.filedata,
-//         name: file.filedata.name,
-//         loading: true,
-//       };
-//       setUploadedFiles((prevFiles) =>
-//         prevFiles.map((f) => (f.uuid === file.uuid ? loadingFile : f))
-//       );
-
-//       // Upload the file to R2
-//       const res = await UploadToR2(file, userId);
-
-//       if (!res) throw new Error("Upload error");
-
-//       const newfile: UploadedFileItem = {
-//         uuid: file.uuid,
-//         filedata: file.filedata,
-//         name: file.filedata.name,
-//         url: res,
-//         uploadStatus: true,
-//         loading: false,
-//       };
-
-//       setUploadedFiles((prevFiles) =>
-//         prevFiles.map((f) => (f.uuid === file.uuid ? newfile : f))
-//       );
-//     } catch {
-//       const errorFile: UploadedFileItem = {
-//         uuid: file.uuid,
-//         filedata: file.filedata,
-//         error: true,
-//         name: file.filedata.name,
-//         uploadStatus: false,
-//       };
-//       // update UploadedFiles with errorFile using setUploadedFiles
-//       setUploadedFiles((prevFiles) =>
-//         prevFiles.map((f) => (f.uuid === file.uuid ? errorFile : f))
-//       );
-//     }
-//   }
-// }
-
 const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/bmp"];
 function isAcceptedType(file: File) {
   return ACCEPTED_TYPES.includes(file.type);
@@ -92,6 +15,47 @@ function createFileUpdater(
   return { ...baseFile, ...updates, loading: false };
 }
 
+/**
+ * Handles the upload logic for a single file.
+ * @param file The file item to upload.
+ * @param userId The ID of the user uploading the file.
+ * @returns A promise that resolves to the updated file item.
+ */
+async function uploadOne(
+  file: UploadedFileItem,
+  userId: string
+): Promise<UploadedFileItem> {
+  if (file.uploadStatus || file.error) {
+    return file; // Skip files that are already processed
+  }
+
+  if (!isAcceptedType(file.filedata)) {
+    return createFileUpdater(file, {
+      error: true,
+      uploadStatus: false,
+      name: file.filedata.name,
+    });
+  }
+
+  try {
+    const url = await UploadToR2(file, userId);
+    if (!url) throw new Error("Upload failed, no URL returned.");
+
+    return createFileUpdater(file, {
+      url,
+      uploadStatus: true,
+      name: file.filedata.name,
+    });
+  } catch (error) {
+    console.error("Upload error:", error);
+    return createFileUpdater(file, {
+      error: true,
+      uploadStatus: false,
+      name: file.filedata.name,
+    });
+  }
+}
+
 export async function uploadAll(
   uploadedFiles: UploadedFile,
   setUploadedFiles: React.Dispatch<React.SetStateAction<UploadedFile>>,
@@ -99,56 +63,33 @@ export async function uploadAll(
 ) {
   if (uploadedFiles.length === 0 || !userId) return;
 
-  // Check if there are any files that actually need uploading to prevent infinite loops.
-  const needsUpload = uploadedFiles.some(
-    (file) => !file.uploadStatus && !file.error && !file.loading
-  );
+  const uploadPromises: Promise<UploadedFileItem>[] = [];
+  let needsStateUpdate = false;
 
-  if (!needsUpload) return;
-
-  // Set loading state for all files that are about to be uploaded
-  setUploadedFiles((prevFiles) =>
-    prevFiles.map((file) =>
-      !file.uploadStatus && !file.error ? { ...file, loading: true } : file
-    )
-  );
-
-  const uploadPromises = uploadedFiles.map(
-    async (file): Promise<UploadedFileItem> => {
-      if (file.uploadStatus || file.error) {
-        return file; // Skip files that are already processed
-      }
-
-      if (!isAcceptedType(file.filedata)) {
-        return createFileUpdater(file, {
-          error: true,
-          uploadStatus: false,
-          name: file.filedata.name,
-        });
-      }
-
-      try {
-        const url = await UploadToR2(file, userId);
-        if (!url) throw new Error("Upload failed, no URL returned.");
-
-        return createFileUpdater(file, {
-          url,
-          uploadStatus: true,
-          name: file.filedata.name,
-        });
-      } catch (error) {
-        console.error("Upload error:", error);
-        return createFileUpdater(file, {
-          error: true,
-          uploadStatus: false,
-          name: file.filedata.name,
-        });
-      }
+  const updatedFiles = uploadedFiles.map((file) => {
+    // Check if the file needs to be uploaded.
+    if (!file.uploadStatus && !file.error && !file.loading) {
+      needsStateUpdate = true;
+      // Add the upload promise to the list.
+      uploadPromises.push(uploadOne(file, userId));
+      // Return the file with the loading state set to true.
+      return { ...file, loading: true };
+    } else {
+      // If the file doesn't need to be uploaded, add a resolved promise for it.
+      uploadPromises.push(Promise.resolve(file));
+      return file;
     }
-  );
+  });
 
+  // If no files needed an upload, we can exit early.
+  if (!needsStateUpdate) return;
+
+  // Update the state to show the loading indicators.
+  setUploadedFiles(updatedFiles);
+
+  // Wait for all uploads to complete.
   const results = await Promise.all(uploadPromises);
 
-  // Update state once with the results of all uploads
+  // Update the state once with the final results of all uploads.
   setUploadedFiles(results);
 }

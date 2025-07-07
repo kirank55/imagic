@@ -12,7 +12,7 @@ const MyImagesPage: React.FC = () => {
     <div className="gallery-container">
       <h1>My Images</h1>
       <div className="gallery-grid">
-        {/* {myImageFiles.map((img) => (
+        {myImageFiles.map((img) => (
           <div className="gallery-item" key={img._id}>
             <div className="image-wrapper">
               <Image
@@ -30,7 +30,7 @@ const MyImagesPage: React.FC = () => {
               </a>
             </div>
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );

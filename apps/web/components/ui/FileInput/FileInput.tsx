@@ -1,7 +1,6 @@
 "use client";
 import React, { useContext, useRef } from "react";
 
-import { FileContextType } from "context/uploadPagefileContext/types";
 import fileContext from "context/uploadPagefileContext/fileContext";
 
 import {
@@ -10,13 +9,16 @@ import {
 } from "@repo/ui/util/helpers";
 import {
   handleFilesByDrop,
-  HandleFilesByDropEvent,
   handleFilesByInput,
-  HandleFilesByInputEvent,
 } from "@repo/ui/util/file/handleFilesDrop";
 
 import "./fileinput.css";
 import "./ui.css";
+import {
+  FileContextType,
+  HandleFilesByDropEvent,
+  HandleFilesByInputEvent,
+} from "@repo/ui/types/Filetype";
 
 const FileInput: React.FC = () => {
   const fileInput = useRef<HTMLInputElement>(null);

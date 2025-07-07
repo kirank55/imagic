@@ -1,6 +1,7 @@
 // import fileContext from "context/uploadPagefileContext/fileContext";
 // import { useContext } from "react";
-// import { FileContextType } from "context/uploadPagefileContext/types";
+// import { FileContextType } from "@repo/ui/types/Filetype";
+
 import { FileData } from "./ListofUploadedimages";
 import Link from "next/link";
 // import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";

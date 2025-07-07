@@ -1,7 +1,7 @@
 import {
   HandleFilesByDropEvent,
   HandleFilesByInputEvent,
-  setUploadedFiles,
+  SetUploadedFiles,
   UploadedFile,
 } from "../../types/Filetype";
 import {
@@ -21,6 +21,7 @@ function fileListToUploadedFiles(fileList: FileList): UploadedFile {
   return filesArray.map((file) => ({
     uuid: uuidv4(),
     filedata: file,
+    name: file.name,
   }));
 }
 
@@ -29,7 +30,7 @@ function fileListToUploadedFiles(fileList: FileList): UploadedFile {
  */
 export async function handleFilesByDrop(
   event: HandleFilesByDropEvent,
-  setUploadedFiles: setUploadedFiles
+  setUploadedFiles: SetUploadedFiles
 ): Promise<void> {
   preventDefaultAndPropagation(event);
 
@@ -49,7 +50,7 @@ export async function handleFilesByDrop(
 
 export async function handleFilesByInput(
   event: HandleFilesByInputEvent,
-  setUploadedFiles: setUploadedFiles
+  setUploadedFiles: SetUploadedFiles
 ): Promise<void> {
   preventDefaultAndPropagation(event);
 

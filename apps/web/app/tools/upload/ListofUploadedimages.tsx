@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
-
-import { UploadToR2 } from "./UploadToR2";
+import React, { useEffect } from "react";
 
 import "components/ui/List/list.css";
 
@@ -15,12 +13,7 @@ export type FileData = {
   url?: string;
 };
 
-import fileContext from "context/uploadPagefileContext/fileContext";
-
-import { FileContextType } from "context/uploadPagefileContext/types";
-
 import ImagesUploadedtoBucketListitem from "./ImagesUploadedtoBucketListitem";
-import { getCurrentUser } from "auth/currentUser";
 import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";
 import { uploadAll } from "./uploadImage";
 import { useUserContext } from "context/UserContext/useUploadPageFileContext";

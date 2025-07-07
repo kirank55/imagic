@@ -1,10 +1,11 @@
 "use client";
 import React, { useContext } from "react";
 
-import ListofUploadedimages from "../List/ListofUploadedimages";
+// import ListofUploadedimages from "../List/ListofUploadedimages";
 // import "../ListOfConvertedFiles/list.css";
 import fileContext from "context/uploadPagefileContext/fileContext";
-import { FileContextType } from "context/uploadPagefileContext/types"; // Adjust the import path as necessary
+import { FileContextType } from "@repo/ui/types/Filetype";
+// Adjust the import path as necessary
 
 type FileData = { uuid: string; filedata: File };
 
@@ -64,7 +65,7 @@ const ImageUploadComponent: React.FC = () => {
           </div>
 
           <ol className="converted-files-list">
-            <ListofUploadedimages />
+            {/* <ListofUploadedimages /> */}
           </ol>
         </div>
       )}

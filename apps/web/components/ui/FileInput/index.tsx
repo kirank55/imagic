@@ -1,12 +1,12 @@
 "use client";
-import {
-  handleFilesByDrop,
-  HandleFilesByDropEvent,
-} from "@repo/ui/util/file/handleFilesDrop";
+import { handleFilesByDrop } from "@repo/ui/util/file/handleFilesDrop";
 import FileInput from "./FileInput";
 import fileContext from "context/uploadPagefileContext/fileContext";
 import { useContext } from "react";
-import { FileContextType } from "context/uploadPagefileContext/types";
+import {
+  FileContextType,
+  HandleFilesByDropEvent,
+} from "@repo/ui/types/Filetype";
 
 type FileInputContainerProps = {
   feature: string;

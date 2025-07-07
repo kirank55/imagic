@@ -1,62 +1,62 @@
-import React, { useContext } from "react";
-import { v4 as uuidv4 } from "uuid";
+// import React, { useContext } from "react";
+// import { v4 as uuidv4 } from "uuid";
 
-import ListofCompressedimages from "../List/List";
-// import "../ListOfConvertedFiles/list.css";
-import fileContext from "context/uploadPagefileContext/fileContext";
-import { FileContextType } from "context/uploadPagefileContext/types"; // Adjust the import path as necessary
+// import ListofCompressedimages from "../List/List";
+// // import "../ListOfConvertedFiles/list.css";
+// import fileContext from "context/uploadPagefileContext/fileContext";
+// import { FileContextType } from "@repo/ui/types/Filetype";
 
-type FileData = { uuid: string; filedata: File };
+// type FileData = { uuid: string; filedata: File };
 
 const ImageCompressComponent: React.FC = () => {
-  const fileCtx = useContext(fileContext);
+  // const fileCtx = useContext(fileContext);
 
-  if (!fileCtx) {
-    throw new Error(
-      "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
-    );
-  }
+  // if (!fileCtx) {
+  //   throw new Error(
+  //     "fileContext is undefined. Make sure FileInput is wrapped in a FileContextProvider."
+  //   );
+  // }
 
-  const {
-    UploadedFiles,
-    setUploadedFiles,
-    CompressionLevel,
-    setCompressionLevel,
-    Compressedimages,
-    setCompressedimages,
-    zipStatus,
-    setZipStatus,
-  } = fileCtx as FileContextType;
+  // const {
+  //   UploadedFiles,
+  //   setUploadedFiles,
+  //   // CompressionLevel,
+  //   // setCompressionLevel,
+  //   // Compressedimages,
+  //   // setCompressedimages,
+  //   // zipStatus,
+  //   // setZipStatus,
+  // } = fileCtx as FileContextType;
 
-  const handleClearAllClick = () => {
-    setUploadedFiles([]);
-  };
+  // const handleClearAllClick = () => {
+  //   setUploadedFiles([]);
+  // };
 
-  const handleDownloadClick = () => {
-    setZipStatus(true);
-    return;
-  };
+  // const handleDownloadClick = () => {
+  //   setZipStatus(true);
+  //   return;
+  // };
 
-  const handleCompressionlevel = (level: "high" | "medium") => {
-    setCompressionLevel(level);
-    if (!UploadedFiles.length) return;
-    let tempfilearr: FileData[] = [];
-    for (const file of UploadedFiles) {
-      tempfilearr = [
-        ...tempfilearr,
-        { uuid: uuidv4(), filedata: file.filedata },
-      ];
-    }
-    setCompressedimages([]);
-    setUploadedFiles(tempfilearr);
-  };
+  // const handleCompressionlevel = (level: "high" | "medium") => {
+  //   setCompressionLevel(level);
+  //   if (!UploadedFiles.length) return;
+  //   let tempfilearr: FileData[] = [];
+  //   for (const file of UploadedFiles) {
+  //     tempfilearr = [
+  //       ...tempfilearr,
+  //       { uuid: uuidv4(), filedata: file.filedata },
+  //     ];
+  //   }
+  //   setCompressedimages([]);
+  //   setUploadedFiles(tempfilearr);
+  // };
 
   return (
     <div className="converted-files">
       <h3 style={{ textAlign: "center" }}>
         100kb of Minimum Image size required.
       </h3>
-      <div className="convfileheading">
+      {/* <div className="convfileheading">
         <h2>Compression Level</h2>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button
@@ -106,10 +106,11 @@ const ImageCompressComponent: React.FC = () => {
             setCompressedimages={setCompressedimages}
             zipStatus={zipStatus}
             setZipStatus={setZipStatus}
-            /> */}
+            /> 
           </ol>
         </div>
-      )}
+      )} 
+          */}
     </div>
   );
 };

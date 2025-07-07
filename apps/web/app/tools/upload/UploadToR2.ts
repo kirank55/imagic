@@ -1,4 +1,4 @@
-import { FileData } from "components/ui/List/List";
+import { FileData } from "./ListofUploadedimages";
 
 export async function UploadToR2(
   file: FileData,

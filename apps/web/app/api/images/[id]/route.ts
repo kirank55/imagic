@@ -15,22 +15,28 @@ export async function GET(
         { status: 404 }
       );
     }
+
     return NextResponse.json({
       success: true,
-      image: {
-        id: image._id.toString(),
-        url: image.url,
-        originalName: image.name || "",
-        // originalName: image.name || image.originalName || "",
-        // size: image.size || 0,
-        // contentType: image.contentType || "image/jpeg",
-        uploadedAt: image.uploadedAt
-          ? new Date(image.uploadedAt).toISOString()
-          : "",
-        // tags: image.tags || image.metadata?.tags || [],
-      },
+      image,
     });
+    // return NextResponse.json({
+    //   success: true,
+    //   image: {
+    //     id: image._id.toString(),
+    //     url: image.url,
+    //     // originalName: image.name || "",
+    //     // originalName: image.name || image.originalName || "",
+    //     // size: image.size || 0,
+    //     // contentType: image.contentType || "image/jpeg",
+    //     uploadedAt: image.uploadedAt
+    //       ? new Date(image.uploadedAt).toISOString()
+    //       : "",
+    //     // tags: image.tags || image.metadata?.tags || [],
+    //   },
+    // });
   } catch (error) {
+    console.error("Error fetching image:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch image" },
       { status: 500 }

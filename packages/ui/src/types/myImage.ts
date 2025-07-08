@@ -6,6 +6,10 @@ export interface myImageType {
   name: string;
   uploadedAt: Date;
   _id: string;
+  size: number;
+  contentType: string;
+
+  tags?: string[];
 }
 
 export type MyImageContextType = {
@@ -13,3 +17,21 @@ export type MyImageContextType = {
   setMyImageFiles: React.Dispatch<React.SetStateAction<myImageType[]>>;
   userId: string | null;
 };
+
+export interface OptimizationOptions {
+  quality: number;
+  format: "webp" | "jpeg" | "png" | "original";
+  width?: number;
+  height?: number;
+  autoOptimize: boolean;
+  autoResize: boolean;
+  autoCompress: boolean;
+}
+
+export interface DeviceInfo {
+  isMobile: boolean;
+  isTablet: boolean;
+  isDesktop: boolean;
+  screenWidth: number;
+  connection: string;
+}

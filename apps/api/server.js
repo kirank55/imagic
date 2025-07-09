@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 // Image optimization route inspired by optimize.ts
-app.get("/optimize/:userid/:imageid", async (req, res) => {
+app.get("/assets/:userid/:imageid", async (req, res) => {
   try {
     // Parse the image path from params
     const { userid, imageid } = req.params;

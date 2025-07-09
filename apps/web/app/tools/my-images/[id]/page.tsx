@@ -136,12 +136,15 @@ export default function ImagePreviewPage() {
   const getOptimizedImageUrl = useCallback(() => {
     if (!image) return "";
 
-    // Parse username and imageid from image.url (format: username/imageid)
+    // Parse userid and imageid from image.url (format: userid/imageid)
     const urlParts = image.url.split("/");
-    const username = urlParts[0];
+    const userid = urlParts[0];
     const imageid = urlParts[1];
-
-    const baseUrl = `http://localhost:3001/optimize/${username}/${imageid}`;
+    if (!userid || !imageid) {
+      console.error("Invalid image URL format:", image.url);
+      return "";
+    }
+    const baseUrl = `http://localhost:3001/assets/${userid}/${imageid}`;
     const params = new URLSearchParams();
 
     if (options.format !== "original") {

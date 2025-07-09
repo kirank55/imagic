@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, CSSProperties } from "react";
+import { useEffect, useState, CSSProperties, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { PUBLIC_DEVELOPMENT_URL } from "lib/constants";
@@ -19,6 +19,8 @@ export default function ImagePreviewPage() {
   const [showOptions, setShowOptions] = useState(true); // Show by default
   const [downloading, setDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [optimizedSize, setOptimizedSize] = useState<number | null>(null);
+  const [optimizedLoading, setOptimizedLoading] = useState(false);
 
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
@@ -131,10 +133,15 @@ export default function ImagePreviewPage() {
   }, [deviceInfo, options.autoOptimize, options.autoResize]);
 
   // Generate optimized image URL
-  const getOptimizedImageUrl = () => {
+  const getOptimizedImageUrl = useCallback(() => {
     if (!image) return "";
 
-    const baseUrl = `${PUBLIC_DEVELOPMENT_URL}/${image.url}`;
+    // Parse username and imageid from image.url (format: username/imageid)
+    const urlParts = image.url.split("/");
+    const username = urlParts[0];
+    const imageid = urlParts[1];
+
+    const baseUrl = `http://localhost:3001/optimize/${username}/${imageid}`;
     const params = new URLSearchParams();
 
     if (options.format !== "original") {
@@ -151,7 +158,37 @@ export default function ImagePreviewPage() {
     }
 
     return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
-  };
+  }, [image, options]);
+
+  // Fetch optimized size when options change
+  useEffect(() => {
+    if (image && showOptions) {
+      const fetchOptimizedSize = async () => {
+        setOptimizedLoading(true);
+        try {
+          const optimizedUrl = getOptimizedImageUrl();
+          const response = await fetch(optimizedUrl, { method: "HEAD" });
+
+          if (response.ok) {
+            const contentLength = response.headers.get("content-length");
+            if (contentLength) {
+              setOptimizedSize(parseInt(contentLength));
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch optimized image size:", error);
+        } finally {
+          setOptimizedLoading(false);
+        }
+      };
+
+      const timeoutId = setTimeout(() => {
+        fetchOptimizedSize();
+      }, 500); // Debounce API calls
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [image, showOptions, getOptimizedImageUrl]);
 
   // Copy optimized image URL
   const handleCopyUrl = () => {
@@ -190,6 +227,12 @@ export default function ImagePreviewPage() {
   const getEstimatedSize = () => {
     if (!image) return "0 KB";
 
+    // If we have the actual optimized size, use it
+    if (optimizedSize !== null) {
+      return `${Math.round(optimizedSize / 1024)} KB`;
+    }
+
+    // Otherwise use estimation
     let reduction = 1;
 
     // Format reduction
@@ -603,6 +646,44 @@ export default function ImagePreviewPage() {
                   paddingTop: "16px",
                 }}
               >
+                {/* Optimized URL Display */}
+                <div
+                  style={{
+                    padding: "12px",
+                    background: "#f8fafc",
+                    borderRadius: "8px",
+                    border: "1px solid #e2e8f0",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <label
+                    style={{
+                      display: "block",
+                      marginBottom: "6px",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "#64748b",
+                    }}
+                  >
+                    Optimized Image URL:
+                  </label>
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      color: "#475569",
+                      wordBreak: "break-all",
+                      lineHeight: "1.4",
+                      fontFamily: "monospace",
+                      background: "white",
+                      padding: "8px",
+                      borderRadius: "4px",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    {getOptimizedImageUrl()}
+                  </div>
+                </div>
+
                 <button
                   onClick={downloadOptimizedImage}
                   disabled={downloading}
@@ -744,7 +825,16 @@ export default function ImagePreviewPage() {
                     color: "#6b7280",
                   }}
                 >
-                  {getEstimatedSize()}
+                  {optimizedLoading ? "Calculating..." : getEstimatedSize()}
+                  {optimizedSize !== null && optimizedSize !== image.size && (
+                    <span style={{ color: "#10b981", marginLeft: "8px" }}>
+                      (
+                      {Math.round(
+                        ((image.size - optimizedSize) / image.size) * 100
+                      )}
+                      % smaller)
+                    </span>
+                  )}
                 </p>
               </div>
             )}

@@ -337,7 +337,7 @@ export default function ImagePreviewPage() {
                   <strong>Size:</strong> {Math.round(image.size / 1024)} KB
                 </p>
                 <p style={{ margin: 0 }}>
-                  <strong>Type:</strong> {image.contentType}
+                  <strong>Type:</strong> {image.detectedType}
                 </p>
                 <p style={{ margin: 0 }}>
                   <strong>Uploaded:</strong>{" "}

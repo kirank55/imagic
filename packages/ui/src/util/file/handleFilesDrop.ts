@@ -18,11 +18,16 @@ import { v4 as uuidv4 } from "uuid";
 function fileListToUploadedFiles(fileList: FileList): UploadedFile {
   const filesArray = Array.from(fileList);
 
-  return filesArray.map((file) => ({
-    uuid: uuidv4(),
-    filedata: file,
-    name: file.name,
-  }));
+  return filesArray.map((file) => {
+    // console.log({ file });
+    return {
+      uuid: uuidv4(),
+      filedata: file,
+      name: file.name,
+      size: file.size, // Use file.size instead of calc_image_size for now
+      type: file.type, // MIME type of the file
+    };
+  });
 }
 
 /**

@@ -1,19 +1,15 @@
-import { myImageType } from "@repo/ui/types/myImage";
 import mongoose, { Schema, Document, models, model } from "mongoose";
 
-// export interface myImageType {
-//   userId: string;
-//   url: string;
-//   name: string;
-//   uploadedAt: Date;
-// }
+import { myImageType } from "@repo/ui/types/myImage";
 
-export interface IImage extends Omit<myImageType, "_id">, Document {}
+export interface IImage extends myImageType, Document {}
 
 const ImageSchema = new Schema<IImage>({
   userId: { type: String, required: true },
   url: { type: String, required: true },
   name: { type: String, required: true },
+  size: { type: Number, required: true },
+  detectedType: { type: String, required: true },
   uploadedAt: { type: Date, default: Date.now },
 });
 

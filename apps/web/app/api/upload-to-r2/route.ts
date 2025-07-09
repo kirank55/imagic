@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
 
   const file = formData.get("file") as File;
   const userId = formData.get("userId") as string | null;
+  const detectedType = formData.get("detectedType") as string;
 
   if (!file || !userId) {
     return NextResponse.json(
@@ -62,6 +63,19 @@ export async function POST(req: NextRequest) {
     // You can construct the public URL if your bucket is public
     const publicUrl = `${R2_ENDPOINT}/${key}`;
 
+    console.log({
+      from: "upload-to-r2 route",
+      userId,
+      url: key, // Store the key directly instead of the public URL
+      name: file.name,
+      size: file.size,
+      detectedType: detectedType || "Type not detected",
+      uploadedAt: new Date(),
+      originalUrl: publicUrl, // Optionally store the original URL as reference
+    });
+
+    // debugger;
+
     // Store image metadata in MongoDB using Mongoose
     try {
       await connectDB();
@@ -69,6 +83,8 @@ export async function POST(req: NextRequest) {
         userId,
         url: key, // Store the key directly instead of the public URL
         name: file.name,
+        size: file.size,
+        detectedType: detectedType || "Type not detected",
         uploadedAt: new Date(),
         originalUrl: publicUrl, // Optionally store the original URL as reference
       });

@@ -6,6 +6,8 @@ export type UploadedFileItem = {
   error?: boolean;
   url?: string;
   loading?: boolean;
+  size?: number; // Size in bytes
+  type?: string; // MIME type of the file
 };
 
 export type UploadedFile = Array<UploadedFileItem>;

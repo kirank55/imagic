@@ -5,9 +5,8 @@ export interface myImageType {
   url: string;
   name: string;
   uploadedAt: Date;
-  _id: string;
   size: number;
-  contentType: string;
+  detectedType: string;
 
   tags?: string[];
 }

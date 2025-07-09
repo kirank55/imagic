@@ -2,9 +2,69 @@ import { UploadToR2 } from "./UploadToR2";
 
 import { UploadedFile, UploadedFileItem } from "@repo/ui/types/Filetype";
 
-const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/bmp"];
+const ACCEPTED_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/bmp",
+  "image/gif",
+  "image/webp",
+  "image/svg+xml",
+];
+
 function isAcceptedType(file: File) {
-  return ACCEPTED_TYPES.includes(file.type);
+  const detectedType = detectImageType(file);
+  return (
+    ACCEPTED_TYPES.includes(detectedType) || ACCEPTED_TYPES.includes(file.type)
+  );
+}
+
+/**
+ * Detects image type from file extension and validates it
+ * @param file The file to detect type for
+ * @returns The detected MIME type or fallback type
+ */
+function detectImageType(file: File): string {
+  // console.log(
+  //   "detectImageType called with file:",
+  //   file.name,
+  //   "original type:",
+  //   file.type
+  // );
+
+  // First try to use the file's native type if it's valid
+  if (file.type && ACCEPTED_TYPES.includes(file.type)) {
+    // console.log("Using native file type:", file.type);
+    return file.type;
+  }
+
+  // If no type or invalid type, detect from file extension
+  const fileName = file.name.toLowerCase();
+  // console.log("Detecting from filename:", fileName);
+
+  if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+    // console.log("Detected as JPEG");
+    return "image/jpeg";
+  } else if (fileName.endsWith(".png")) {
+    // console.log("Detected as PNG");
+    return "image/png";
+  } else if (fileName.endsWith(".bmp")) {
+    // console.log("Detected as BMP");
+    return "image/bmp";
+  } else if (fileName.endsWith(".gif")) {
+    // console.log("Detected as GIF");
+    return "image/gif";
+  } else if (fileName.endsWith(".webp")) {
+    // console.log("Detected as WebP");
+    return "image/webp";
+  } else if (fileName.endsWith(".svg")) {
+    // console.log("Detected as SVG");
+    return "image/svg+xml";
+  }
+
+  // Default fallback
+  console.log("Using fallback type: image/jpeg");
+  return "image/jpeg";
 }
 
 // Helper function to create an updated file item
@@ -38,7 +98,16 @@ async function uploadOne(
   }
 
   try {
-    const url = await UploadToR2(file, userId);
+    const detectedType = detectImageType(file.filedata);
+    // console.log(
+    //   "Detected type for file:",
+    //   file.filedata.name,
+    //   "->",
+    //   detectedType
+    // );
+    // console.log("Original file.type:", file.filedata.type);
+
+    const url = await UploadToR2(file, userId, detectedType);
     if (!url) throw new Error("Upload failed, no URL returned.");
 
     return createFileUpdater(file, {

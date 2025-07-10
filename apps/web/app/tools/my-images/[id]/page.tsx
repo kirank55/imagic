@@ -17,6 +17,9 @@ export default function ImagePreviewPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showOptions, setShowOptions] = useState(true); // Show by default
+
+  const [originalImageOption, setOriginalImageOption] = useState(false);
+
   const [downloading, setDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [optimizedSize, setOptimizedSize] = useState<number | null>(null);
@@ -91,47 +94,6 @@ export default function ImagePreviewPage() {
     });
   }, []);
 
-  // Auto-adjust options based on device
-  useEffect(() => {
-    if (options.autoOptimize && deviceInfo) {
-      setOptions((prevOptions) => {
-        const newOptions = { ...prevOptions };
-
-        if (deviceInfo.isMobile) {
-          newOptions.quality = 70;
-          newOptions.format = "webp";
-          if (prevOptions.autoResize) {
-            newOptions.width = Math.min(800, deviceInfo.screenWidth);
-          }
-        } else if (deviceInfo.isTablet) {
-          newOptions.quality = 75;
-          newOptions.format = "webp";
-          if (prevOptions.autoResize) {
-            newOptions.width = Math.min(1200, deviceInfo.screenWidth);
-          }
-        } else {
-          newOptions.quality = 85;
-          newOptions.format = "webp";
-        }
-
-        // Adjust for slow connections
-        if (
-          deviceInfo.connection === "slow-2g" ||
-          deviceInfo.connection === "2g"
-        ) {
-          newOptions.quality = Math.min(60, newOptions.quality);
-          newOptions.format = "jpeg";
-        }
-
-        // Only update state if options have actually changed
-        if (JSON.stringify(prevOptions) !== JSON.stringify(newOptions)) {
-          return newOptions;
-        }
-        return prevOptions;
-      });
-    }
-  }, [deviceInfo, options.autoOptimize, options.autoResize]);
-
   // Generate optimized image URL
   const getOptimizedImageUrl = useCallback(() => {
     if (!image) return "";
@@ -145,6 +107,12 @@ export default function ImagePreviewPage() {
       return "";
     }
     const baseUrl = `http://localhost:3001/assets/${userid}/${imageid}`;
+
+    // If original image option is true, return URL with original=true parameter
+    if (originalImageOption) {
+      return `${baseUrl}?original=true`;
+    }
+
     const params = new URLSearchParams();
 
     if (options.format !== "original") {
@@ -159,9 +127,12 @@ export default function ImagePreviewPage() {
     if (options.height) {
       params.append("height", options.height.toString());
     }
+    if (options.autoOptimize) {
+      params.append("autoOptimize", "true");
+    }
 
     return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
-  }, [image, options]);
+  }, [image, options, originalImageOption]);
 
   // Fetch optimized size when options change
   useEffect(() => {
@@ -467,6 +438,127 @@ export default function ImagePreviewPage() {
                   marginBottom: "16px",
                 }}
               >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "8px",
+                    position: "relative",
+                  }}
+                >
+                  <label
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      color: "#374151",
+                      cursor: "pointer",
+                    }}
+                    htmlFor="original-image-toggle"
+                  >
+                    Keep original image
+                  </label>
+                  <div
+                    style={{ position: "relative" }}
+                    onMouseEnter={(e) => {
+                      const tooltip = e.currentTarget.querySelector(
+                        ".tooltip"
+                      ) as HTMLElement;
+                      if (tooltip) {
+                        tooltip.style.opacity = "1";
+                        tooltip.style.visibility = "visible";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      const tooltip = e.currentTarget.querySelector(
+                        ".tooltip"
+                      ) as HTMLElement;
+                      if (tooltip) {
+                        tooltip.style.opacity = "0";
+                        tooltip.style.visibility = "hidden";
+                      }
+                    }}
+                  >
+                    <input
+                      id="original-image-toggle"
+                      type="checkbox"
+                      checked={originalImageOption}
+                      onChange={(e) => setOriginalImageOption(e.target.checked)}
+                      style={{
+                        position: "relative",
+                        width: "44px",
+                        height: "24px",
+                        appearance: "none",
+                        backgroundColor: originalImageOption
+                          ? "#4f46e5"
+                          : "#d1d5db",
+                        borderRadius: "12px",
+                        cursor: "pointer",
+                        transition: "background-color 0.2s",
+                        outline: "none",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "2px",
+                        left: originalImageOption ? "22px" : "2px",
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: "white",
+                        borderRadius: "50%",
+                        transition: "left 0.2s",
+                        pointerEvents: "none",
+                        boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
+                      }}
+                    />
+                    {/* Tooltip */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "100%",
+                        right: "0",
+                        marginBottom: "8px",
+                        padding: "8px 12px",
+                        backgroundColor: "#1f2937",
+                        color: "white",
+                        fontSize: "12px",
+                        borderRadius: "6px",
+                        opacity: "0",
+                        visibility: "hidden",
+                        transition: "opacity 0.2s, visibility 0.2s",
+                        zIndex: "10",
+                        maxWidth: "200px",
+                        whiteSpace: "normal",
+                        lineHeight: "1.4",
+                      }}
+                      className="tooltip"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.opacity = "1";
+                        e.currentTarget.style.visibility = "visible";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.opacity = "0";
+                        e.currentTarget.style.visibility = "hidden";
+                      }}
+                    >
+                      If enabled, all other optimization options will be ignored
+                      by the API
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          right: "12px",
+                          width: "0",
+                          height: "0",
+                          borderLeft: "4px solid transparent",
+                          borderRight: "4px solid transparent",
+                          borderTop: "4px solid #1f2937",
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <label
                   style={{
                     display: "flex",
@@ -538,6 +630,7 @@ export default function ImagePreviewPage() {
                       borderRadius: "6px",
                       fontSize: "14px",
                       background: "white",
+                      color: "#000",
                     }}
                     disabled={options.autoOptimize}
                   >

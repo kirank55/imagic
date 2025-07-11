@@ -2,8 +2,7 @@ import express, { Request, Response, Router } from "express";
 import sharp from "sharp";
 import fetch from "node-fetch";
 
-// Type definitions for connection detection
-type ConnectionSpeed = "slow" | "moderate" | "fast";
+// Type definitions
 type ImageFormat = "jpeg" | "png" | "webp" | "original";
 
 interface QueryParams {
@@ -15,141 +14,7 @@ interface QueryParams {
   autoOptimize?: string;
 }
 
-interface ConnectionHeaders {
-  "save-data"?: string;
-  downlink?: string;
-  rtt?: string;
-  ect?: string;
-  "effective-connection-type"?: string;
-  "connection-type"?: string;
-  accept?: string;
-  "accept-encoding"?: string;
-  "user-agent"?: string;
-}
-
 const router: Router = express.Router();
-
-function detectConnection(
-  headers: ConnectionHeaders,
-  userAgent: string
-): ConnectionSpeed {
-  // Check for explicit save-data header (highest priority)
-  if (headers["save-data"] === "on") {
-    console.log("Connection: slow (save-data header)");
-    return "slow";
-  }
-
-  // Check for Network Information API headers (Chrome/Edge)
-  const downlink = headers["downlink"] ? parseFloat(headers["downlink"]) : null;
-  const rtt = headers["rtt"] ? parseInt(headers["rtt"]) : null;
-  const effectiveType = headers["ect"] || headers["effective-connection-type"];
-
-  // Effective connection type is most reliable when available
-  if (effectiveType) {
-    const slowTypes = ["slow-2g", "2g"];
-    const moderateTypes = ["3g"];
-    const fastTypes = ["4g"];
-
-    if (slowTypes.includes(effectiveType)) {
-      console.log(
-        "Connection: slow (effective-connection-type:",
-        effectiveType,
-        ")"
-      );
-      return "slow";
-    }
-    if (moderateTypes.includes(effectiveType)) {
-      console.log(
-        "Connection: moderate (effective-connection-type:",
-        effectiveType,
-        ")"
-      );
-      return "moderate";
-    }
-    if (fastTypes.includes(effectiveType)) {
-      console.log(
-        "Connection: fast (effective-connection-type:",
-        effectiveType,
-        ")"
-      );
-      return "fast";
-    }
-  }
-
-  // Check downlink speed (Mbps)
-  if (downlink !== null) {
-    if (downlink < 1.5) {
-      console.log("Connection: slow (downlink:", downlink, "Mbps)");
-      return "slow";
-    }
-    if (downlink < 4) {
-      console.log("Connection: moderate (downlink:", downlink, "Mbps)");
-      return "moderate";
-    }
-    console.log("Connection: fast (downlink:", downlink, "Mbps)");
-    return "fast";
-  }
-
-  // Check RTT (Round Trip Time in ms)
-  if (rtt !== null) {
-    if (rtt > 300) {
-      console.log("Connection: slow (rtt:", rtt, "ms)");
-      return "slow";
-    }
-    if (rtt > 150) {
-      console.log("Connection: moderate (rtt:", rtt, "ms)");
-      return "moderate";
-    }
-    console.log("Connection: fast (rtt:", rtt, "ms)");
-    return "fast";
-  }
-
-  // Check connection type header (some mobile browsers)
-  const connectionType = headers["connection-type"];
-  if (connectionType) {
-    const slowTypes = ["cellular", "2g", "3g", "slow-2g", "bluetooth", "wimax"];
-    const moderateTypes = ["4g", "lte"];
-    const fastTypes = ["wifi", "ethernet"];
-
-    if (slowTypes.includes(connectionType.toLowerCase())) {
-      console.log("Connection: slow (connection-type:", connectionType, ")");
-      return "slow";
-    }
-    if (moderateTypes.includes(connectionType.toLowerCase())) {
-      console.log(
-        "Connection: moderate (connection-type:",
-        connectionType,
-        ")"
-      );
-      return "moderate";
-    }
-    if (fastTypes.includes(connectionType.toLowerCase())) {
-      console.log("Connection: fast (connection-type:", connectionType, ")");
-      return "fast";
-    }
-  }
-
-  // Check for additional connection hints
-  const accept = headers["accept"] || "";
-
-  // If the client doesn't support modern image formats, might be on slower connection
-  if (!accept.includes("webp") && !accept.includes("avif")) {
-    console.log("Connection: moderate (no modern format support)");
-    return "moderate";
-  }
-
-  // Fallback: assume mobile devices on potentially slower connections
-  const isMobileDevice =
-    /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-  if (isMobileDevice) {
-    console.log("Connection: moderate (mobile device fallback)");
-    return "moderate";
-  }
-
-  // Default to fast for desktop/unknown
-  console.log("Connection: fast (default)");
-  return "fast";
-}
 
 router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
   try {
@@ -169,17 +34,6 @@ router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
     console.log("Image path:", imagePath);
     console.log("Query params:", req.query);
     console.log("User-Agent:", req.headers["user-agent"]);
-    console.log("Connection headers:", {
-      "save-data": req.headers["save-data"],
-      downlink: req.headers["downlink"],
-      rtt: req.headers["rtt"],
-      ect: req.headers["ect"],
-      "effective-connection-type": req.headers["effective-connection-type"],
-      "connection-type": req.headers["connection-type"],
-      accept: req.headers["accept"]?.includes("webp")
-        ? "supports webp"
-        : "no webp support",
-    });
     console.log("Environment R2 URL:", process.env.NEXT_PUBLIC_R2_PUBLIC_URL);
 
     // Device detection from User-Agent
@@ -191,13 +45,7 @@ router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
     const isTablet = /iPad|Android/i.test(userAgent) && !isMobile;
     const isDesktop = !isMobile && !isTablet;
 
-    // Enhanced connection detection
-    const connection = detectConnection(
-      req.headers as ConnectionHeaders,
-      userAgent
-    );
-
-    console.log("Device info:", { isMobile, isTablet, isDesktop, connection });
+    console.log("Device info:", { isMobile, isTablet, isDesktop });
 
     // Get optimization parameters with auto-optimization logic
     let qualityNum = parseInt(quality);
@@ -220,22 +68,6 @@ router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
       } else if (isDesktop) {
         qualityNum = 90;
         formatChoice = "webp";
-      }
-
-      // Adjust for connection speed
-      if (connection === "slow") {
-        qualityNum = Math.min(50, qualityNum);
-        formatChoice = "jpeg";
-        // Further reduce dimensions for slow connections
-        if (widthNum) widthNum = Math.min(widthNum, 600);
-        if (heightNum) heightNum = Math.min(heightNum, 600);
-      } else if (connection === "moderate") {
-        qualityNum = Math.min(70, qualityNum);
-        // Keep webp for moderate connections as it's still efficient
-        if (formatChoice === "original") formatChoice = "webp";
-        // Slightly reduce dimensions for moderate connections
-        if (widthNum) widthNum = Math.min(widthNum, 1000);
-        if (heightNum) heightNum = Math.min(heightNum, 1000);
       }
 
       console.log("Auto-optimization applied:", {
@@ -276,7 +108,6 @@ router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
       );
       res.set("Cache-Control", "public, max-age=31536000, immutable");
       res.set("Content-Length", imageBuffer.length.toString());
-      res.set("X-Connection-Type", connection);
       res.set(
         "X-Device-Type",
         isMobile ? "mobile" : isTablet ? "tablet" : "desktop"
@@ -356,7 +187,6 @@ router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
     res.set("Content-Type", contentType);
     res.set("Cache-Control", "public, max-age=31536000, immutable");
     res.set("Content-Length", outputBuffer.length.toString());
-    res.set("X-Connection-Type", connection);
     res.set(
       "X-Device-Type",
       isMobile ? "mobile" : isTablet ? "tablet" : "desktop"

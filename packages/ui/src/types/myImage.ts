@@ -23,7 +23,6 @@ export interface OptimizationOptions {
   width?: number;
   height?: number;
   autoOptimize: boolean;
-  autoResize: boolean;
   autoCompress: boolean;
 }
 

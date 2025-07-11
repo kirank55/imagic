@@ -45,7 +45,6 @@ export default function ImagePreviewPage() {
     width: undefined,
     height: undefined,
     autoOptimize: true,
-    autoResize: true,
     autoCompress: true,
   });
 
@@ -185,7 +184,14 @@ export default function ImagePreviewPage() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `optimized_${image.name}`;
+
+      if (options.format === "original") {
+        a.download = `optimized_${image.name}`;
+      } else {
+        const originalName = image.name.split(".").slice(0, -1).join(".");
+        a.download = `optimized_${originalName}.${options.format}`;
+      }
+
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -577,26 +583,6 @@ export default function ImagePreviewPage() {
                     style={{ marginRight: "8px", accentColor: "#4f46e5" }}
                   />
                   Auto-optimize for device
-                </label>
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                    color: options.autoOptimize ? "#6b7280" : "#111827",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={options.autoResize}
-                    onChange={(e) =>
-                      setOptions({ ...options, autoResize: e.target.checked })
-                    }
-                    style={{ marginRight: "8px", accentColor: "#4f46e5" }}
-                    disabled={!options.autoOptimize}
-                  />
-                  Auto-resize for screen
                 </label>
               </div>
 

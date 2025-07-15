@@ -1,0 +1,31 @@
+curl -X POST http://localhost:3000/api/v1/upload \
+  -F "image=@/path/to/image.jpg" \
+  -F "api_key=your_api_key_here"
+
+
+  const formData = new FormData();
+formData.append('image', fileInput.files[0]);
+formData.append('api_key', 'your_api_key_here');
+
+fetch('/api/v1/upload', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(data => console.log(data));
+
+
+
+{
+  "success": true,
+  "data": {
+    "id": "mongodb_document_id",
+    "key": "user123/unique-file-key.jpg",
+    "url": "https://your-r2-domain.com/user123/unique-file-key.jpg",
+    "name": "original-filename.jpg",
+    "size": 12345,
+    "type": "image/jpeg",
+    "uploadedAt": "2025-07-15T10:30:00.000Z"
+  },
+  "message": "Image uploaded successfully"
+}

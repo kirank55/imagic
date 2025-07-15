@@ -1,0 +1,34 @@
+# Source files
+src/
+tests/
+*.test.js
+*.test.ts
+
+# Config files
+jest.config.json
+tsconfig.json
+.env*
+
+# Development files
+node_modules/
+coverage/
+.nyc_output/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Demo and development
+sdk-demo/

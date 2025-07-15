@@ -1,0 +1,27 @@
+{
+  "name": "@imagic/sdk-demo",
+  "version": "1.0.0",
+  "description": "Demo project for testing the Imagic SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx ts-node typescript-demo.ts",
+    "test:batch": "node batch-demo.js",
+    "test:cli": "node cli-demo.js"
+  },
+  "dependencies": {
+    "@imagic/sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [
+    "imagic",
+    "sdk",
+    "demo",
+    "test"
+  ],
+  "author": "Imagic Team",
+  "license": "MIT"
+}

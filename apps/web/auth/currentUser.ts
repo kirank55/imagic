@@ -69,6 +69,10 @@ async function getUserFromDb(id: string) {
   const UserDetailsForCookie = {
     username: rawUser.username,
     userId: (rawUser._id as string).toString(),
+    email: rawUser.email,
+    publicApiKey: rawUser.publicApiKey,
+    privateApiKey: rawUser.privateApiKey,
+    apiKeyCreatedAt: rawUser.apiKeyCreatedAt,
   } as UserDetailsForCookieType;
 
   return UserDetailsForCookie;

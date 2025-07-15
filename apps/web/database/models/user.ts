@@ -5,6 +5,9 @@ export interface IUser extends Document {
   username: string;
   password: string;
   image?: string;
+  publicApiKey?: string;
+  privateApiKey?: string;
+  apiKeyCreatedAt?: Date;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -25,12 +28,24 @@ const UserSchema = new Schema<IUser>(
     image: {
       type: String,
     },
+    publicApiKey: {
+      type: String,
+    },
+    privateApiKey: {
+      type: String,
+    },
+    apiKeyCreatedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const User: Model<IUser> = (models && models.User) ? models.User as Model<IUser> : model<IUser>("User", UserSchema);
+const User: Model<IUser> =
+  models && models.User
+    ? (models.User as Model<IUser>)
+    : model<IUser>("User", UserSchema);
 
 export default User;

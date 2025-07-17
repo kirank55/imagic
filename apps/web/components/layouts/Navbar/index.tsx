@@ -1,60 +1,134 @@
-"use server"
-import Link from 'next/link';
-// import { useRouter } from 'next/navigation';
-// import { useEffect, useState } from 'react';
-// // Next.js App Router does not expose router.events, so use pathname as a dependency
-// import { usePathname } from 'next/navigation';
-import { getCurrentUser } from 'auth/currentUser';
-import SignedInLinks from './SignedInLinks';
-import SignedoutNavLinks from './SignedOutLinks';
-
+import Link from "next/link";
+import { getCurrentUser } from "auth/currentUser";
+import styles from "./Navbar.module.css";
+import NavDropdown from "./NavDropdown";
+import MobileMenu from "./MobileMenu";
+import LogoutButton from "./LogoutButton";
+import AnnouncementBar from "./AnnouncementBar";
 
 const Navbar = async () => {
+  const fullUser = await getCurrentUser({
+    withFullUser: true,
+    redirectIfNotFound: false,
+  });
 
-  const fullUser = await getCurrentUser({ withFullUser: true, redirectIfNotFound: false })
+  const platformItems = [
+    {
+      label: "Image API",
+      href: "/api/docs",
+      description: "Real-time image transformations",
+    },
+    { label: "SDK", href: "/sdk", description: "Programmatic bulk operations" },
+    {
+      label: "Documentation",
+      href: "/docs",
+      description: "Complete API reference",
+    },
+  ];
 
-  // const fullUser = null
-  console.log(fullUser)
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // const pathname = usePathname();
+  const solutionsItems = [
+    {
+      label: "Performance Optimization",
+      href: "/solutions/performance",
+      description: "Automatic image optimization",
+    },
+    {
+      label: "Image Management",
+      href: "/solutions/management",
+      description: "Centralized asset management",
+    },
+    {
+      label: "Developer Tools",
+      href: "/solutions/developers",
+      description: "SDKs and integrations",
+    },
+  ];
 
-  // const router = useRouter();
-  // // Auth check function
-  // const checkAuth = async () => {
-  //     try {
-  //         const res = await fetch('/api/profile', { cache: "no-store" });
-  //         const data = await res.json();
-  //         setLoggedIn(res.ok && !!data.username);
-  //     } catch {
-  //         setLoggedIn(false);
-  //     }
-  // };
-  // useEffect(() => {
-  //     checkAuth();
-  // }, []);
+  const toolsItems = [
+    {
+      label: "Upload Images",
+      href: "/tools/upload",
+      description: "Upload and optimize images",
+    },
+    {
+      label: "My Images",
+      href: "/tools/my-images",
+      description: "Manage your images",
+    },
+    {
+      label: "Bulk Operations",
+      href: "/tools/bulk",
+      description: "Process multiple images",
+    },
+  ];
 
-  // // Listen for route changes and re-check auth
-
-  // useEffect(() => {
-  //     checkAuth();
-  // }, [pathname]);
-
-
-  // const handleLogout = async () => {
-  //     await fetch('/api/logout', { method: 'POST' });
-  //     setLoggedIn(false);
-  //     router.push("/")
-  // };
+  const resourcesItems = [
+    {
+      label: "Pricing",
+      href: "/pricing",
+      description: "Transparent pricing plans",
+    },
+    { label: "Blog", href: "/blog", description: "Latest updates and guides" },
+    { label: "Support", href: "/support", description: "Get help and support" },
+  ];
 
   return (
-    <nav style={{ display: 'flex', gap: 16, alignItems: 'center', padding: 16, background: '#f8f8f8' }}>
-      <Link href="/">Home</Link>
+    <>
+      <AnnouncementBar />
+      <nav className={styles.navbar}>
+        <div className={styles.container}>
+          {/* Logo */}
+          <Link href="/" className={styles.logo}>
+            <span className={styles.logoText}>himagic</span>
+            <span className={styles.logoTld}>.online</span>
+          </Link>
 
-      {fullUser ? <SignedInLinks /> : 
-      <SignedoutNavLinks />
-}
+          {/* Main Navigation */}
+          <div className={styles.mainNav}>
+            <NavDropdown label="Platform" items={platformItems} />
+            <NavDropdown label="Solutions" items={solutionsItems} />
+            {fullUser && <NavDropdown label="Tools" items={toolsItems} />}
+            <NavDropdown label="Resources" items={resourcesItems} />
+          </div>
 
-    </nav>
+          {/* Auth Section */}
+          <div className={styles.authSection}>
+            {fullUser ? (
+              <div className={styles.userMenu}>
+                <Link href="/profile" className={styles.profileLink}>
+                  <div className={styles.avatar}>
+                    {fullUser.username?.charAt(0).toUpperCase() || "U"}
+                  </div>
+                  <span>{fullUser.username}</span>
+                </Link>
+                <Link href="/tools/my-images" className={styles.dashboardBtn}>
+                  Dashboard
+                </Link>
+                <LogoutButton className={styles.logoutBtn} />
+              </div>
+            ) : (
+              <div className={styles.authButtons}>
+                <Link href="/login" className={styles.loginBtn}>
+                  Login
+                </Link>
+                <Link href="/signup" className={styles.signupBtn}>
+                  Start Free
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <MobileMenu
+            fullUser={fullUser}
+            platformItems={platformItems}
+            solutionsItems={solutionsItems}
+            toolsItems={toolsItems}
+            resourcesItems={resourcesItems}
+          />
+        </div>
+      </nav>
+    </>
   );
 };
 

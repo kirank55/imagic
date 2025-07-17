@@ -27,6 +27,7 @@ body {
 body {
   color: var(--foreground);
   background-color: var(--background);
+  padding-top: 112px; /* Space for announcement bar (48px) + navbar (64px) */
 }
 
 * {

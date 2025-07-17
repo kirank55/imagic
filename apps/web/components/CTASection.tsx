@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "../app/demo/demo.module.css";
+import styles from "./CTASection.module.css";
 
 const CTASection = () => (
   <div className={styles.cta}>

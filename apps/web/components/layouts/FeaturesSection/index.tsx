@@ -1,31 +1,147 @@
-import Image from "next/image";
-import styles from "app/page.module.css";
+import Link from "next/link";
+import styles from "./FeaturesSection.module.css";
 
 export function FeaturesSection() {
   return (
-    <section className={styles.section} id="features">
-      <h2 className={styles.sectionTitle}>Features</h2>
-      <div className={styles.grid}>
-        <div className={styles.featureCard}>
-          <div className={styles.featureIcon}>
-            <Image src="/window.svg" alt="Optimization" width={24} height={24} />
+    <section className={styles.features}>
+      <div className={styles.container}>
+        {/* Main Features Grid */}
+        <div className={styles.mainFeatures}>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <span className={styles.iconEmoji}>🚀</span>
+            </div>
+            <h3>One API for images and video</h3>
+            <p>
+              Transform, optimize and deliver both images and videos through a
+              single real-time URL-based API.
+            </p>
+            <div className={styles.featureLinks}>
+              <Link href="/docs/image-api">Image API</Link>
+              <Link href="/docs/video-api">Video API</Link>
+            </div>
           </div>
-          <h3>Smart Optimization</h3>
-          <p>Automatically optimize images for the best quality-to-size ratio</p>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <span className={styles.iconEmoji}>⚡</span>
+            </div>
+            <h3>Automatic performance optimization</h3>
+            <p>
+              Serve the lightest possible variant in modern formats like AVIF,
+              WebP, MP4, or WebM without any URL changes.
+            </p>
+            <div className={styles.featureLinks}>
+              <Link href="/solutions/performance">Learn more</Link>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <span className={styles.iconEmoji}>🎨</span>
+            </div>
+            <h3>Real-time transformations</h3>
+            <p>
+              Apply 50+ transformations, from simple resizing to GenAI effects,
+              directly through the asset URL.
+            </p>
+            <div className={styles.featureLinks}>
+              <Link href="/docs/transformations">View all transformations</Link>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <span className={styles.iconEmoji}>🎬</span>
+            </div>
+            <h3>Superfast video streaming</h3>
+            <p>
+              Stream optimized videos with HLS or DASH adaptive streams that
+              adjust to viewer&apos;s bandwidth.
+            </p>
+            <div className={styles.featureLinks}>
+              <Link href="/solutions/video-streaming">Video Streaming</Link>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <span className={styles.iconEmoji}>🤖</span>
+            </div>
+            <h3>AI-powered Digital Asset Management</h3>
+            <p>
+              Fast uploads, AI-powered visual search, auto-tagging, custom
+              metadata, and collaboration workflows.
+            </p>
+            <div className={styles.featureLinks}>
+              <Link href="/docs/dam">DAM Overview</Link>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <span className={styles.iconEmoji}>🔒</span>
+            </div>
+            <h3>Enterprise-grade security</h3>
+            <p>
+              ISO 27001 and GDPR-compliant controls, encryption, backups, signed
+              URLs, and granular access policies.
+            </p>
+            <div className={styles.featureLinks}>
+              <Link href="/security">Security & Trust</Link>
+            </div>
+          </div>
         </div>
-        <div className={styles.featureCard}>
-          <div className={styles.featureIcon}>
-            <Image src="/globe.svg" alt="CDN" width={24} height={24} />
+
+        {/* Why Choose Us Section */}
+        <div className={styles.whySection}>
+          <div className={styles.whyHeader}>
+            <h2>Why teams pick himagic</h2>
+            <p>
+              Zero-friction setup, lightning-fast delivery, and pricing that
+              never punishes growth.
+            </p>
           </div>
-          <h3>Global CDN</h3>
-          <p>Lightning-fast delivery through our global edge network</p>
-        </div>
-        <div className={styles.featureCard}>
-          <div className={styles.featureIcon}>
-            <Image src="/file-text.svg" alt="API" width={24} height={24} />
+
+          <div className={styles.whyGrid}>
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>⏱️</div>
+              <h3>Go live in minutes</h3>
+              <p>
+                Change the base URL, keep your existing storage, and start
+                delivering optimized images instantly. No heavy migrations or
+                code rewrites.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>💰</div>
+              <h3>No billing surprises</h3>
+              <p>
+                Predictable, fair pricing with fewer billing parameters,
+                unlimited common transforms, and pay-as-you-go with small
+                overages.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>🔓</div>
+              <h3>Zero vendor lock-in</h3>
+              <p>
+                Keep assets in S3, GCS, Azure Blob, or any HTTPS origin. Even
+                with our DAM, automatic backups mean you&apos;re never stuck.
+              </p>
+            </div>
+
+            <div className={styles.whyCard}>
+              <div className={styles.whyIcon}>📈</div>
+              <h3>Built for scale & security</h3>
+              <p>
+                We deliver billions of assets daily, manage petabytes of data,
+                with ISO 27001, GDPR compliance, and reliable uptime.
+              </p>
+            </div>
           </div>
-          <h3>Simple API</h3>
-          <p>Easy to integrate with your existing applications</p>
         </div>
       </div>
     </section>

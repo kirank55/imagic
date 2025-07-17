@@ -1,38 +1,245 @@
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className={styles.footer}>
-      {/* Left: Large Logo */}
-      <div className={styles.footerLogo}>
-        <Link href="/">
-          <Image
-            src="/turborepo-dark.svg"
-            alt="Imagic Logo"
-            width={180}
-            height={38}
-            priority
-            style={{ maxWidth: 200 }}
-          />
-        </Link>
-      </div>
-      {/* Center: Legal Links (vertical) */}
-      <div className={styles.footerCenter}>
-        <Link href="/privacy">Privacy Policy</Link>
-        <Link href="/legal">Legal</Link>
-        <Link href="/terms">Terms & Conditions</Link>
-        <Link href="/cookies">Cookies</Link>
-        <Link href="/about">About</Link>
-      </div>
-      {/* Right: Action Links (vertical) */}
-      <div className={styles.footerRight}>
-        <Link href="/login">Login</Link>
-        <Link href="/signup">Sign Up</Link>
-        <Link href="/pricing">Pricing</Link>
-        <Link href="/docs">Docs</Link>
-        <Link href="/support">Support</Link>
+      <div className={styles.container}>
+        <div className={styles.footerContent}>
+          {/* Company Section */}
+          <div className={styles.footerSection}>
+            <div className={styles.logo}>
+              <h3>himagic</h3>
+            </div>
+            <p className={styles.description}>
+              The fastest, most reliable image optimization platform for
+              developers and businesses. Optimize, transform, and deliver images
+              at scale.
+            </p>
+            <div className={styles.socialLinks}>
+              <Link
+                href="https://twitter.com/himagic"
+                className={styles.socialLink}
+              >
+                <span className={styles.socialIcon}>🐦</span>
+              </Link>
+              <Link
+                href="https://github.com/himagic"
+                className={styles.socialLink}
+              >
+                <span className={styles.socialIcon}>📱</span>
+              </Link>
+              <Link
+                href="https://linkedin.com/company/himagic"
+                className={styles.socialLink}
+              >
+                <span className={styles.socialIcon}>💼</span>
+              </Link>
+              <Link
+                href="https://discord.gg/himagic"
+                className={styles.socialLink}
+              >
+                <span className={styles.socialIcon}>💬</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Product Section */}
+          <div className={styles.footerSection}>
+            <h4 className={styles.sectionTitle}>Product</h4>
+            <ul className={styles.linkList}>
+              <li>
+                <Link href="/features" className={styles.footerLink}>
+                  Features
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className={styles.footerLink}>
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/integrations" className={styles.footerLink}>
+                  Integrations
+                </Link>
+              </li>
+              <li>
+                <Link href="/api" className={styles.footerLink}>
+                  API
+                </Link>
+              </li>
+              <li>
+                <Link href="/sdk" className={styles.footerLink}>
+                  SDKs
+                </Link>
+              </li>
+              <li>
+                <Link href="/changelog" className={styles.footerLink}>
+                  Changelog
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solutions Section */}
+          <div className={styles.footerSection}>
+            <h4 className={styles.sectionTitle}>Solutions</h4>
+            <ul className={styles.linkList}>
+              <li>
+                <Link href="/solutions/ecommerce" className={styles.footerLink}>
+                  E-commerce
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/media" className={styles.footerLink}>
+                  Media & Publishing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/solutions/developers"
+                  className={styles.footerLink}
+                >
+                  Developers
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/agencies" className={styles.footerLink}>
+                  Agencies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/solutions/enterprise"
+                  className={styles.footerLink}
+                >
+                  Enterprise
+                </Link>
+              </li>
+              <li>
+                <Link href="/case-studies" className={styles.footerLink}>
+                  Case Studies
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources Section */}
+          <div className={styles.footerSection}>
+            <h4 className={styles.sectionTitle}>Resources</h4>
+            <ul className={styles.linkList}>
+              <li>
+                <Link href="/docs" className={styles.footerLink}>
+                  Documentation
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides" className={styles.footerLink}>
+                  Guides
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className={styles.footerLink}>
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/community" className={styles.footerLink}>
+                  Community
+                </Link>
+              </li>
+              <li>
+                <Link href="/support" className={styles.footerLink}>
+                  Support
+                </Link>
+              </li>
+              <li>
+                <Link href="/status" className={styles.footerLink}>
+                  Status
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company Section */}
+          <div className={styles.footerSection}>
+            <h4 className={styles.sectionTitle}>Company</h4>
+            <ul className={styles.linkList}>
+              <li>
+                <Link href="/about" className={styles.footerLink}>
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/careers" className={styles.footerLink}>
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className={styles.footerLink}>
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/partners" className={styles.footerLink}>
+                  Partners
+                </Link>
+              </li>
+              <li>
+                <Link href="/press" className={styles.footerLink}>
+                  Press
+                </Link>
+              </li>
+              <li>
+                <Link href="/security" className={styles.footerLink}>
+                  Security
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className={styles.footerBottom}>
+          <div className={styles.bottomContent}>
+            <div className={styles.legal}>
+              <span className={styles.copyright}>
+                © {currentYear} himagic. All rights reserved.
+              </span>
+              <div className={styles.legalLinks}>
+                <Link href="/privacy" className={styles.legalLink}>
+                  Privacy Policy
+                </Link>
+                <Link href="/terms" className={styles.legalLink}>
+                  Terms of Service
+                </Link>
+                <Link href="/cookies" className={styles.legalLink}>
+                  Cookie Policy
+                </Link>
+                <Link href="/gdpr" className={styles.legalLink}>
+                  GDPR
+                </Link>
+              </div>
+            </div>
+
+            <div className={styles.trustBadges}>
+              <div className={styles.trustBadge}>
+                <span className={styles.badgeIcon}>🔒</span>
+                <span>SOC 2 Type II</span>
+              </div>
+              <div className={styles.trustBadge}>
+                <span className={styles.badgeIcon}>⚡</span>
+                <span>99.9% Uptime SLA</span>
+              </div>
+              <div className={styles.trustBadge}>
+                <span className={styles.badgeIcon}>🌐</span>
+                <span>Global CDN</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

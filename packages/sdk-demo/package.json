@@ -9,7 +9,7 @@
     "test:cli": "node cli-demo.js"
   },
   "dependencies": {
-    "@imagic/sdk": "workspace:*"
+    "imagic-sdk": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.19.8",

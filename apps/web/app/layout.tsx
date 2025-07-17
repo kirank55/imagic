@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import Navbar from "../components/layouts/Navbar";
 import Footer from "../components/layouts/Footer";
 import styles from "./page.module.css";
@@ -24,6 +25,10 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        <Script
+          src="https://cdn.tailwindcss.com"
+          strategy="beforeInteractive"
+        />
         <Navbar />
         <div className={styles.page}>{children}</div>
         <Footer />

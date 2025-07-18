@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, CSSProperties, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { PUBLIC_DEVELOPMENT_URL } from "lib/constants";
@@ -26,12 +26,10 @@ export default function ImagePreviewPage() {
   const [optimizedLoading, setOptimizedLoading] = useState(false);
 
   const [isLargeScreen, setIsLargeScreen] = useState(false);
-  const [isMediumScreen, setIsMediumScreen] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
       setIsLargeScreen(window.innerWidth >= 1024);
-      setIsMediumScreen(window.innerWidth >= 768);
     };
     window.addEventListener("resize", checkScreenSize);
     checkScreenSize(); // Initial check
@@ -252,134 +250,150 @@ export default function ImagePreviewPage() {
     // }
   }, [options]);
 
-  if (loading) return <div className="loading">Loading image...</div>;
-  if (error) return <div className="error">{error}</div>;
-  if (!image) return <div className="error">Image not found.</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow p-8">
+          <div className="flex items-center space-x-3">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="text-lg font-medium text-gray-700">
+              Loading image...
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow p-8 max-w-md text-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-red-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Error</h2>
+          <p className="text-red-600">{error}</p>
+          <button
+            onClick={() => router.back()}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+
+  if (!image)
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow p-8 max-w-md text-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            Image Not Found
+          </h2>
+          <p className="text-gray-600">
+            The requested image could not be found.
+          </p>
+          <button
+            onClick={() => router.back()}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
 
   const isImageAbsolute = image.url.startsWith("http");
   const imageUrl = isImageAbsolute
     ? image.url
     : `${PUBLIC_DEVELOPMENT_URL}/${image.url}`;
 
-  const gridStyle: CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: isLargeScreen
-      ? "repeat(3, minmax(0, 1fr))"
-      : "repeat(1, minmax(0, 1fr))",
-    gap: "24px",
-  };
-
-  const previewsColumnStyle: CSSProperties = {
-    gridColumn: isLargeScreen ? "span 2 / span 2" : "span 1 / span 1",
-  };
-
-  const previewsContainerStyle: CSSProperties = {
-    display: "flex",
-    gap: "24px",
-    flexDirection: isMediumScreen ? "row" : "column",
-  };
-
   console.log(image);
 
   return (
-    <div
-      className="image-preview-page"
-      style={{
-        padding: "24px",
-        backgroundColor: "#f9fafb",
-        minHeight: "100vh",
-        fontFamily: "system-ui, -apple-system, sans-serif",
-      }}
-    >
+    <div className="min-h-screen bg-gray-50 p-6">
       <button
         onClick={() => router.back()}
-        className="back-btn"
-        style={{
-          background: "white",
-          color: "#4b5563",
-          border: "1px solid #e5e7eb",
-          padding: "10px 16px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          marginBottom: "24px",
-          fontSize: "14px",
-          fontWeight: "500",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        }}
+        className="mb-6 bg-white text-gray-600 border border-gray-300 px-4 py-2 rounded-lg cursor-pointer text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors shadow-sm"
       >
-        ← Back to Gallery
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        Back to Gallery
       </button>
 
-      <div style={gridStyle}>
+      <div
+        className={`grid gap-6 ${isLargeScreen ? "grid-cols-3" : "grid-cols-1"}`}
+      >
         {/* Sidebar with Image Info and Optimization Controls */}
-        <div
-          className="sidebar-column"
-          style={{
-            gridColumn: "span 1 / span 1",
-          }}
-        >
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "24px" }}
-          >
+        <div className="col-span-1">
+          <div className="flex flex-col gap-6">
             {/* Image Information */}
-            <div
-              style={{
-                background: "white",
-                padding: "20px",
-                borderRadius: "12px",
-                border: "1px solid #e5e7eb",
-                boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.05)",
-              }}
-            >
+            <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
               <h2
                 id="image-name"
-                style={{
-                  margin: "0 0 16px 0",
-                  fontSize: "20px",
-                  fontWeight: "600",
-                  color: "#111827",
-                  wordBreak: "break-all",
-                }}
+                className="mb-4 text-xl font-semibold text-gray-900 break-all"
               >
                 {image.name}
               </h2>
-              <div
-                style={{
-                  fontSize: "14px",
-                  color: "#6b7280",
-                  lineHeight: "1.6",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                }}
-              >
-                <p style={{ margin: 0 }}>
-                  <strong>Size:</strong> {Math.round(image.size / 1024)} KB
+              <div className="text-sm text-gray-600 leading-relaxed flex flex-col gap-2">
+                <p className="mb-0">
+                  <span className="font-medium">Size:</span>{" "}
+                  {Math.round(image.size / 1024)} KB
                 </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Type:</strong> {image.detectedType}
+                <p className="mb-0">
+                  <span className="font-medium">Type:</span>{" "}
+                  {image.detectedType}
                 </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Uploaded:</strong>{" "}
+                <p className="mb-0">
+                  <span className="font-medium">Uploaded:</span>{" "}
                   {new Date(image.uploadedAt).toLocaleDateString()}
                 </p>
                 {image.tags && image.tags.length > 0 && (
-                  <p style={{ margin: 0 }}>
-                    <strong>Tags:</strong> {image.tags.join(", ")}
+                  <p className="mb-0">
+                    <span className="font-medium">Tags:</span>{" "}
+                    {image.tags.join(", ")}
                   </p>
                 )}
-                <p
-                  style={{
-                    margin: "8px 0 0 0",
-                    fontSize: "12px",
-                    borderTop: "1px solid #f3f4f6",
-                    paddingTop: "8px",
-                  }}
-                >
-                  <strong>Device:</strong>{" "}
+                <p className="mt-2 text-xs border-t border-gray-100 pt-2">
+                  <span className="font-medium">Device:</span>{" "}
                   {deviceInfo.isMobile
                     ? "Mobile"
                     : deviceInfo.isTablet
@@ -391,81 +405,30 @@ export default function ImagePreviewPage() {
             </div>
 
             {/* Optimization Controls */}
-            <div
-              style={{
-                background: "white",
-                padding: "20px",
-                borderRadius: "12px",
-                border: "1px solid #e5e7eb",
-                boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.05)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "16px",
-                }}
-              >
-                <h3
-                  style={{
-                    margin: 0,
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    color: "#111827",
-                  }}
-                >
+            <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
                   Optimization
                 </h3>
                 <button
                   onClick={() => setShowOptions(!showOptions)}
-                  style={{
-                    background: "transparent",
-                    color: "#4f46e5",
-                    border: "none",
-                    padding: "6px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    fontSize: "12px",
-                    fontWeight: "500",
-                  }}
+                  className="bg-transparent text-blue-600 border-0 px-2 py-1 rounded cursor-pointer text-xs font-medium hover:bg-blue-50 transition-colors"
                 >
                   {showOptions ? "Hide" : "Show"} Preview
                 </button>
               </div>
 
               {/* Auto Optimization Toggles */}
-              <div
-                style={{
-                  padding: "12px",
-                  background: "#f9fafb",
-                  borderRadius: "8px",
-                  marginBottom: "16px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "8px",
-                    position: "relative",
-                  }}
-                >
+              <div className="p-3 bg-gray-50 rounded-lg mb-4">
+                <div className="flex items-center justify-between mb-2 relative">
                   <label
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: "#374151",
-                      cursor: "pointer",
-                    }}
+                    className="text-sm font-medium text-gray-700 cursor-pointer"
                     htmlFor="original-image-toggle"
                   >
                     Keep original image
                   </label>
                   <div
-                    style={{ position: "relative" }}
+                    className="relative"
                     onMouseEnter={(e) => {
                       const tooltip = e.currentTarget.querySelector(
                         ".tooltip"
@@ -490,55 +453,18 @@ export default function ImagePreviewPage() {
                       type="checkbox"
                       checked={originalImageOption}
                       onChange={(e) => setOriginalImageOption(e.target.checked)}
-                      style={{
-                        position: "relative",
-                        width: "44px",
-                        height: "24px",
-                        appearance: "none",
-                        backgroundColor: originalImageOption
-                          ? "#4f46e5"
-                          : "#d1d5db",
-                        borderRadius: "12px",
-                        cursor: "pointer",
-                        transition: "background-color 0.2s",
-                        outline: "none",
-                      }}
+                      className={`relative w-11 h-6 appearance-none ${
+                        originalImageOption ? "bg-blue-600" : "bg-gray-300"
+                      } rounded-full cursor-pointer transition-colors outline-none`}
                     />
                     <div
-                      style={{
-                        position: "absolute",
-                        top: "2px",
-                        left: originalImageOption ? "22px" : "2px",
-                        width: "20px",
-                        height: "20px",
-                        backgroundColor: "white",
-                        borderRadius: "50%",
-                        transition: "left 0.2s",
-                        pointerEvents: "none",
-                        boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
-                      }}
+                      className={`absolute top-0.5 ${
+                        originalImageOption ? "left-5" : "left-0.5"
+                      } w-5 h-5 bg-white rounded-full transition-all pointer-events-none shadow-sm`}
                     />
                     {/* Tooltip */}
                     <div
-                      style={{
-                        position: "absolute",
-                        bottom: "100%",
-                        right: "0",
-                        marginBottom: "8px",
-                        padding: "8px 12px",
-                        backgroundColor: "#1f2937",
-                        color: "white",
-                        fontSize: "12px",
-                        borderRadius: "6px",
-                        opacity: "0",
-                        visibility: "hidden",
-                        transition: "opacity 0.2s, visibility 0.2s",
-                        zIndex: "10",
-                        maxWidth: "200px",
-                        whiteSpace: "normal",
-                        lineHeight: "1.4",
-                      }}
-                      className="tooltip"
+                      className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-md opacity-0 invisible transition-all z-10 max-w-48 whitespace-normal leading-snug tooltip"
                       onMouseEnter={(e) => {
                         e.currentTarget.style.opacity = "1";
                         e.currentTarget.style.visibility = "visible";
@@ -550,55 +476,30 @@ export default function ImagePreviewPage() {
                     >
                       If enabled, all other optimization options will be ignored
                       by the API
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "100%",
-                          right: "12px",
-                          width: "0",
-                          height: "0",
-                          borderLeft: "4px solid transparent",
-                          borderRight: "4px solid transparent",
-                          borderTop: "4px solid #1f2937",
-                        }}
-                      />
+                      <div className="absolute top-full right-3 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-800" />
                     </div>
                   </div>
                 </div>
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "8px",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
-                >
+                <label className="flex items-center mb-2 text-sm cursor-pointer">
                   <input
                     type="checkbox"
                     checked={options.autoOptimize}
                     onChange={(e) =>
                       setOptions({ ...options, autoOptimize: e.target.checked })
                     }
-                    style={{ marginRight: "8px", accentColor: "#4f46e5" }}
+                    className="mr-2 accent-blue-600"
                   />
                   Auto-optimize for device
                 </label>
               </div>
 
               {/* Manual Controls */}
-              <div style={{ opacity: options.autoOptimize ? 0.5 : 1 }}>
+              <div
+                className={`${options.autoOptimize ? "opacity-50" : "opacity-100"}`}
+              >
                 {/* Format Selection */}
-                <div style={{ marginBottom: "16px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: "#374151",
-                    }}
-                  >
+                <div className="mb-4">
+                  <label className="block mb-1.5 text-sm font-medium text-gray-700">
                     Format
                   </label>
                   <select
@@ -609,15 +510,7 @@ export default function ImagePreviewPage() {
                         format: e.target.value as OptimizationOptions["format"],
                       })
                     }
-                    style={{
-                      width: "100%",
-                      padding: "8px 12px",
-                      border: "1px solid #d1d5db",
-                      borderRadius: "6px",
-                      fontSize: "14px",
-                      background: "white",
-                      color: "#000",
-                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     disabled={options.autoOptimize}
                   >
                     <option value="original">Original</option>
@@ -628,16 +521,8 @@ export default function ImagePreviewPage() {
                 </div>
 
                 {/* Quality Slider */}
-                <div style={{ marginBottom: "16px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: "#374151",
-                    }}
-                  >
+                <div className="mb-4">
+                  <label className="block mb-1.5 text-sm font-medium text-gray-700">
                     Quality: {options.quality}%
                   </label>
                   <input
@@ -652,25 +537,17 @@ export default function ImagePreviewPage() {
                         quality: parseInt(e.target.value),
                       })
                     }
-                    style={{ width: "100%", accentColor: "#4f46e5" }}
+                    className="w-full accent-blue-600"
                     disabled={options.autoOptimize}
                   />
                 </div>
 
                 {/* Resize Options */}
-                <div style={{ marginBottom: "16px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: "#374151",
-                    }}
-                  >
+                <div className="mb-4">
+                  <label className="block mb-1.5 text-sm font-medium text-gray-700">
                     Resize (optional)
                   </label>
-                  <div style={{ display: "flex", gap: "8px" }}>
+                  <div className="flex gap-2">
                     <input
                       type="number"
                       placeholder="Width"
@@ -683,13 +560,7 @@ export default function ImagePreviewPage() {
                             : undefined,
                         })
                       }
-                      style={{
-                        flex: 1,
-                        padding: "8px 12px",
-                        border: "1px solid #d1d5db",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                      }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       disabled={options.autoOptimize}
                     />
                     <input
@@ -704,13 +575,7 @@ export default function ImagePreviewPage() {
                             : undefined,
                         })
                       }
-                      style={{
-                        flex: 1,
-                        padding: "8px 12px",
-                        border: "1px solid #d1d5db",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                      }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       disabled={options.autoOptimize}
                     />
                   </div>
@@ -718,50 +583,13 @@ export default function ImagePreviewPage() {
               </div>
 
               {/* Action Buttons */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px",
-                  marginTop: "24px",
-                  borderTop: "1px solid #f3f4f6",
-                  paddingTop: "16px",
-                }}
-              >
+              <div className="flex flex-col gap-3 mt-6 border-t border-gray-100 pt-4">
                 {/* Optimized URL Display */}
-                <div
-                  style={{
-                    padding: "12px",
-                    background: "#f8fafc",
-                    borderRadius: "8px",
-                    border: "1px solid #e2e8f0",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      color: "#64748b",
-                    }}
-                  >
+                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 mb-2">
+                  <label className="block mb-1.5 text-xs font-medium text-slate-600">
                     Optimized Image URL:
                   </label>
-                  <div
-                    style={{
-                      fontSize: "11px",
-                      color: "#475569",
-                      wordBreak: "break-all",
-                      lineHeight: "1.4",
-                      fontFamily: "monospace",
-                      background: "white",
-                      padding: "8px",
-                      borderRadius: "4px",
-                      border: "1px solid #e2e8f0",
-                    }}
-                  >
+                  <div className="text-xs text-slate-600 break-all leading-snug font-mono bg-white p-2 rounded border border-slate-200">
                     {getOptimizedImageUrl()}
                   </div>
                 </div>
@@ -769,36 +597,22 @@ export default function ImagePreviewPage() {
                 <button
                   onClick={downloadOptimizedImage}
                   disabled={downloading}
-                  style={{
-                    background: "#4f46e5",
-                    color: "white",
-                    border: "none",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    cursor: downloading ? "not-allowed" : "pointer",
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    opacity: downloading ? 0.7 : 1,
-                    textAlign: "center",
-                  }}
+                  className={`px-3 py-3 rounded-lg text-sm font-medium text-center transition-all ${
+                    downloading
+                      ? "bg-blue-400 text-white cursor-not-allowed opacity-70"
+                      : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                  }`}
                 >
                   {downloading ? "Downloading..." : "Download Optimized Image"}
                 </button>
 
                 <button
                   onClick={handleCopyUrl}
-                  style={{
-                    background: copied ? "#10b981" : "#f3f4f6",
-                    color: copied ? "white" : "#374151",
-                    border: "none",
-                    padding: "10px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    textAlign: "center",
-                    transition: "background-color 0.2s",
-                  }}
+                  className={`px-3 py-2.5 rounded-lg text-sm font-medium text-center transition-all ${
+                    copied
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
                 >
                   {copied ? "Copied!" : "Copy Optimized URL"}
                 </button>
@@ -808,37 +622,16 @@ export default function ImagePreviewPage() {
         </div>
 
         {/* Image Previews Column */}
-        <div className="previews-column" style={previewsColumnStyle}>
-          <div style={previewsContainerStyle}>
+        <div className={`${isLargeScreen ? "col-span-2" : "col-span-1"}`}>
+          <div
+            className={`flex gap-6 ${isLargeScreen ? "flex-row" : "flex-col"}`}
+          >
             {/* Original Image Preview */}
-            <div
-              className="original-image-card"
-              style={{
-                flex: 1,
-                background: "white",
-                padding: "16px",
-                borderRadius: "12px",
-                border: "1px solid #e5e7eb",
-                boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.05)",
-              }}
-            >
-              <h3
-                style={{
-                  margin: "0 0 12px 0",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  color: "#111827",
-                }}
-              >
+            <div className="flex-1 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <h3 className="mb-3 text-lg font-semibold text-gray-900">
                 Original
               </h3>
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  paddingBottom: "75%", // 4:3 aspect ratio
-                }}
-              >
+              <div className="relative w-full pb-[75%]">
                 <Image
                   src={imageUrl}
                   alt={`Original ${image.name || "image"}`}
@@ -847,50 +640,18 @@ export default function ImagePreviewPage() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <p
-                style={{
-                  margin: "8px 0 0 0",
-                  fontSize: "12px",
-                  color: "#6b7280",
-                }}
-              >
+              <p className="mt-2 text-xs text-gray-500">
                 {Math.round(image.size / 1024)} KB
               </p>
             </div>
 
             {/* Optimized Image Preview */}
             {showOptions && (
-              <div
-                className="optimized-image-card"
-                style={{
-                  flex: 1,
-                  background: "white",
-                  padding: "16px",
-                  borderRadius: "12px",
-                  border: "1px solid #e5e7eb",
-                  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.05)",
-                }}
-              >
-                <h3
-                  style={{
-                    margin: "0 0 12px 0",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    color: "#111827",
-                  }}
-                >
+              <div className="flex-1 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                <h3 className="mb-3 text-lg font-semibold text-gray-900">
                   Optimized
                 </h3>
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    paddingBottom: "75%",
-                    background: "#f3f4f6",
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                  }}
-                >
+                <div className="relative w-full pb-[75%] bg-gray-100 rounded-lg overflow-hidden">
                   <Image
                     src={getOptimizedImageUrl()}
                     alt={`Optimized ${image.name || "image"}`}
@@ -900,16 +661,10 @@ export default function ImagePreviewPage() {
                     key={getOptimizedImageUrl()} // Re-render image on change
                   />
                 </div>
-                <p
-                  style={{
-                    margin: "8px 0 0 0",
-                    fontSize: "12px",
-                    color: "#6b7280",
-                  }}
-                >
+                <p className="mt-2 text-xs text-gray-500">
                   {optimizedLoading ? "Calculating..." : getEstimatedSize()}
                   {optimizedSize !== null && optimizedSize !== image.size && (
-                    <span style={{ color: "#10b981", marginLeft: "8px" }}>
+                    <span className="text-green-600 ml-2">
                       (
                       {Math.round(
                         ((image.size - optimizedSize) / image.size) * 100

@@ -97,43 +97,37 @@ const ListofUploadedimages: React.FC = () => {
   // }, [UploadedFiles, setImagesUploadedtoBucket, userId]);
 
   useEffect(() => {
-    //   if (ImagesUploadedtoBucket.length < UploadedFiles.length) {
-    //     setLoading(true);
-    //   } else {
-    //     setLoading(false);
-    // }
-
-    //   console.log({
-    //     UploadedFiles,
-    //     ImagesUploadedtoBucket,
-    //   });
     uploadAll(UploadedFiles, setUploadedFiles, userId);
   }, [UploadedFiles, setUploadedFiles, userId]);
 
-  return (
-    <div className="container">
-      {/* {loading ? (
-        //  <div>Loading...</div>
-        <li className="converted-file loading">
-          <div
-            className="converted-file-content"
-            style={{ justifyContent: "center" }}
-          >
-            <span className="filename" style={{ width: "100%" }}>
-              Loading...
-            </span>
-          </div>
-        </li>
-      ) : (
-        <div className="convfileheading" style={{ justifyContent: "center" }}>
-          <h2>Images uploaded successfully</h2>
-        </div>
-      )} */}
+  if (UploadedFiles.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-slate-500 dark:text-slate-400">
+          No files uploaded yet
+        </p>
+      </div>
+    );
+  }
 
-      {/* Uploaded images... */}
-      {UploadedFiles.map((file) => (
-        <ImagesUploadedtoBucketListitem key={file.uuid} file={file} />
-      ))}
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+          Processing Queue
+        </h3>
+        <span className="text-sm text-slate-500 dark:text-slate-400">
+          {UploadedFiles.length} file{UploadedFiles.length !== 1 ? "s" : ""}
+        </span>
+      </div>
+
+      {/* File List */}
+      <div className="space-y-3">
+        {UploadedFiles.map((file) => (
+          <ImagesUploadedtoBucketListitem key={file.uuid} file={file} />
+        ))}
+      </div>
     </div>
   );
 };

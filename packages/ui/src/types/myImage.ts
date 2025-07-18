@@ -1,6 +1,7 @@
 import React from "react";
 
 export interface myImageType {
+  _id: string; // MongoDB ObjectId
   userId: string;
   url: string;
   name: string;

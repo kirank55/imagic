@@ -4,11 +4,31 @@ import Image from "database/models/image";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
-    const image = await Image.findById(params.id).lean();
+
+    const { id } = await params;
+    let image;
+
+    // Try to find by MongoDB ObjectId first
+    try {
+      image = await Image.findById(id).lean();
+    } catch {
+      // If ObjectId fails, try to find by other possible fields (UUID, custom id, etc.)
+      // Don't include _id in the fallback query since it requires ObjectId format
+      image = await Image.findOne({
+        $or: [
+          { id: id },
+          { uuid: id },
+          { customId: id },
+          { url: { $regex: id, $options: "i" } }, // Check if ID is part of the URL
+          // Add more fields as needed based on your schema
+        ],
+      }).lean();
+    }
+
     if (!image) {
       return NextResponse.json(
         { success: false, error: "Image not found" },
@@ -20,21 +40,6 @@ export async function GET(
       success: true,
       image,
     });
-    // return NextResponse.json({
-    //   success: true,
-    //   image: {
-    //     id: image._id.toString(),
-    //     url: image.url,
-    //     // originalName: image.name || "",
-    //     // originalName: image.name || image.originalName || "",
-    //     // size: image.size || 0,
-    //     // contentType: image.contentType || "image/jpeg",
-    //     uploadedAt: image.uploadedAt
-    //       ? new Date(image.uploadedAt).toISOString()
-    //       : "",
-    //     // tags: image.tags || image.metadata?.tags || [],
-    //   },
-    // });
   } catch (error) {
     console.error("Error fetching image:", error);
     return NextResponse.json(

@@ -3,16 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMyImageContext } from "context/myImagePageContext/useUploadPageFileContext";
-
-interface ImageType {
-  userId: string;
-  url: string;
-  name: string;
-  uploadedAt: Date;
-  size: number;
-  detectedType: string;
-  tags?: string[];
-}
+import { myImageType } from "@repo/ui/types/myImage";
 
 const MyImagesPage: React.FC = () => {
   const { myImageFiles } = useMyImageContext();
@@ -68,7 +59,21 @@ const MyImagesPage: React.FC = () => {
     });
   };
 
-  const getImageId = (img: ImageType) => `${img.url}-${img.name}`;
+  const getImageId = (img: myImageType) => `${img.url}-${img.name}`;
+
+  const extractIdFromUrl = (url: string) => {
+    // Extract ID from URL - assuming format like /path/to/image/ID.extension
+    const parts = url.split("/");
+    const filename = parts[parts.length - 1];
+    if (!filename) return "";
+    const id = filename.split(".")[0]; // Remove extension
+    return id;
+  };
+
+  const getImageSrcWithId = (img: myImageType) => {
+    const id = extractIdFromUrl(img.url);
+    return `${img.url}?id=${id}`;
+  };
 
   const toggleImageSelection = (imageId: string) => {
     setSelectedImages((prev) =>
@@ -336,7 +341,7 @@ const MyImagesPage: React.FC = () => {
                 {/* Image */}
                 <div className="relative aspect-square overflow-hidden bg-gray-100">
                   <Image
-                    src={img.url}
+                    src={getImageSrcWithId(img)}
                     alt={img.name || "gallery-img"}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
@@ -347,7 +352,7 @@ const MyImagesPage: React.FC = () => {
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
                       <Link
-                        href={`/tools/my-images/${encodeURIComponent(getImageId(img))}`}
+                        href={`/tools/my-images/${img._id}`}
                         className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                       >
                         <svg
@@ -453,7 +458,7 @@ const MyImagesPage: React.FC = () => {
                       <div className="col-span-1">
                         <div className="h-10 w-10 relative rounded overflow-hidden bg-gray-100">
                           <Image
-                            src={img.url}
+                            src={getImageSrcWithId(img)}
                             alt={img.name}
                             fill
                             className="object-cover"
@@ -487,7 +492,7 @@ const MyImagesPage: React.FC = () => {
                       <div className="col-span-1">
                         <div className="flex items-center space-x-2">
                           <Link
-                            href={`/tools/my-images/${encodeURIComponent(getImageId(img))}`}
+                            href={`/tools/my-images/${img._id}`}
                             className="text-blue-600 hover:text-blue-900 text-sm font-medium"
                           >
                             View

@@ -6,16 +6,8 @@ export function HeroSection() {
     <section className={styles.hero}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.announcement}>
-            <span className={styles.badge}>New</span>
-            <span>AI-powered background removal now available</span>
-            <Link href="/docs/ai-features" className={styles.announcementLink}>
-              Learn more →
-            </Link>
-          </div>
-
           <h1 className={styles.title}>
-            Image and Video API plus
+            Image API plus
             <span className={styles.highlight}> AI-powered</span> optimization
           </h1>
 
@@ -29,25 +21,10 @@ export function HeroSection() {
             <Link href="/signup" className={styles.primaryBtn}>
               Start Free
             </Link>
-            <Link href="/demo" className={styles.secondaryBtn}>
-              View Demo
-            </Link>
-          </div>
-
-          <div className={styles.socialProof}>
-            <p className={styles.proofText}>
-              Trusted by 250K+ developers and 2,000+ high-growth businesses
-            </p>
-            <div className={styles.logoGrid}>
-              <div className={styles.logoItem}>Swiggy</div>
-              <div className={styles.logoItem}>BookMyShow</div>
-              <div className={styles.logoItem}>Nykaa</div>
-              <div className={styles.logoItem}>BigBasket</div>
-            </div>
           </div>
         </div>
 
-        <div className={styles.visual}>
+        {/* <div className={styles.visual}>
           <div className={styles.mockup}>
             <div className={styles.mockupContent}>
               <div className={styles.codeBlock}>
@@ -69,7 +46,7 @@ const optimizedUrl = imagekit.url({
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

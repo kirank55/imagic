@@ -49,8 +49,8 @@ const pricingTiers: PricingTier[] = [
       "Analytics dashboard",
     ],
     popular: true,
-    cta: "Start Pro Trial",
-    ctaLink: "/signup?plan=pro",
+    cta: "Coming Soon",
+    ctaLink: "/signup",
   },
   {
     id: "enterprise",
@@ -127,53 +127,6 @@ export function PricingSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className={styles.guarantee}>
-          <div className={styles.guaranteeCard}>
-            <span className={styles.guaranteeIcon}>🛡️</span>
-            <div className={styles.guaranteeContent}>
-              <h3>30-day money-back guarantee</h3>
-              <p>
-                Not satisfied? Get a full refund within 30 days, no questions
-                asked. We&apos;re confident you&apos;ll love Imagic.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.faq}>
-          <h3>Frequently asked questions</h3>
-          <div className={styles.faqGrid}>
-            <div className={styles.faqItem}>
-              <h4>Can I change my plan anytime?</h4>
-              <p>
-                Yes, you can upgrade or downgrade your plan at any time. Changes
-                take effect immediately.
-              </p>
-            </div>
-            <div className={styles.faqItem}>
-              <h4>What happens if I exceed my limits?</h4>
-              <p>
-                We&apos;ll notify you when you&apos;re close to your limits. You
-                can upgrade or purchase additional usage.
-              </p>
-            </div>
-            <div className={styles.faqItem}>
-              <h4>Do you offer discounts for nonprofits?</h4>
-              <p>
-                Yes, we offer special pricing for educational institutions and
-                registered nonprofits.
-              </p>
-            </div>
-            <div className={styles.faqItem}>
-              <h4>Is there a free trial for paid plans?</h4>
-              <p>
-                Yes, all paid plans come with a 14-day free trial. No credit
-                card required to start.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>

@@ -1,3 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faGithub,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 
@@ -20,64 +26,55 @@ export default function Footer() {
             </p>
             <div className={styles.socialLinks}>
               <Link
-                href="https://twitter.com/himagic"
+                href="https://twitter.com/"
                 className={styles.socialLink}
+                aria-label="Twitter"
               >
-                <span className={styles.socialIcon}>🐦</span>
+                <FontAwesomeIcon
+                  icon={faTwitter}
+                  className={styles.socialIcon}
+                />
               </Link>
               <Link
                 href="https://github.com/himagic"
                 className={styles.socialLink}
+                aria-label="GitHub"
               >
-                <span className={styles.socialIcon}>📱</span>
+                <FontAwesomeIcon
+                  icon={faGithub}
+                  className={styles.socialIcon}
+                />
               </Link>
               <Link
-                href="https://linkedin.com/company/himagic"
+                href="https://linkedin.com/"
                 className={styles.socialLink}
+                aria-label="LinkedIn"
               >
-                <span className={styles.socialIcon}>💼</span>
-              </Link>
-              <Link
-                href="https://discord.gg/himagic"
-                className={styles.socialLink}
-              >
-                <span className={styles.socialIcon}>💬</span>
+                <FontAwesomeIcon
+                  icon={faLinkedin}
+                  className={styles.socialIcon}
+                />
               </Link>
             </div>
           </div>
 
-          {/* Product Section */}
+          {/* Platform Section */}
           <div className={styles.footerSection}>
-            <h4 className={styles.sectionTitle}>Product</h4>
+            <h4 className={styles.sectionTitle}>Platform</h4>
             <ul className={styles.linkList}>
               <li>
-                <Link href="/features" className={styles.footerLink}>
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className={styles.footerLink}>
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="/integrations" className={styles.footerLink}>
-                  Integrations
-                </Link>
-              </li>
-              <li>
-                <Link href="/api" className={styles.footerLink}>
-                  API
+                <Link href="/api/docs" className={styles.footerLink}>
+                  Image API
                 </Link>
               </li>
               <li>
                 <Link href="/sdk" className={styles.footerLink}>
-                  SDKs
+                  SDK
                 </Link>
               </li>
               <li>
-                <Link href="/changelog" className={styles.footerLink}>
-                  Changelog
+                <Link href="/docs" className={styles.footerLink}>
+                  Documentation
                 </Link>
               </li>
             </ul>
@@ -88,13 +85,19 @@ export default function Footer() {
             <h4 className={styles.sectionTitle}>Solutions</h4>
             <ul className={styles.linkList}>
               <li>
-                <Link href="/solutions/ecommerce" className={styles.footerLink}>
-                  E-commerce
+                <Link
+                  href="/solutions/performance"
+                  className={styles.footerLink}
+                >
+                  Performance Optimization
                 </Link>
               </li>
               <li>
-                <Link href="/solutions/media" className={styles.footerLink}>
-                  Media & Publishing
+                <Link
+                  href="/solutions/management"
+                  className={styles.footerLink}
+                >
+                  Image Management
                 </Link>
               </li>
               <li>
@@ -102,25 +105,7 @@ export default function Footer() {
                   href="/solutions/developers"
                   className={styles.footerLink}
                 >
-                  Developers
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/agencies" className={styles.footerLink}>
-                  Agencies
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/solutions/enterprise"
-                  className={styles.footerLink}
-                >
-                  Enterprise
-                </Link>
-              </li>
-              <li>
-                <Link href="/case-studies" className={styles.footerLink}>
-                  Case Studies
+                  Developer Tools
                 </Link>
               </li>
             </ul>
@@ -131,13 +116,8 @@ export default function Footer() {
             <h4 className={styles.sectionTitle}>Resources</h4>
             <ul className={styles.linkList}>
               <li>
-                <Link href="/docs" className={styles.footerLink}>
-                  Documentation
-                </Link>
-              </li>
-              <li>
-                <Link href="/guides" className={styles.footerLink}>
-                  Guides
+                <Link href="/pricing" className={styles.footerLink}>
+                  Pricing
                 </Link>
               </li>
               <li>
@@ -146,18 +126,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/community" className={styles.footerLink}>
-                  Community
-                </Link>
-              </li>
-              <li>
                 <Link href="/support" className={styles.footerLink}>
                   Support
-                </Link>
-              </li>
-              <li>
-                <Link href="/status" className={styles.footerLink}>
-                  Status
                 </Link>
               </li>
             </ul>
@@ -225,10 +195,6 @@ export default function Footer() {
             </div>
 
             <div className={styles.trustBadges}>
-              <div className={styles.trustBadge}>
-                <span className={styles.badgeIcon}>🔒</span>
-                <span>SOC 2 Type II</span>
-              </div>
               <div className={styles.trustBadge}>
                 <span className={styles.badgeIcon}>⚡</span>
                 <span>99.9% Uptime SLA</span>

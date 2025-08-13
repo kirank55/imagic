@@ -68,7 +68,31 @@ export function IntegrationSection() {
             crystal-clean docs, and dev-to-dev support.
           </p>
 
-          <div className={styles.sdkGrid}>
+          <div className={styles.visual}>
+            <div className={styles.mockup}>
+              <div className={styles.mockupContent}>
+                <div className={styles.codeBlock}>
+                  <div className={styles.codeHeader}>
+                    <span className={styles.codeLang}>JavaScript</span>
+                  </div>
+                  <pre className={styles.code}>
+                    {`// Transform any image URL
+const optimizedUrl = imagekit.url({
+  path: "/sample-image.jpg",
+  transformation: [{
+    width: 400,
+    height: 300,
+    format: "webp",
+    quality: 80
+  }]
+});`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className={styles.sdkGrid}>
             <Link href="/docs/react" className={styles.sdkItem}>
               React
             </Link>
@@ -105,7 +129,7 @@ export function IntegrationSection() {
             <Link href="/docs/ruby" className={styles.sdkItem}>
               Ruby
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

@@ -4,7 +4,6 @@ import styles from "./Navbar.module.css";
 import NavDropdown from "./NavDropdown";
 import MobileMenu from "./MobileMenu";
 import LogoutButton from "./LogoutButton";
-import AnnouncementBar from "./AnnouncementBar";
 
 const Navbar = async () => {
   const fullUser = await getCurrentUser({
@@ -74,7 +73,6 @@ const Navbar = async () => {
 
   return (
     <>
-      <AnnouncementBar />
       <nav className={styles.navbar}>
         <div className={styles.container}>
           {/* Logo */}

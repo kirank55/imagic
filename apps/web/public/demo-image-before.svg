@@ -1,0 +1,36 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with heavy gradient to simulate large file -->
+  <defs>
+    <linearGradient id="heavyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#4ECDC4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#45B7D1;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#96CEB4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFEAA7;stop-opacity:1" />
+    </linearGradient>
+    <!-- Heavy pattern overlay -->
+    <pattern id="heavyPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="3" fill="rgba(255,255,255,0.3)"/>
+      <circle cx="5" cy="5" r="2" fill="rgba(0,0,0,0.2)"/>
+      <circle cx="15" cy="15" r="2" fill="rgba(0,0,0,0.2)"/>
+    </pattern>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="400" height="300" fill="url(#heavyGradient)"/>
+  <!-- Pattern overlay -->
+  <rect width="400" height="300" fill="url(#heavyPattern)"/>
+  
+  <!-- Sample content -->
+  <rect x="50" y="50" width="300" height="40" fill="rgba(255,255,255,0.8)" rx="5"/>
+  <text x="200" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">Sample Image Content</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="150" r="30" fill="rgba(255,255,255,0.6)"/>
+  <rect x="200" y="120" width="80" height="60" fill="rgba(0,0,0,0.3)" rx="10"/>
+  <polygon points="300,140 320,120 340,140 340,180 300,180" fill="rgba(255,255,255,0.7)"/>
+  
+  <!-- File size indicator -->
+  <rect x="10" y="260" width="120" height="30" fill="rgba(255,0,0,0.8)" rx="5"/>
+  <text x="70" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">LARGE FILE</text>
+</svg>

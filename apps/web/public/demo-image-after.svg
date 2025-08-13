@@ -1,0 +1,32 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with clean, optimized gradient -->
+  <defs>
+    <linearGradient id="cleanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Clean background -->
+  <rect width="400" height="300" fill="url(#cleanGradient)"/>
+  
+  <!-- Sample content - cleaner version -->
+  <rect x="50" y="50" width="300" height="40" fill="rgba(255,255,255,0.9)" rx="5"/>
+  <text x="200" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">Optimized Content</text>
+  
+  <!-- Cleaner decorative elements -->
+  <circle cx="100" cy="150" r="25" fill="rgba(255,255,255,0.8)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+  <rect x="205" y="125" width="70" height="50" fill="rgba(255,255,255,0.7)" rx="8"/>
+  <polygon points="300,145 315,130 330,145 330,175 300,175" fill="rgba(255,255,255,0.8)"/>
+  
+  <!-- Optimization indicator -->
+  <rect x="10" y="260" width="120" height="30" fill="rgba(52,211,153,0.9)" rx="5"/>
+  <text x="70" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">OPTIMIZED</text>
+  
+  <!-- Speed lines to show optimization -->
+  <g opacity="0.6">
+    <line x1="320" y1="270" x2="380" y2="270" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <line x1="330" y1="275" x2="385" y2="275" stroke="#34d399" stroke-width="2" stroke-linecap="round"/>
+    <line x1="325" y1="265" x2="375" y2="265" stroke="#34d399" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

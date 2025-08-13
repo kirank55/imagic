@@ -1,0 +1,112 @@
+<svg width="400" height="160" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with glassmorphism effect -->
+  <defs>
+    <linearGradient id="glassBackground" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.15);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0.05);stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- After image gradient -->
+    <linearGradient id="afterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main container with glassmorphism -->
+  <rect width="400" height="160" fill="url(#glassBackground)" rx="16" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <!-- Before Section - Large Image Icon -->
+  <g id="beforeSection">
+    <!-- Before container -->
+    <rect x="20" y="20" width="100" height="120" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" rx="12"/>
+    
+    <!-- Large Image Icon -->
+    <g transform="translate(70, 80)">
+      <!-- Image frame -->
+      <rect x="-25" y="-20" width="50" height="40" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="3" rx="4"/>
+      
+      <!-- Mountain icon inside -->
+      <polygon points="-18,-8 -10,-15 -2,-8 4,-12 12,-4 18,-4 18,12 -18,12" fill="rgba(255,255,255,0.6)"/>
+      
+      <!-- Sun/circle -->
+      <circle cx="8" cy="-12" r="3" fill="rgba(255,255,255,0.8)"/>
+      
+      <!-- Corner indicators for "heavy" file -->
+      <rect x="-28" y="-23" width="6" height="6" fill="#ff4444" rx="2"/>
+    </g>
+  </g>
+  
+  <!-- Magic Wand (Static, Black & White) -->
+  <g id="magicSection">
+    <!-- Magic container to match others -->
+    <rect x="150" y="20" width="100" height="120" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" rx="12"/>
+    
+    <!-- Magic circle background -->
+    <circle cx="200" cy="80" r="25" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    
+    <!-- Magic wand -->
+    <g transform="translate(200, 80)">
+      <!-- Wand handle -->
+      <rect x="-15" y="-2" width="20" height="4" fill="rgba(255,255,255,0.8)" rx="2"/>
+      
+      <!-- Wand tip -->
+      <polygon points="5,-1 8,-3 11,-1 8,1" fill="white"/>
+      
+      <!-- Star at tip -->
+      <g transform="translate(10, 0)">
+        <polygon points="0,-4 1,-1 4,0 1,1 0,4 -1,1 -4,0 -1,-1" fill="white"/>
+      </g>
+      
+      <!-- Magic sparkles (static) -->
+      <g opacity="0.6">
+        <circle cx="-8" cy="-8" r="1" fill="white"/>
+        <circle cx="15" cy="-10" r="1.5" fill="white"/>
+        <circle cx="-12" cy="8" r="1" fill="white"/>
+        <circle cx="18" cy="6" r="1" fill="white"/>
+      </g>
+      
+      <!-- Magic trail (static) -->
+      <path d="M 5,0 Q 0,-5 -5,-3 Q -10,0 -8,5" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+  
+  <!-- After Section - Improved to Match Style -->
+  <g id="afterSection">
+    <!-- After container -->
+    <rect x="280" y="20" width="100" height="120" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" rx="12"/>
+    
+    <!-- Optimized Image Icon -->
+    <g transform="translate(330, 80)">
+      <!-- Clean image frame -->
+      <rect x="-25" y="-20" width="50" height="40" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" rx="4"/>
+      
+      <!-- Simplified, clean mountain icon -->
+      <polygon points="-15,-6 -8,-12 -1,-6 3,-9 9,-3 15,-3 15,12 -15,12" fill="rgba(255,255,255,0.9)"/>
+      
+      <!-- Clean sun/circle -->
+      <circle cx="8" cy="-10" r="2.5" fill="rgba(255,255,255,0.9)"/>
+      
+      <!-- Optimization indicator - checkmark -->
+      <g transform="translate(18, -18)">
+        <circle cx="0" cy="0" r="4" fill="rgba(255,255,255,0.9)"/>
+        <path d="M -1.5,0 L -0.5,1.5 L 2,-1.5" stroke="black" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </g>
+      
+      <!-- Clean efficiency lines -->
+      <g opacity="0.8">
+        <line x1="20" y1="-8" x2="25" y2="-8" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="20" y1="-4" x2="27" y2="-4" stroke="rgba(255,255,255,0.8)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="20" y1="0" x2="24" y2="0" stroke="rgba(255,255,255,0.8)" stroke-width="1" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Subtle decorative elements -->
+  <circle cx="50" cy="30" r="2" fill="rgba(255,255,255,0.3)">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="550" cy="30" r="2" fill="rgba(52,211,153,0.5)">
+    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>

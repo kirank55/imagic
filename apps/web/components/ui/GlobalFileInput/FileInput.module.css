@@ -2,7 +2,9 @@
   display: none;
 }
 
-.dragOverlay.dragging-file,
+.dragOverlay.dragging-file{
+  display: block !important;
+}
 :global(.file-drag-overlay.dragging-file) {
   display: block !important;
 }

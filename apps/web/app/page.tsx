@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <FeaturesSection />
       <IntegrationSection />
-      <PricingSection />
+      <FeaturesSection />
+      {/* <PricingSection /> */}
       <CTASection />
     </>
   );

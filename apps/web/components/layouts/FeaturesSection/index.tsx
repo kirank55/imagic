@@ -11,14 +11,13 @@ export function FeaturesSection() {
             <div className={styles.featureIcon}>
               <span className={styles.iconEmoji}>🚀</span>
             </div>
-            <h3>One API for images and video</h3>
+            <h3>Simple and Powerful Image API</h3>
             <p>
-              Transform, optimize and deliver both images and videos through a
-              single real-time URL-based API.
+              Transform and optimize images in real-time through our
+              straightforward URL-based API.
             </p>
             <div className={styles.featureLinks}>
               <Link href="/docs/image-api">Image API</Link>
-              <Link href="/docs/video-api">Video API</Link>
             </div>
           </div>
 
@@ -29,7 +28,7 @@ export function FeaturesSection() {
             <h3>Automatic performance optimization</h3>
             <p>
               Serve the lightest possible variant in modern formats like AVIF,
-              WebP, MP4, or WebM without any URL changes.
+              WebP, MP4, or WebM.
             </p>
             <div className={styles.featureLinks}>
               <Link href="/solutions/performance">Learn more</Link>
@@ -50,7 +49,7 @@ export function FeaturesSection() {
             </div>
           </div>
 
-          <div className={styles.featureCard}>
+          {/* <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
               <span className={styles.iconEmoji}>🎬</span>
             </div>
@@ -76,7 +75,7 @@ export function FeaturesSection() {
             <div className={styles.featureLinks}>
               <Link href="/docs/dam">DAM Overview</Link>
             </div>
-          </div>
+          </div> 
 
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -90,11 +89,11 @@ export function FeaturesSection() {
             <div className={styles.featureLinks}>
               <Link href="/security">Security & Trust</Link>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Why Choose Us Section */}
-        <div className={styles.whySection}>
+        {/* <div className={styles.whySection}>
           <div className={styles.whyHeader}>
             <h2>Why teams pick himagic</h2>
             <p>
@@ -142,7 +141,7 @@ export function FeaturesSection() {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

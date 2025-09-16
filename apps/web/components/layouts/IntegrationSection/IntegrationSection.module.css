@@ -17,14 +17,14 @@
 .header h2 {
   font-size: 3rem;
   font-weight: 800;
-  color: #1f2937;
+  color: #000;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
 
 .header p {
   font-size: 1.25rem;
-  color: #6b7280;
+  color: #666;
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
@@ -32,30 +32,61 @@
 
 .steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: 1fr;
   gap: 3rem;
-  margin-bottom: 6rem;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 1024px) {
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 6rem;
+  }
+
+  /* First two steps take full row */
+  .step:nth-child(1),
+  .step:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+
+  /* Step 3 and SDK section share the last row */
+  .step:nth-child(3),
+  .step:nth-child(4) {
+    grid-column: span 1;
+  }
 }
 
 .step {
   display: flex;
   gap: 1.5rem;
   padding: 2rem;
-  background: #f9fafb;
-  border-radius: 1rem;
-  border: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
 }
 
 .step:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #000;
+}
+
+@media (min-width: 1024px) {
+  .step:nth-child(4) {
+    padding: 2rem;
+    height: 100%;
+  }
+  
+  .step:nth-child(4) .stepContent {
+    width: 100%;
+  }
 }
 
 .stepNumber {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -99,6 +130,28 @@
   border-radius: 0.5rem;
   display: inline-block;
 }
+
+.sdkSection {
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.sdkSection h3 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+  .sdkSection {
+    padding-top: 0;
+  }
+  .sdkSection h3 {
+    font-size: 2rem;
+  }
+}
+
 
 .sdkSection {
   text-align: center;

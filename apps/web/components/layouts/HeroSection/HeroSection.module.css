@@ -1,30 +1,15 @@
 .hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 8rem 0 6rem;
+  background: white;
+  color: black;
+  padding: 8rem 0 4rem;
   position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-  opacity: 0.3;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+  text-align: center;
   position: relative;
   z-index: 1;
 }
@@ -70,21 +55,23 @@
   line-height: 1.1;
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .highlight {
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: black;
+  font-weight: bold;
 }
 
 .subtitle {
   font-size: 1.25rem;
   line-height: 1.6;
   margin-bottom: 2.5rem;
-  opacity: 0.9;
-  max-width: 500px;
+  color: #666;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ctaButtons {
@@ -98,19 +85,17 @@
   display: inline-flex;
   align-items: center;
   padding: 1rem 2rem;
-  background: white;
-  color: #4f46e5;
+  background: black;
+  color: white;
   text-decoration: none;
   border-radius: 0.75rem;
   font-weight: 600;
   font-size: 1.1rem;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
 }
 
 .primaryBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.15);
+  background: #333;
 }
 
 .secondaryBtn {

@@ -1,4 +1,4 @@
-import Link from "next/link";
+// import Link from "next/link";
 import styles from "./IntegrationSection.module.css";
 
 export function IntegrationSection() {
@@ -61,22 +61,23 @@ export function IntegrationSection() {
           </div>
         </div>
 
-        <div className={styles.sdkSection}>
-          <h3>Developer-first SDKs & plugins</h3>
-          <p>
-            Built with DevEx at our core—clear APIs, rock-solid SDKs,
-            crystal-clean docs, and dev-to-dev support.
-          </p>
+        <div className={styles.step}>
+          <div className={styles.stepContent}>
+            <h3>Developer-first SDKs & plugins</h3>
+            <p>
+              Built with DevEx at our core—clear APIs, rock-solid SDKs,
+              crystal-clean docs, and dev-to-dev support.
+            </p>
 
-          <div className={styles.visual}>
-            <div className={styles.mockup}>
-              <div className={styles.mockupContent}>
-                <div className={styles.codeBlock}>
-                  <div className={styles.codeHeader}>
-                    <span className={styles.codeLang}>JavaScript</span>
-                  </div>
-                  <pre className={styles.code}>
-                    {`// Transform any image URL
+            <div className={styles.visual}>
+              <div className={styles.mockup}>
+                <div className={styles.mockupContent}>
+                  <div className={styles.codeBlock}>
+                    <div className={styles.codeHeader}>
+                      <span className={styles.codeLang}>JavaScript</span>
+                    </div>
+                    <pre className={styles.code}>
+                      {`// Transform any image URL
 const optimizedUrl = imagekit.url({
   path: "/sample-image.jpg",
   transformation: [{
@@ -86,13 +87,13 @@ const optimizedUrl = imagekit.url({
     quality: 80
   }]
 });`}
-                  </pre>
+                    </pre>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* <div className={styles.sdkGrid}>
+            {/* <div className={styles.sdkGrid}>
             <Link href="/docs/react" className={styles.sdkItem}>
               React
             </Link>
@@ -130,6 +131,7 @@ const optimizedUrl = imagekit.url({
               Ruby
             </Link>
           </div> */}
+          </div>
         </div>
       </div>
     </section>

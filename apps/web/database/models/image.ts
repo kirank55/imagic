@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, models, model } from "mongoose";
 
 import { myImageType } from "@repo/ui/types/myImage";
 
-export interface IImage extends myImageType, Document {}
+export interface IImage extends Omit<myImageType, "_id">, Document {}
 
 const ImageSchema = new Schema<IImage>({
   userId: { type: String, required: true },

@@ -7,18 +7,22 @@ export function HeroSection() {
       <div className={styles.container}>
         <div className={styles.content}>
           <h1 className={styles.title}>
-            Intelligent Image{" "}
-            <span className={styles.highlight}>Optimization</span> API
+            Intelligent Image Optimization Software As A Service
+            {/* <span className={styles.highlight}>Optimization</span>  */}
+            {/* API */}
           </h1>
 
           <p className={styles.subtitle}>
-            Transform and optimize images in real-time with our simple and
-            powerful API. Built for developers who care about performance.
+            <span className={styles.highlight}>optimize images</span> in
+            real-time with our simple and powerful{" "}
+            <span className={styles.highlight}> API</span>. Built for developers
+            who care about <span className={styles.highlight}>performance</span>
+            .
           </p>
 
           <div className={styles.ctaButtons}>
             <Link href="/signup" className={styles.primaryBtn}>
-              Start Building
+              Start For Free
             </Link>
           </div>
         </div>

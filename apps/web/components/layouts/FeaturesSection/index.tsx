@@ -16,9 +16,9 @@ export function FeaturesSection() {
               Transform and optimize images in real-time through our
               straightforward URL-based API.
             </p>
-            <div className={styles.featureLinks}>
+            {/* <div className={styles.featureLinks}>
               <Link href="/docs/image-api">Image API</Link>
-            </div>
+            </div> */}
           </div>
 
           <div className={styles.featureCard}>
@@ -30,9 +30,9 @@ export function FeaturesSection() {
               Serve the lightest possible variant in modern formats like AVIF,
               WebP, MP4, or WebM.
             </p>
-            <div className={styles.featureLinks}>
+            {/* <div className={styles.featureLinks}>
               <Link href="/solutions/performance">Learn more</Link>
-            </div>
+            </div> */}
           </div>
 
           <div className={styles.featureCard}>
@@ -44,9 +44,9 @@ export function FeaturesSection() {
               Apply 50+ transformations, from simple resizing to GenAI effects,
               directly through the asset URL.
             </p>
-            <div className={styles.featureLinks}>
+            {/* <div className={styles.featureLinks}>
               <Link href="/docs/transformations">View all transformations</Link>
-            </div>
+            </div> */}
           </div>
 
           {/* <div className={styles.featureCard}>

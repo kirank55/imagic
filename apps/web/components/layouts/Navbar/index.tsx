@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCurrentUser } from "auth/currentUser";
 import styles from "./Navbar.module.css";
 import NavDropdown from "./NavDropdown";
-import MobileMenu from "./MobileMenu";
+// import MobileMenu from "./MobileMenu";
 import LogoutButton from "./LogoutButton";
 
 const Navbar = async () => {
@@ -83,10 +83,10 @@ const Navbar = async () => {
 
           {/* Main Navigation */}
           <div className={styles.mainNav}>
-            <NavDropdown label="Platform" items={platformItems} />
-            <NavDropdown label="Solutions" items={solutionsItems} />
+            {/* <NavDropdown label="Platform" items={platformItems} />
+            <NavDropdown label="Solutions" items={solutionsItems} /> */}
             {fullUser && <NavDropdown label="Tools" items={toolsItems} />}
-            <NavDropdown label="Resources" items={resourcesItems} />
+            {/* <NavDropdown label="Resources" items={resourcesItems} /> */}
           </div>
 
           {/* Auth Section */}
@@ -110,20 +110,20 @@ const Navbar = async () => {
                   Login
                 </Link>
                 <Link href="/signup" className={styles.signupBtn}>
-                  Start Free
+                  SignUp
                 </Link>
               </div>
             )}
           </div>
 
           {/* Mobile Menu Toggle */}
-          <MobileMenu
+          {/* <MobileMenu
             fullUser={fullUser}
             platformItems={platformItems}
             solutionsItems={solutionsItems}
             toolsItems={toolsItems}
             resourcesItems={resourcesItems}
-          />
+          /> */}
         </div>
       </nav>
     </>

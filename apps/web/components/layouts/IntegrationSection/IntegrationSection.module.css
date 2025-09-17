@@ -3,8 +3,14 @@
   background: white;
 }
 
+@media (min-width: 1024px) {
+  .integration {
+    padding: 8rem 0;
+  }
+}
+
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -33,30 +39,22 @@
 .steps {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: 2rem;
   margin-bottom: 4rem;
 }
 
 @media (min-width: 1024px) {
   .steps {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 6rem;
-  }
-
-  /* First two steps take full row */
-  .step:nth-child(1),
-  .step:nth-child(2) {
-    grid-column: 1 / -1;
-  }
-
-  /* Step 3 and SDK section share the last row */
-  .step:nth-child(3),
-  .step:nth-child(4) {
-    grid-column: span 1;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
   }
 }
+
+/* Add some breathing room for the SDK section */
+/* .step + .step:last-child {
+  margin-top: 4rem;
+} */
 
 .step {
   display: flex;
@@ -66,6 +64,7 @@
   border-radius: 0.5rem;
   border: 1px solid #eee;
   transition: all 0.2s ease;
+  height: 100%;
 }
 
 .step:hover {
@@ -73,14 +72,40 @@
 }
 
 @media (min-width: 1024px) {
-  .step:nth-child(4) {
+  .step {
     padding: 2rem;
+  }
+
+  /* Steps in the row */
+  .steps .step {
+    min-height: 320px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .steps .stepNumber {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .steps .stepContent {
+    display: flex;
+    flex-direction: column;
     height: 100%;
   }
-  
-  .step:nth-child(4) .stepContent {
-    width: 100%;
+
+  .steps .stepContent h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
   }
+
+  /* SDK section below */
+  /* .step:last-child {
+    flex-direction: row;
+    min-height: unset;
+  } */
 }
 
 .stepNumber {
@@ -111,9 +136,9 @@
   margin-bottom: 1rem;
 }
 
-.stepContent p:last-child {
+/* .stepContent p:last-child {
   margin-bottom: 0;
-}
+} */
 
 .stepOr {
   text-align: center;
@@ -202,11 +227,11 @@
 }
 
 .sdkItem:hover {
-  background: #4f46e5;
+  background: #000;
   color: white;
-  border-color: #4f46e5;
+  border-color: #000;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .visual {
   display: flex;

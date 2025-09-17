@@ -19,14 +19,14 @@ export function IntegrationSection() {
             <div className={styles.stepNumber}>1</div>
             <div className={styles.stepContent}>
               <h3>Set up your account</h3>
-              <p>
+              {/* <p>
                 Link your existing cloud storage, HTTP server, or serve files
                 via web proxy.
               </p>
-              <p className={styles.stepOr}>Or</p>
+              <p className={styles.stepOr}>Or</p> */}
               <p>
-                Upload files directly to himagic via API, dashboard, or Rclone
-                for bulk migration.
+                Upload images directly to himagic via dashboard, or Our SDK for
+                bulk uploads.
               </p>
             </div>
           </div>
@@ -36,9 +36,10 @@ export function IntegrationSection() {
             <div className={styles.stepContent}>
               <h3>Switch delivery URLs</h3>
               <p>
-                Update your base URLs to himagic or use a custom CNAME. Start
-                delivering images and videos in optimized formats like AVIF,
-                WebP, MP4, and WebM.
+                Update your base URLs to himagic.
+                {/* or use a custom CNAME.  */}
+                Start delivering images and videos in optimized formats like
+                AVIF, WebP etc.
               </p>
               <p className={styles.highlight}>
                 That&apos;s it! No code changes needed.
@@ -62,9 +63,9 @@ export function IntegrationSection() {
         </div>
 
         <div className={styles.step}>
-          <div className={styles.stepContent}>
-            <h3>Developer-first SDKs & plugins</h3>
-            <p>
+          <div className={styles.stepContent} style={{ margin: "auto" }}>
+            <h3 style={{ textAlign: "center" }}>Developer-first SDK</h3>
+            <p style={{ textAlign: "center" }}>
               Built with DevEx at our core—clear APIs, rock-solid SDKs,
               crystal-clean docs, and dev-to-dev support.
             </p>

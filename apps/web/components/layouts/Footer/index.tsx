@@ -17,14 +17,14 @@ export default function Footer() {
           {/* Company Section */}
           <div className={styles.footerSection}>
             <div className={styles.logo}>
-              <h3>himagic</h3>
+              <h3>himagic.online</h3>
             </div>
             <p className={styles.description}>
-              The fastest, most reliable image optimization platform for
-              developers and businesses. Optimize, transform, and deliver images
-              at scale.
+              {/* The fastest, most reliable  */}
+              Image optimization platform for developers and businesses.
+              Optimize, transform, and deliver images at scale.
             </p>
-            <div className={styles.socialLinks}>
+            {/* <div className={styles.socialLinks}>
               <Link
                 href="https://twitter.com/"
                 className={styles.socialLink}
@@ -55,11 +55,11 @@ export default function Footer() {
                   className={styles.socialIcon}
                 />
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Platform Section */}
-          <div className={styles.footerSection}>
+          {/* <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>Platform</h4>
             <ul className={styles.linkList}>
               <li>
@@ -78,10 +78,10 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Solutions Section */}
-          <div className={styles.footerSection}>
+          {/* <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>Solutions</h4>
             <ul className={styles.linkList}>
               <li>
@@ -109,10 +109,10 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Resources Section */}
-          <div className={styles.footerSection}>
+          {/* <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>Resources</h4>
             <ul className={styles.linkList}>
               <li>
@@ -131,10 +131,10 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Company Section */}
-          <div className={styles.footerSection}>
+          {/* <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>Company</h4>
             <ul className={styles.linkList}>
               <li>
@@ -168,7 +168,7 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Section */}
@@ -194,7 +194,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className={styles.trustBadges}>
+            {/* <div className={styles.trustBadges}>
               <div className={styles.trustBadge}>
                 <span className={styles.badgeIcon}>⚡</span>
                 <span>99.9% Uptime SLA</span>
@@ -203,7 +203,7 @@ export default function Footer() {
                 <span className={styles.badgeIcon}>🌐</span>
                 <span>Global CDN</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

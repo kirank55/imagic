@@ -22,7 +22,7 @@ export function HeroSection() {
 
           <div className={styles.ctaButtons}>
             <Link href="/signup" className={styles.primaryBtn}>
-              Start For Free
+              Get Started
             </Link>
           </div>
         </div>

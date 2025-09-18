@@ -9,7 +9,7 @@ const CTASection = () => (
     </p>
     <div className={styles.ctaButtons}>
       <Link href="/signup" className={styles.primaryBtn}>
-        Start Free
+        Get Started
       </Link>
       <Link href="/login" className={styles.secondaryBtn}>
         Login

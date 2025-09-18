@@ -14,11 +14,6 @@
   border-radius: 0.5rem;
   border: 1px solid #eee;
   text-align: left;
-  transition: all 0.2s ease;
-}
-
-.whyCard:hover {
-  border-color: #000;
 }
 
 .mainFeatures {
@@ -33,11 +28,6 @@
   padding: 2.5rem;
   border-radius: 0.5rem;
   border: 1px solid #eee;
-  transition: all 0.2s ease;
-}
-
-.featureCard:hover {
-  border-color: #000;
 }
 
 .featureIcon {
@@ -130,12 +120,6 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
   text-align: left;
-  transition: all 0.3s ease;
-}
-
-.whyCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .whyIcon {

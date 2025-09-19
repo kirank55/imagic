@@ -3,7 +3,7 @@
   color: black;
   padding: clamp(4rem, 10vw, 8rem) 0 clamp(2rem, 5vw, 4rem);
   position: relative;
-  padding: 4rem 0;
+  padding: 8rem 0 4rem 0;
 }
 
 .container {

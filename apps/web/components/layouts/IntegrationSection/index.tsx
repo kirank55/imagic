@@ -7,11 +7,11 @@ export function IntegrationSection() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Integration in 3 steps</h2>
-          <p>
+          {/* <p>
             Don&apos;t spend time migrating your media files. himagic works with
             your existing storage. Alternatively, upload your assets in
             himagic&apos;s DAM.
-          </p>
+          </p> */}
         </div>
 
         <div className={styles.steps}>

@@ -10,7 +10,7 @@ const MyImagesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFormat, setSelectedFormat] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  // const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
   // Filter and sort images
@@ -61,18 +61,14 @@ const MyImagesPage: React.FC = () => {
 
   const getImageId = (img: myImageType) => `${img.url}-${img.name}`;
 
-  const extractIdFromUrl = (url: string) => {
-    // Extract ID from URL - assuming format like /path/to/image/ID.extension
-    const parts = url.split("/");
-    const filename = parts[parts.length - 1];
-    if (!filename) return "";
-    const id = filename.split(".")[0]; // Remove extension
-    return id;
-  };
-
   const getImageSrcWithId = (img: myImageType) => {
-    const id = extractIdFromUrl(img.url);
-    return `${img.url}?id=${id}`;
+    // Add /image-r2bucket/ to the URL path
+    const parts = img.url.split("/");
+    const baseUrl = parts[0] + "//" + parts[2];
+    const remainingPath = parts.slice(3).join("/");
+    const imageURL = `${baseUrl}/image-r2bucket/${remainingPath}`;
+    console.log({ imageURL });
+    return imageURL;
   };
 
   const toggleImageSelection = (imageId: string) => {
@@ -83,13 +79,13 @@ const MyImagesPage: React.FC = () => {
     );
   };
 
-  const selectAllImages = () => {
-    if (selectedImages.length === filteredImages.length) {
-      setSelectedImages([]);
-    } else {
-      setSelectedImages(filteredImages.map((img) => getImageId(img)));
-    }
-  };
+  // const selectAllImages = () => {
+  //   if (selectedImages.length === filteredImages.length) {
+  //     setSelectedImages([]);
+  //   } else {
+  //     setSelectedImages(filteredImages.map((img) => getImageId(img)));
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,7 +101,7 @@ const MyImagesPage: React.FC = () => {
             </div>
             <div className="flex items-center space-x-4">
               {/* View Mode Toggle */}
-              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+              {/* <div className="flex items-center bg-gray-100 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode("grid")}
                   className={`p-2 rounded-md transition-colors ${
@@ -150,11 +146,11 @@ const MyImagesPage: React.FC = () => {
                     />
                   </svg>
                 </button>
-              </div>
+              </div> */}
 
               {/* Upload Button */}
               <Link
-                href="/tools"
+                href="/tools/upload"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
                 <svg
@@ -273,257 +269,440 @@ const MyImagesPage: React.FC = () => {
           )}
         </div>
 
-        {/* Images Grid/List */}
-        {filteredImages.length === 0 ? (
-          <div className="text-center py-12">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredImages.map((img) => (
+            <div
+              key={getImageId(img)}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200 group"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <h3 className="mt-2 text-sm font-medium text-gray-900">
-              No images found
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              {searchTerm || selectedFormat !== "all"
-                ? "Try adjusting your search or filters."
-                : "Get started by uploading your first image."}
-            </p>
-            {!searchTerm && selectedFormat === "all" && (
-              <div className="mt-6">
-                <Link
-                  href="/tools"
-                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  <svg
-                    className="h-4 w-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  Upload Your First Image
-                </Link>
-              </div>
-            )}
-          </div>
-        ) : viewMode === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredImages.map((img) => (
-              <div
-                key={getImageId(img)}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200 group"
-              >
-                {/* Selection Checkbox */}
-                <div className="absolute top-3 left-3 z-10">
-                  <input
-                    type="checkbox"
-                    checked={selectedImages.includes(getImageId(img))}
-                    onChange={() => toggleImageSelection(getImageId(img))}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  />
-                </div>
-
-                {/* Image */}
-                <div className="relative aspect-square overflow-hidden bg-gray-100">
-                  <Image
-                    src={getImageSrcWithId(img)}
-                    alt={img.name || "gallery-img"}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                    unoptimized
-                  />
-
-                  {/* Overlay on Hover */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
-                      <Link
-                        href={`/tools/my-images/${img._id}`}
-                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                      >
-                        <svg
-                          className="h-4 w-4 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                        View
-                      </Link>
-                      <button className="inline-flex items-center px-3 py-2 border border-white text-sm font-medium rounded-md text-white hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-colors">
-                        <svg
-                          className="h-4 w-4 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          />
-                        </svg>
-                        Download
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Image Info */}
-                <div className="p-4">
-                  <h3
-                    className="text-sm font-medium text-gray-900 truncate"
-                    title={img.name}
-                  >
-                    {img.name}
-                  </h3>
-                  <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
-                    <span className="bg-gray-100 px-2 py-1 rounded-full">
-                      {img.detectedType.toUpperCase()}
-                    </span>
-                    <span>{formatFileSize(img.size)}</span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">
-                    {formatDate(img.uploadedAt)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          /* List View */
-          <div className="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
-            <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
-              <div className="flex items-center">
+              {/* Selection Checkbox */}
+              <div className="absolute top-3 left-3 z-10">
                 <input
                   type="checkbox"
-                  checked={
-                    selectedImages.length === filteredImages.length &&
-                    filteredImages.length > 0
-                  }
-                  onChange={selectAllImages}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-4"
+                  checked={selectedImages.includes(getImageId(img))}
+                  onChange={() => toggleImageSelection(getImageId(img))}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <div className="grid grid-cols-12 gap-4 w-full text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <div className="col-span-1">Preview</div>
-                  <div className="col-span-4">Name</div>
-                  <div className="col-span-2">Type</div>
-                  <div className="col-span-2">Size</div>
-                  <div className="col-span-2">Date</div>
-                  <div className="col-span-1">Actions</div>
-                </div>
               </div>
-            </div>
-            <div className="divide-y divide-gray-200">
-              {filteredImages.map((img) => (
-                <div
-                  key={getImageId(img)}
-                  className="px-6 py-4 hover:bg-gray-50"
-                >
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedImages.includes(getImageId(img))}
-                      onChange={() => toggleImageSelection(getImageId(img))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-4"
-                    />
-                    <div className="grid grid-cols-12 gap-4 w-full items-center">
-                      <div className="col-span-1">
-                        <div className="h-10 w-10 relative rounded overflow-hidden bg-gray-100">
-                          <Image
-                            src={getImageSrcWithId(img)}
-                            alt={img.name}
-                            fill
-                            className="object-cover"
-                            unoptimized
-                          />
-                        </div>
-                      </div>
-                      <div className="col-span-4">
-                        <p
-                          className="text-sm font-medium text-gray-900 truncate"
-                          title={img.name}
-                        >
-                          {img.name}
-                        </p>
-                      </div>
-                      <div className="col-span-2">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                          {img.detectedType.toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="col-span-2">
-                        <p className="text-sm text-gray-500">
-                          {formatFileSize(img.size)}
-                        </p>
-                      </div>
-                      <div className="col-span-2">
-                        <p className="text-sm text-gray-500">
-                          {formatDate(img.uploadedAt)}
-                        </p>
-                      </div>
-                      <div className="col-span-1">
-                        <div className="flex items-center space-x-2">
-                          <Link
-                            href={`/tools/my-images/${img._id}`}
-                            className="text-blue-600 hover:text-blue-900 text-sm font-medium"
-                          >
-                            View
-                          </Link>
-                          <button className="text-gray-400 hover:text-gray-600">
-                            <svg
-                              className="h-4 w-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+
+              {/* Image */}
+              <div className="relative aspect-square overflow-hidden bg-gray-100">
+                <Image
+                  src={getImageSrcWithId(img)}
+                  alt={img.name || "gallery-img"}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-200"
+                  unoptimized
+                />
+
+                {/* Overlay on Hover */}
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
+                    <Link
+                      href={`/tools/my-images/${img._id}`}
+                      className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      <svg
+                        className="h-4 w-4 mr-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        />
+                      </svg>
+                      View
+                    </Link>
+                    <button
+                      onClick={async () => {
+                        try {
+                          // Extract userid and imageid from the URL
+                          const urlParts = img.url.split("/");
+                          const userid = urlParts[urlParts.length - 2];
+                          const imageid = urlParts[urlParts.length - 1];
+
+                          // Use the same endpoint as [id] page with original format
+                          const optimizedUrl = `http://localhost:3001/assets/${userid}/${imageid}?format=original`;
+                          const response = await fetch(optimizedUrl);
+
+                          if (!response.ok) throw new Error("Download failed");
+
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = img.name;
+                          document.body.appendChild(a);
+                          a.click();
+                          window.URL.revokeObjectURL(url);
+                          document.body.removeChild(a);
+                        } catch (error) {
+                          console.error("Download failed:", error);
+                        }
+                      }}
+                      className="inline-flex items-center px-3 py-2 border border-white text-sm font-medium rounded-md text-white hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-colors"
+                    >
+                      <svg
+                        className="h-4 w-4 mr-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        />
+                      </svg>
+                      Download
+                    </button>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Image Info */}
+              <div className="p-4">
+                <h3
+                  className="text-sm font-medium text-gray-900 truncate"
+                  title={img.name}
+                >
+                  {img.name}
+                </h3>
+                <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
+                  <span className="bg-gray-100 px-2 py-1 rounded-full">
+                    {img.detectedType.toUpperCase()}
+                  </span>
+                  <span>{formatFileSize(img.size)}</span>
+                </div>
+                <p className="mt-1 text-xs text-gray-500">
+                  {formatDate(img.uploadedAt)}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
+
+        {/* Images Grid/List */}
       </div>
     </div>
   );
 };
 
 export default MyImagesPage;
+
+// {filteredImages.length === 0 ? (
+//   <div className="text-center py-12">
+//     <svg
+//       className="mx-auto h-12 w-12 text-gray-400"
+//       fill="none"
+//       stroke="currentColor"
+//       viewBox="0 0 24 24"
+//     >
+//       <path
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         strokeWidth={2}
+//         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+//       />
+//     </svg>
+//     <h3 className="mt-2 text-sm font-medium text-gray-900">
+//       No images found
+//     </h3>
+//     <p className="mt-1 text-sm text-gray-500">
+//       {searchTerm || selectedFormat !== "all"
+//         ? "Try adjusting your search or filters."
+//         : "Get started by uploading your first image."}
+//     </p>
+//     {!searchTerm && selectedFormat === "all" && (
+//       <div className="mt-6">
+//         <Link
+//           href="/tools"
+//           className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+//         >
+//           <svg
+//             className="h-4 w-4 mr-2"
+//             fill="none"
+//             stroke="currentColor"
+//             viewBox="0 0 24 24"
+//           >
+//             <path
+//               strokeLinecap="round"
+//               strokeLinejoin="round"
+//               strokeWidth={2}
+//               d="M12 4v16m8-8H4"
+//             />
+//           </svg>
+//           Upload Your First Image
+//         </Link>
+//       </div>
+//     )}
+//   </div>
+// ) : viewMode === "grid" ? (
+//   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+//     {filteredImages.map((img) => (
+//       <div
+//         key={getImageId(img)}
+//         className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200 group"
+//       >
+//         {/* Selection Checkbox */}
+//         <div className="absolute top-3 left-3 z-10">
+//           <input
+//             type="checkbox"
+//             checked={selectedImages.includes(getImageId(img))}
+//             onChange={() => toggleImageSelection(getImageId(img))}
+//             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+//           />
+//         </div>
+
+//         {/* Image */}
+//         <div className="relative aspect-square overflow-hidden bg-gray-100">
+//           <Image
+//             src={getImageSrcWithId(img)}
+//             alt={img.name || "gallery-img"}
+//             fill
+//             className="object-cover group-hover:scale-105 transition-transform duration-200"
+//             unoptimized
+//           />
+
+//           {/* Overlay on Hover */}
+//           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
+//             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
+//               <Link
+//                 href={`/tools/my-images/${img._id}`}
+//                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+//               >
+//                 <svg
+//                   className="h-4 w-4 mr-1"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   viewBox="0 0 24 24"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={2}
+//                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+//                   />
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={2}
+//                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+//                   />
+//                 </svg>
+//                 View
+//               </Link>
+//               <button
+//                 onClick={async () => {
+//                   try {
+//                     // Extract userid and imageid from the URL
+//                     const urlParts = img.url.split("/");
+//                     const userid = urlParts[urlParts.length - 2];
+//                     const imageid = urlParts[urlParts.length - 1];
+
+//                     // Use the same endpoint as [id] page with original format
+//                     const optimizedUrl = `http://localhost:3001/assets/${userid}/${imageid}?format=original`;
+//                     const response = await fetch(optimizedUrl);
+
+//                     if (!response.ok)
+//                       throw new Error("Download failed");
+
+//                     const blob = await response.blob();
+//                     const url = window.URL.createObjectURL(blob);
+//                     const a = document.createElement("a");
+//                     a.href = url;
+//                     a.download = img.name;
+//                     document.body.appendChild(a);
+//                     a.click();
+//                     window.URL.revokeObjectURL(url);
+//                     document.body.removeChild(a);
+//                   } catch (error) {
+//                     console.error("Download failed:", error);
+//                   }
+//                 }}
+//                 className="inline-flex items-center px-3 py-2 border border-white text-sm font-medium rounded-md text-white hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-colors"
+//               >
+//                 <svg
+//                   className="h-4 w-4 mr-1"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   viewBox="0 0 24 24"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={2}
+//                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+//                   />
+//                 </svg>
+//                 Download
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Image Info */}
+//         <div className="p-4">
+//           <h3
+//             className="text-sm font-medium text-gray-900 truncate"
+//             title={img.name}
+//           >
+//             {img.name}
+//           </h3>
+//           <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
+//             <span className="bg-gray-100 px-2 py-1 rounded-full">
+//               {img.detectedType.toUpperCase()}
+//             </span>
+//             <span>{formatFileSize(img.size)}</span>
+//           </div>
+//           <p className="mt-1 text-xs text-gray-500">
+//             {formatDate(img.uploadedAt)}
+//           </p>
+//         </div>
+//       </div>
+//     ))}
+//   </div>
+// ) : (
+//   /* List View */
+//   <div className="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
+//     <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
+//       <div className="flex items-center">
+//         <input
+//           type="checkbox"
+//           checked={
+//             selectedImages.length === filteredImages.length &&
+//             filteredImages.length > 0
+//           }
+//           onChange={selectAllImages}
+//           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-4"
+//         />
+//         <div className="grid grid-cols-12 gap-4 w-full text-xs font-medium text-gray-500 uppercase tracking-wider">
+//           <div className="col-span-1">Preview</div>
+//           <div className="col-span-4">Name</div>
+//           <div className="col-span-2">Type</div>
+//           <div className="col-span-2">Size</div>
+//           <div className="col-span-2">Date</div>
+//           <div className="col-span-1">Actions</div>
+//         </div>
+//       </div>
+//     </div>
+//     <div className="divide-y divide-gray-200">
+//       {filteredImages.map((img) => (
+//         <div
+//           key={getImageId(img)}
+//           className="px-6 py-4 hover:bg-gray-50"
+//         >
+//           <div className="flex items-center">
+//             <input
+//               type="checkbox"
+//               checked={selectedImages.includes(getImageId(img))}
+//               onChange={() => toggleImageSelection(getImageId(img))}
+//               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-4"
+//             />
+//             <div className="grid grid-cols-12 gap-4 w-full items-center">
+//               <div className="col-span-1">
+//                 <div className="h-10 w-10 relative rounded overflow-hidden bg-gray-100">
+//                   <Image
+//                     src={getImageSrcWithId(img)}
+//                     alt={img.name}
+//                     fill
+//                     className="object-cover"
+//                     unoptimized
+//                   />
+//                 </div>
+//               </div>
+//               <div className="col-span-4">
+//                 <p
+//                   className="text-sm font-medium text-gray-900 truncate"
+//                   title={img.name}
+//                 >
+//                   {img.name}
+//                 </p>
+//               </div>
+//               <div className="col-span-2">
+//                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+//                   {img.detectedType.toUpperCase()}
+//                 </span>
+//               </div>
+//               <div className="col-span-2">
+//                 <p className="text-sm text-gray-500">
+//                   {formatFileSize(img.size)}
+//                 </p>
+//               </div>
+//               <div className="col-span-2">
+//                 <p className="text-sm text-gray-500">
+//                   {formatDate(img.uploadedAt)}
+//                 </p>
+//               </div>
+//               <div className="col-span-1">
+//                 <div className="flex items-center space-x-2">
+//                   <Link
+//                     href={`/tools/my-images/${img._id}`}
+//                     className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+//                   >
+//                     View
+//                   </Link>
+//                   <button
+//                     onClick={async () => {
+//                       try {
+//                         // Extract userid and imageid from the URL
+//                         const urlParts = img.url.split("/");
+//                         const userid = urlParts[urlParts.length - 2];
+//                         const imageid = urlParts[urlParts.length - 1];
+
+//                         // Use the same endpoint as [id] page with original format
+//                         const optimizedUrl = `http://localhost:3001/assets/${userid}/${imageid}?format=original`;
+//                         const response = await fetch(optimizedUrl);
+
+//                         if (!response.ok)
+//                           throw new Error("Download failed");
+
+//                         const blob = await response.blob();
+//                         const url = window.URL.createObjectURL(blob);
+//                         const a = document.createElement("a");
+//                         a.href = url;
+//                         a.download = img.name;
+//                         document.body.appendChild(a);
+//                         a.click();
+//                         window.URL.revokeObjectURL(url);
+//                         document.body.removeChild(a);
+//                       } catch (error) {
+//                         console.error("Download failed:", error);
+//                       }
+//                     }}
+//                     className="text-gray-400 hover:text-gray-600"
+//                   >
+//                     <svg
+//                       className="h-4 w-4"
+//                       fill="none"
+//                       stroke="currentColor"
+//                       viewBox="0 0 24 24"
+//                     >
+//                       <path
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                         strokeWidth={2}
+//                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+//                       />
+//                     </svg>
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   </div>
+// )}

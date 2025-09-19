@@ -8,6 +8,7 @@ import {
   myImageType,
   OptimizationOptions,
 } from "@repo/ui/types/myImage";
+import Link from "next/link";
 
 export default function ImagePreviewPage() {
   const router = useRouter();
@@ -106,12 +107,13 @@ export default function ImagePreviewPage() {
     // Use the Node.js API for optimized images
     const baseUrl = `http://localhost:3001/assets/${userid}/${imageid}`;
 
-    // If original image option is true, use the R2 URL directly
-    if (originalImageOption) {
-      return `${PUBLIC_DEVELOPMENT_URL}/${userid}/${imageid}`;
-    }
-
     const params = new URLSearchParams();
+
+    // If original image option is true, use format=original
+    if (originalImageOption) {
+      params.append("format", "original");
+      return `${baseUrl}?${params.toString()}`;
+    }
 
     if (options.format !== "original") {
       params.append("format", options.format);
@@ -336,12 +338,12 @@ export default function ImagePreviewPage() {
     ? image.url
     : `${PUBLIC_DEVELOPMENT_URL}/${image.url}`;
 
-  console.log(image);
+  console.log(imageUrl);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <button
-        onClick={() => router.back()}
+      <Link
+        href={"/tools/my-images"}
         className="mb-6 bg-white text-gray-600 border border-gray-300 px-4 py-2 rounded-lg cursor-pointer text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors shadow-sm"
       >
         <svg
@@ -358,7 +360,7 @@ export default function ImagePreviewPage() {
           />
         </svg>
         Back to Gallery
-      </button>
+      </Link>
 
       <div
         className={`grid gap-6 ${isLargeScreen ? "grid-cols-3" : "grid-cols-1"}`}
@@ -426,7 +428,7 @@ export default function ImagePreviewPage() {
                     className="text-sm font-medium text-gray-700 cursor-pointer"
                     htmlFor="original-image-toggle"
                   >
-                    Keep original image
+                    {`(Only Lossless Optimization)  Keep original image`}
                   </label>
                   <div
                     className="relative"
@@ -481,19 +483,19 @@ export default function ImagePreviewPage() {
                     </div>
                   </div>
                 </div>
-                <label className="flex items-center mb-2 text-sm cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={options.autoOptimize}
-                    onChange={(e) =>
-                      setOptions({ ...options, autoOptimize: e.target.checked })
-                    }
-                    className="mr-2 accent-blue-600"
-                  />
-                  Auto-optimize for device
-                </label>
               </div>
 
+              <label className="flex items-center mb-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={options.autoOptimize}
+                  onChange={(e) =>
+                    setOptions({ ...options, autoOptimize: e.target.checked })
+                  }
+                  className="mr-2 accent-blue-600"
+                />
+                Auto-optimize for device
+              </label>
               {/* Manual Controls */}
               <div
                 className={`${options.autoOptimize ? "opacity-50" : "opacity-100"}`}

@@ -54,11 +54,11 @@ const Navbar = async () => {
       href: "/tools/my-images",
       description: "Manage your images",
     },
-    {
-      label: "Bulk Operations",
-      href: "/tools/bulk",
-      description: "Process multiple images",
-    },
+    // {
+    //   label: "Bulk Operations",
+    //   href: "/tools/bulk",
+    //   description: "Process multiple images",
+    // },
   ];
 
   const resourcesItems = [

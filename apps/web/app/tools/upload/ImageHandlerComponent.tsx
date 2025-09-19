@@ -8,15 +8,26 @@ const ImageHandlerComponent = ({
 }: {
   UploadedFiles: UploadedFile;
 }) => {
-  console.log(UploadedFiles);
+  const componentRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    console.log("frm inside ue");
+    if (UploadedFiles.length > 0 && componentRef.current) {
+      console.log("frm inside comp ref");
+      componentRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [UploadedFiles]);
 
   if (UploadedFiles.length === 0) {
     return (
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-8">
+      <div className="bg-white rounded-lg border border-gray-200 p-8">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
             <svg
-              className="w-8 h-8 text-blue-600 dark:text-blue-400"
+              className="w-8 h-8 text-blue-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -29,10 +40,10 @@ const ImageHandlerComponent = ({
               />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
             View Your Optimized Images
           </h3>
-          <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+          <p className="text-gray-600 mb-6 max-w-md mx-auto">
             Check out your previously uploaded and optimized images, or manage
             your image collection.
           </p>
@@ -62,14 +73,100 @@ const ImageHandlerComponent = ({
   }
 
   const ListofUploadedimages = () => (
-    <div className="text-slate-500 dark:text-slate-400">
-      <ul className="divide-y divide-slate-200 dark:divide-slate-700">
+    <div className="text-gray-500">
+      <ul className="divide-y divide-gray-200">
         {UploadedFiles.map((file, index) => (
           <li key={index} className="py-4 flex items-center justify-between">
-            <span className="truncate">{file.name}</span>
-            <span className="text-xs text-slate-400 dark:text-slate-500 ml-2">
-              {file.size}
-            </span>
+            <div className="flex items-center space-x-3 min-w-0 flex-1">
+              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {file.name}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {Math.round((file.size || 0) / 1024)} KB
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              {file.url && (
+                <Link
+                  href={`/tools/my-images/${file.url.split("/").pop()}`}
+                  className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-colors"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  <span>View</span>
+                </Link>
+              )}
+              {file.loading && (
+                <div className="flex items-center space-x-2 text-blue-600">
+                  <svg
+                    className="w-4 h-4 animate-spin"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                  <span className="text-sm">Uploading...</span>
+                </div>
+              )}
+              {file.error && (
+                <div className="flex items-center space-x-2 text-red-600">
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span className="text-sm">Error</span>
+                </div>
+              )}
+            </div>
           </li>
         ))}
       </ul>
@@ -78,49 +175,25 @@ const ImageHandlerComponent = ({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+          <h2 className="text-xl font-semibold text-gray-900">
             Uploaded Files
           </h2>
           <div className="flex items-center space-x-4">
-            <div className="text-sm text-slate-600 dark:text-slate-400">
+            <div className="text-sm text-gray-600">
               {UploadedFiles.length} file{UploadedFiles.length !== 1 ? "s" : ""}
             </div>
           </div>
         </div>
 
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
-          <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0">
-              <svg
-                className="w-5 h-5 text-amber-500 mt-0.5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-amber-800 dark:text-amber-200">
-                File Requirements
-              </h3>
-              <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                Minimum image size of 10KB is required for processing. Supported
-                formats: JPEG, PNG, WebP.
-              </p>
-            </div>
+        <div
+          className="bg-white rounded-lg border border-gray-200"
+          ref={componentRef}
+        >
+          <div className="p-6">
+            <ListofUploadedimages />
           </div>
-        </div>
-      </div>
-
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-        <div className="p-6">
-          <ListofUploadedimages />
         </div>
       </div>
     </div>

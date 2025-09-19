@@ -110,6 +110,8 @@ async function uploadOne(
     const url = await UploadToR2(file, userId, detectedType);
     if (!url) throw new Error("Upload failed, no URL returned.");
 
+    console.log({ url });
+
     return createFileUpdater(file, {
       url,
       uploadStatus: true,

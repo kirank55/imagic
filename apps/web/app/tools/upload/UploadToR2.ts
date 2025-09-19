@@ -6,6 +6,11 @@ export async function UploadToR2(
   userId: string,
   detectedType: string
 ): Promise<string | false> {
+  console.log("Starting R2 upload:", {
+    fileName: file.filedata.name,
+    userId,
+    detectedType,
+  });
   const formData = new FormData();
 
   formData.append("file", file.filedata);
@@ -18,6 +23,7 @@ export async function UploadToR2(
   });
 
   const data = await res.json();
+  console.log("Upload response:", { status: res.status, data });
   if (res.ok && data.success) {
     return data.url; // The public URL of the uploaded file
   }

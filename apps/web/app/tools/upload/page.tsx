@@ -1,18 +1,21 @@
 "use client";
+import { useEffect } from "react";
 import GlobalFileInput from "components/ui/GlobalFileInput";
 import { useUploadPageFileContext } from "context/uploadPagefileContext/useUploadPageFileContext";
-// import dynamic from "next/dynamic";
+import { useUserContext } from "context/UserContext/useUploadPageFileContext";
 import ImageHandlerComponent from "./ImageHandlerComponent";
-
-// const NewImageHandlerComponent = dynamic(
-//   () => import("./NewImageHandlerComponent"),
-//   {
-//     ssr: false,
-//   }
-// );
+import { uploadAll } from "./uploadImage";
 
 const NewPage = () => {
   const { setUploadedFiles, UploadedFiles } = useUploadPageFileContext();
+  const { userId } = useUserContext();
+
+  // Trigger uploads when files are added
+  useEffect(() => {
+    if (UploadedFiles.length > 0) {
+      uploadAll(UploadedFiles, setUploadedFiles, userId);
+    }
+  }, [UploadedFiles, setUploadedFiles, userId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
@@ -71,7 +74,7 @@ const NewPage = () => {
 
         {/* Image Handler Component */}
         {/* <NewImageHandlerComponent /> */}
-        <ImageHandlerComponent />
+        <ImageHandlerComponent UploadedFiles={UploadedFiles} />
       </div>
     </div>
   );

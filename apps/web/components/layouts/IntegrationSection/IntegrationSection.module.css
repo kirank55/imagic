@@ -250,11 +250,25 @@
   max-width: 500px;
 }
 
+.visual {
+  width: 100%;
+  max-width: 700px;
+  margin: 2rem auto 0;
+  padding: 0 1rem;
+}
+
+.mockup {
+  position: relative;
+  width: 100%;
+  background: transparent;
+}
+
 .mockupContent {
   background: #1a1a1a;
   border-radius: 0.75rem;
   overflow: hidden;
   border: 1px solid #333;
+  width: 100%;
 }
 
 .codeHeader {
@@ -290,6 +304,33 @@
   background: #1a1a1a;
   margin: 0;
   overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+  .visual {
+    padding: 0;
+  }
+
+  .code {
+    font-size: 0.75rem;
+    padding: 1rem;
+  }
+
+  .codeHeader {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .codeLang {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .code {
+    font-size: 0.7rem;
+  }
 }
 
 /* Mobile Responsiveness */

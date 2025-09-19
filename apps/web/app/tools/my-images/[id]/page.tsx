@@ -103,11 +103,12 @@ export default function ImagePreviewPage() {
       console.error("Invalid image URL format:", image.url);
       return "";
     }
+    // Use the Node.js API for optimized images
     const baseUrl = `http://localhost:3001/assets/${userid}/${imageid}`;
 
-    // If original image option is true, return URL with original=true parameter
+    // If original image option is true, use the R2 URL directly
     if (originalImageOption) {
-      return `${baseUrl}?original=true`;
+      return `${PUBLIC_DEVELOPMENT_URL}/${userid}/${imageid}`;
     }
 
     const params = new URLSearchParams();

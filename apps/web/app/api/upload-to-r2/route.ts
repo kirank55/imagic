@@ -47,6 +47,13 @@ export async function POST(req: NextRequest) {
   console.log("Generated upload key:", key);
 
   try {
+    console.log("Attempting to upload to R2:", {
+      bucket: R2_BUCKET,
+      endpoint: R2_ENDPOINT,
+      fileType: file.type,
+      fileSize: file.size,
+    });
+
     await s3.send(
       new PutObjectCommand({
         Bucket: R2_BUCKET,

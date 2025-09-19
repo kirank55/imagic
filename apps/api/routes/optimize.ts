@@ -78,11 +78,11 @@ router.get("/assets/:userid/:imageid", async (req: Request, res: Response) => {
       });
     }
 
-    // Fetch the original image
-    const imageUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${imagePath}`;
-    console.log("Fetching image from:", imageUrl);
+    // Fetch the original image from R2 bucket
+    const r2Url = `${process.env.PUBLIC_DEVELOPMENT_URL}/${process.env.R2_BUCKET}/${imagePath}`;
+    console.log("Fetching image from R2:", r2Url);
 
-    const response = await fetch(imageUrl);
+    const response = await fetch(r2Url);
     console.log("Fetch response status:", response.status, response.statusText);
 
     if (!response.ok) {

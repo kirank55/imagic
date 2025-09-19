@@ -1,8 +1,15 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { UploadedFile } from "@repo/ui/types/Filetype";
 
-const ImageHandlerComponent = ({ UploadedFiles = [] }) => {
+const ImageHandlerComponent = ({
+  UploadedFiles,
+}: {
+  UploadedFiles: UploadedFile;
+}) => {
+  console.log(UploadedFiles);
+
   if (UploadedFiles.length === 0) {
     return (
       <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-8">

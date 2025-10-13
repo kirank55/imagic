@@ -55,6 +55,8 @@ export async function POST(req: NextRequest) {
       userId: (user._id as string).toString(),
     } as UserDetailsForCookieType;
 
+    console.log(UserDetailsForCookie);
+
     await createUserSession(UserDetailsForCookie, await cookies());
 
     return NextResponse.json({ success: true, message: "Signup successful." });

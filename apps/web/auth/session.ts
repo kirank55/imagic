@@ -53,9 +53,11 @@ export async function createUserSession(
   cookies: Pick<Cookies, "set">
 ) {
   const sessionId = crypto.randomBytes(512).toString("hex").normalize();
-  await redis.set(`session:${sessionId}`, user, {
-    ex: SESSION_EXPIRATION_SECONDS,
-  });
+  await redis.setex(
+    `session:${sessionId}`,
+    SESSION_EXPIRATION_SECONDS,
+    JSON.stringify(user)
+  );
 
   setCookie(sessionId, cookies);
 }
@@ -97,7 +99,14 @@ function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
 async function getUserSessionById(sessionId: string) {
   const rawUser = await redis.get(`session:${sessionId}`);
 
-  const { success, data: user } = sessionSchema.safeParse(rawUser);
+  if (!rawUser) return null;
 
-  return success ? user : null;
+  try {
+    const parsedUser = JSON.parse(rawUser);
+    const { success, data: user } = sessionSchema.safeParse(parsedUser);
+    return success ? user : null;
+  } catch (error) {
+    console.error("Error parsing user session:", error);
+    return null;
+  }
 }

@@ -2,10 +2,11 @@
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-  background: white;
   color: #333;
   overflow-x: hidden;
-  margin: 3rem 0;
+  margin: 3rem 0 0 0;
+  /* background: rgb(215, 201, 201); */
+
 }
 
 .featureCard {
@@ -47,7 +48,7 @@
 .price {
   font-size: 2.5rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 1rem 0 0 0;
 }
 
 .period {
@@ -76,7 +77,6 @@
 .hero {
   text-align: center;
   padding: 8rem 2rem 4rem;
-  background: white;
 }
 
 .title {
@@ -260,7 +260,6 @@ button.secondary {
 @media (max-width: 600px) {
   .page {
     padding: 32px;
-    padding-bottom: 80px;
   }
 
   .main {

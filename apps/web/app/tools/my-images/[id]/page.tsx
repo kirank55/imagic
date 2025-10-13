@@ -105,7 +105,9 @@ export default function ImagePreviewPage() {
       return "";
     }
     // Use the Node.js API for optimized images
-    const baseUrl = `http://localhost:3001/assets/${userid}/${imageid}`;
+    // const local = `localhost:3001`;
+    const host = process.env.NEXT_PUBLIC_NODE_API;
+    const baseUrl = `https://${host}/assets/${userid}/${imageid}`;
 
     const params = new URLSearchParams();
 
@@ -485,17 +487,68 @@ export default function ImagePreviewPage() {
                 </div>
               </div>
 
-              <label className="flex items-center mb-2 text-sm cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={options.autoOptimize}
-                  onChange={(e) =>
-                    setOptions({ ...options, autoOptimize: e.target.checked })
-                  }
-                  className="mr-2 accent-blue-600"
-                />
-                Auto-optimize for device
-              </label>
+              <div className="flex items-center justify-between mb-2 relative">
+                <label
+                  className="text-sm font-medium text-gray-700 cursor-pointer"
+                  htmlFor="auto-optimize-toggle"
+                >
+                  Auto-optimize for device
+                </label>
+                <div
+                  className="relative"
+                  onMouseEnter={(e) => {
+                    const tooltip = e.currentTarget.querySelector(
+                      ".tooltip"
+                    ) as HTMLElement;
+                    if (tooltip) {
+                      tooltip.style.opacity = "1";
+                      tooltip.style.visibility = "visible";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    const tooltip = e.currentTarget.querySelector(
+                      ".tooltip"
+                    ) as HTMLElement;
+                    if (tooltip) {
+                      tooltip.style.opacity = "0";
+                      tooltip.style.visibility = "hidden";
+                    }
+                  }}
+                >
+                  <input
+                    id="auto-optimize-toggle"
+                    type="checkbox"
+                    checked={options.autoOptimize}
+                    onChange={(e) =>
+                      setOptions({ ...options, autoOptimize: e.target.checked })
+                    }
+                    className={`relative w-11 h-6 appearance-none ${
+                      options.autoOptimize ? "bg-blue-600" : "bg-gray-300"
+                    } rounded-full cursor-pointer transition-colors outline-none`}
+                  />
+                  <div
+                    className={`absolute top-0.5 ${
+                      options.autoOptimize ? "left-5" : "left-0.5"
+                    } w-5 h-5 bg-white rounded-full transition-all pointer-events-none shadow-sm`}
+                  />
+                  {/* Tooltip */}
+                  <div
+                    className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-md opacity-0 invisible transition-all z-10 max-w-48 whitespace-normal leading-snug tooltip"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = "1";
+                      e.currentTarget.style.visibility = "visible";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = "0";
+                      e.currentTarget.style.visibility = "hidden";
+                    }}
+                  >
+                    Device-based optimization will be disabled if this option is
+                    turned off
+                    <div className="absolute top-full right-3 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-800" />
+                  </div>
+                </div>
+              </div>
               {/* Manual Controls */}
               <div
                 className={`${options.autoOptimize ? "opacity-50" : "opacity-100"}`}

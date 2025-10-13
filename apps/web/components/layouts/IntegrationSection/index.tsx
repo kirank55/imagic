@@ -36,10 +36,9 @@ export function IntegrationSection() {
             <div className={styles.stepContent}>
               <h3>Switch delivery URLs</h3>
               <p>
-                Update your base URLs to himagic.
                 {/* or use a custom CNAME.  */}
-                Start delivering images and videos in optimized formats like
-                AVIF, WebP etc.
+                Update your base URLs to our API url. Start delivering images
+                and videos in optimized formats like AVIF, WebP etc.
               </p>
               <p className={styles.highlight}>
                 That&apos;s it! No code changes needed.

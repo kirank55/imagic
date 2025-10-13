@@ -1,5 +1,5 @@
 .features {
-  padding: 4rem 0;
+  padding: 2em 0;
   background: white;
 }
 
@@ -20,7 +20,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
-  margin-bottom: 4rem;
 }
 
 .featureCard {

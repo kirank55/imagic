@@ -1,9 +1,10 @@
 .hero {
-  background: white;
   color: black;
   padding: clamp(4rem, 10vw, 8rem) 0 clamp(2rem, 5vw, 4rem);
   position: relative;
   padding: 8rem 0 4rem 0;
+  background: rgb(215, 201, 201);
+
 }
 
 .container {
@@ -200,7 +201,6 @@
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 0.85rem;
   line-height: 1.5;
-  color: #e6e6e6;
   background: #1a1a1a;
   margin: 0;
   overflow-x: auto;

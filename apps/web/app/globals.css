@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* --background: rgb(215, 201, 201); */
   font-family: Arial, Helvetica, sans-serif;
     --dark: #191919;
     --dark-border: #050609;

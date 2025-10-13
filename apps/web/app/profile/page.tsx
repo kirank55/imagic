@@ -1,5 +1,5 @@
 import { getCurrentUser } from "auth/currentUser";
-import ApiKeyManager from "../../components/ApiKeyManager";
+// import ApiKeyManager from "../../components/ApiKeyManager";
 import Link from "next/link";
 
 export default async function Profile() {
@@ -57,10 +57,9 @@ export default async function Profile() {
 
       {/* Main Content */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* User Details */}
           <div className="space-y-6">
-            {/* User Details */}
             <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8">
               {/* Content */}
               <div className="relative z-10">
@@ -92,9 +91,10 @@ export default async function Profile() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Quick Actions */}
-
+          {/* Quick Actions */}
+          <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8">
               <div className="relative z-10">
                 <div className="flex items-center mb-6">
@@ -175,10 +175,10 @@ export default async function Profile() {
             </div>
           </div>
 
-          {/* Main Content Area */}
-          <div className="lg:col-span-2 transform hover:scale-[1.01] transition-all duration-500">
+          {/* Main Content Area - API Key Manager (Commented Out) */}
+          {/* <div className="lg:col-span-2 transform hover:scale-[1.01] transition-all duration-500">
             <ApiKeyManager currentUser={currentUser} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

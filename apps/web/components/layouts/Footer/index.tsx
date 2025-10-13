@@ -178,7 +178,7 @@ export default function Footer() {
               <span className={styles.copyright}>
                 © {currentYear} himagic. All rights reserved.
               </span>
-              <div className={styles.legalLinks}>
+              {/* <div className={styles.legalLinks}>
                 <Link href="/privacy" className={styles.legalLink}>
                   Privacy Policy
                 </Link>
@@ -191,7 +191,7 @@ export default function Footer() {
                 <Link href="/gdpr" className={styles.legalLink}>
                   GDPR
                 </Link>
-              </div>
+              </div> */}
             </div>
 
             {/* <div className={styles.trustBadges}>

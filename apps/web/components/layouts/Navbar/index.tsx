@@ -93,14 +93,14 @@ const Navbar = async () => {
           <div className={styles.authSection}>
             {fullUser ? (
               <div className={styles.userMenu}>
-                <Link href="/profile" className={styles.profileLink}>
+                {/* <Link href="/profile" className={styles.profileLink}>
                   <div className={styles.avatar}>
                     {fullUser.username?.charAt(0).toUpperCase() || "U"}
                   </div>
                   <span>{fullUser.username}</span>
-                </Link>
-                <Link href="/tools/my-images" className={styles.dashboardBtn}>
-                  Dashboard
+                </Link> */}
+                <Link href="/profile" className={styles.dashboardBtn}>
+                  My Account
                 </Link>
                 <LogoutButton className={styles.logoutBtn} />
               </div>

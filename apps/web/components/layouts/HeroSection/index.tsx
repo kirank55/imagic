@@ -7,7 +7,7 @@ export function HeroSection() {
       <div className={styles.container}>
         <div className={styles.content}>
           <h1 className={styles.title}>
-            Intelligent Image Optimization Software As A Service
+            Intelligent Image Optimization
             {/* <span className={styles.highlight}>Optimization</span>  */}
             {/* API */}
           </h1>

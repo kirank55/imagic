@@ -9,7 +9,7 @@ export default async function Profile() {
   });
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden pt-24">
+    <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Header Section */}
       <div className="relative bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-10 relative z-10">
@@ -37,7 +37,7 @@ export default async function Profile() {
                 </div> */}
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-3">
+            {/* <div className="flex flex-col sm:flex-row items-center gap-3">
               <Link
                 href="/tools"
                 className="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-md font-medium hover:bg-gray-800 transition-all duration-300"
@@ -50,7 +50,7 @@ export default async function Profile() {
               >
                 Sign Out
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

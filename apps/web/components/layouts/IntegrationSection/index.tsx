@@ -25,8 +25,8 @@ export function IntegrationSection() {
               </p>
               <p className={styles.stepOr}>Or</p> */}
               <p>
-                Upload images directly to himagic via dashboard, or Our SDK for
-                bulk uploads.
+                Upload images directly to himagic via dashboard.
+                {/* , or Our SDK for bulk uploads. */}
               </p>
             </div>
           </div>
@@ -55,14 +55,14 @@ export function IntegrationSection() {
                 Resize, crop, remove backgrounds, and add overlays in real-time
                 using URL-based transformations.
               </p>
-              <p>
+              {/* <p>
                 Use our SDKs to add transformations to your existing codebase.
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
 
-        <div className={styles.step}>
+        {/* <div className={styles.step}>
           <div className={styles.stepContent} style={{ margin: "auto" }}>
             <h3 style={{ textAlign: "center" }}>Developer-first SDK</h3>
             <p style={{ textAlign: "center" }}>
@@ -94,46 +94,8 @@ const optimizedUrl = imagekit.url({
               </div>
             </div>
 
-            {/* <div className={styles.sdkGrid}>
-            <Link href="/docs/react" className={styles.sdkItem}>
-              React
-            </Link>
-            <Link href="/docs/nextjs" className={styles.sdkItem}>
-              Next.js
-            </Link>
-            <Link href="/docs/angular" className={styles.sdkItem}>
-              Angular
-            </Link>
-            <Link href="/docs/javascript" className={styles.sdkItem}>
-              JavaScript
-            </Link>
-            <Link href="/docs/vuejs" className={styles.sdkItem}>
-              Vue.js
-            </Link>
-            <Link href="/docs/nodejs" className={styles.sdkItem}>
-              Node.js
-            </Link>
-            <Link href="/docs/python" className={styles.sdkItem}>
-              Python
-            </Link>
-            <Link href="/docs/php" className={styles.sdkItem}>
-              PHP
-            </Link>
-            <Link href="/docs/java" className={styles.sdkItem}>
-              Java
-            </Link>
-            <Link href="/docs/dotnet" className={styles.sdkItem}>
-              .NET
-            </Link>
-            <Link href="/docs/golang" className={styles.sdkItem}>
-              Go
-            </Link>
-            <Link href="/docs/ruby" className={styles.sdkItem}>
-              Ruby
-            </Link>
-          </div> */}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

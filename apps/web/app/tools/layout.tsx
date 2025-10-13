@@ -9,7 +9,9 @@ export default function Layout({
 }>) {
   return (
     <UserContextProvider>
-      <FileContextProvider>{children}</FileContextProvider>
+      <FileContextProvider>
+        <div className="tools p-10">{children}</div>
+      </FileContextProvider>
     </UserContextProvider>
   );
 }

@@ -331,7 +331,7 @@ export default function ApiKeyManager({ currentUser }: ApiKeyManagerProps) {
               <button
                 onClick={generateApiKeys}
                 disabled={generating}
-                className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-black text-white font-medium rounded-lg hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
                 {generating ? (
                   <>
@@ -379,7 +379,7 @@ export default function ApiKeyManager({ currentUser }: ApiKeyManagerProps) {
             </div>
 
             {/* Warning */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            {/* <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <div className="flex items-start">
                 <svg
                   className="w-5 h-5 text-amber-600 mr-3 mt-0.5"
@@ -406,7 +406,7 @@ export default function ApiKeyManager({ currentUser }: ApiKeyManagerProps) {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Usage Example */}
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">

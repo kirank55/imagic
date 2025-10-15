@@ -1,9 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTwitter,
-  faGithub,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 
@@ -24,151 +20,55 @@ export default function Footer() {
               Image optimization platform for developers and businesses.
               Optimize, transform, and deliver images at scale.
             </p>
-            {/* <div className={styles.socialLinks}>
-              <Link
-                href="https://twitter.com/"
-                className={styles.socialLink}
-                aria-label="Twitter"
-              >
-                <FontAwesomeIcon
-                  icon={faTwitter}
-                  className={styles.socialIcon}
-                />
-              </Link>
-              <Link
-                href="https://github.com/himagic"
-                className={styles.socialLink}
-                aria-label="GitHub"
-              >
-                <FontAwesomeIcon
-                  icon={faGithub}
-                  className={styles.socialIcon}
-                />
-              </Link>
-              <Link
-                href="https://linkedin.com/"
-                className={styles.socialLink}
-                aria-label="LinkedIn"
-              >
-                <FontAwesomeIcon
-                  icon={faLinkedin}
-                  className={styles.socialIcon}
-                />
-              </Link>
-            </div> */}
           </div>
 
           {/* Platform Section */}
-          {/* <div className={styles.footerSection}>
+          <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>Platform</h4>
             <ul className={styles.linkList}>
               <li>
-                <Link href="/api/docs" className={styles.footerLink}>
-                  Image API
+                <Link href="/tools" className={styles.footerLink}>
+                  Image Tools
                 </Link>
               </li>
               <li>
-                <Link href="/sdk" className={styles.footerLink}>
-                  SDK
+                <Link href="/tools/upload" className={styles.footerLink}>
+                  Upload & Optimize
                 </Link>
               </li>
               <li>
-                <Link href="/docs" className={styles.footerLink}>
-                  Documentation
+                <Link href="/tools/my-images" className={styles.footerLink}>
+                  My Images
                 </Link>
               </li>
             </ul>
-          </div> */}
+          </div>
 
-          {/* Solutions Section */}
-          {/* <div className={styles.footerSection}>
-            <h4 className={styles.sectionTitle}>Solutions</h4>
-            <ul className={styles.linkList}>
-              <li>
-                <Link
-                  href="/solutions/performance"
-                  className={styles.footerLink}
-                >
-                  Performance Optimization
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/solutions/management"
-                  className={styles.footerLink}
-                >
-                  Image Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/solutions/developers"
-                  className={styles.footerLink}
-                >
-                  Developer Tools
-                </Link>
-              </li>
-            </ul>
-          </div> */}
-
-          {/* Resources Section */}
-          {/* <div className={styles.footerSection}>
-            <h4 className={styles.sectionTitle}>Resources</h4>
-            <ul className={styles.linkList}>
-              <li>
-                <Link href="/pricing" className={styles.footerLink}>
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className={styles.footerLink}>
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/support" className={styles.footerLink}>
-                  Support
-                </Link>
-              </li>
-            </ul>
-          </div> */}
-
-          {/* Company Section */}
-          {/* <div className={styles.footerSection}>
-            <h4 className={styles.sectionTitle}>Company</h4>
-            <ul className={styles.linkList}>
-              <li>
-                <Link href="/about" className={styles.footerLink}>
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/careers" className={styles.footerLink}>
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className={styles.footerLink}>
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/partners" className={styles.footerLink}>
-                  Partners
-                </Link>
-              </li>
-              <li>
-                <Link href="/press" className={styles.footerLink}>
-                  Press
-                </Link>
-              </li>
-              <li>
-                <Link href="/security" className={styles.footerLink}>
-                  Security
-                </Link>
-              </li>
-            </ul>
-          </div> */}
+          {/* GitHub Repository Section */}
+          <div className={styles.footerSection}>
+            {/* <h4 className={styles.sectionTitle}>Open Source</h4> */}
+            <div className={styles.githubContainer}>
+              <Link
+                href="https://github.com/kirank55/imagic"
+                className={styles.githubLink}
+                aria-label="GitHub Repository"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="⭐ Star us on GitHub or checkout the repository"
+              >
+                <FontAwesomeIcon
+                  icon={faGithub}
+                  className={styles.githubIcon}
+                />
+                <div className={styles.githubText}>
+                  <span className={styles.githubTitle}>Star on GitHub</span>
+                  {/* <span className={styles.githubSubtitle}>
+                    View source code
+                  </span> */}
+                </div>
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Section */}
@@ -193,17 +93,6 @@ export default function Footer() {
                 </Link>
               </div> */}
             </div>
-
-            {/* <div className={styles.trustBadges}>
-              <div className={styles.trustBadge}>
-                <span className={styles.badgeIcon}>⚡</span>
-                <span>99.9% Uptime SLA</span>
-              </div>
-              <div className={styles.trustBadge}>
-                <span className={styles.badgeIcon}>🌐</span>
-                <span>Global CDN</span>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

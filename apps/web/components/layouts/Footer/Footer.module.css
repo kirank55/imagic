@@ -2,6 +2,8 @@
   /* background: rgb(215, 201, 201); */
   /* color: white; */
   padding: 4rem 0 2rem;
+background: radial-gradient(circle, rgba(235, 218, 232, 1) 0%, rgba(219, 99, 230, 1) 50%, rgba(214, 156, 214, 1) 100%, rgba(38, 0, 0, 1) 87%);
+
 }
 
 .container {
@@ -12,9 +14,9 @@
 
 .footerContent {
   display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
+  grid-template-columns: 2fr repeat(3, 1fr);
   gap: 3rem;
-  /* margin-bottom: 3rem; */
+  margin-bottom: 3rem;
 }
 
 .footerSection {
@@ -83,14 +85,23 @@
 }
 
 .footerLink {
-  color: #d1d5db;
   text-decoration: none;
   font-size: 0.9rem;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .footerLink:hover {
-  color: white;
+  color: #374151;
+  transform: translateX(4px);
+}
+
+.footerLink:not([href]) {
+  cursor: default;
+}
+
+.footerLink:not([href]):hover {
+  transform: none;
 }
 
 .footerBottom {
@@ -111,6 +122,56 @@
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
+}
+
+.githubContainer {
+  margin-top: 0.5rem;
+}
+
+.githubLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.githubLink:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.githubIcon {
+  font-size: 1.5rem;
+  color: #24292e;
+}
+
+.githubText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.githubTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #24292e;
+}
+
+.githubSubtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.rightContent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .copyright {
@@ -200,6 +261,17 @@
   }
 }
 
+@media (max-width: 768px) {
+  .footerContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .footerSection:first-child {
+    grid-column: span 2;
+  }
+}
+
 @media (max-width: 480px) {
   .container {
     padding: 0 1rem;
@@ -212,6 +284,12 @@
   
   .footerSection:first-child {
     grid-column: span 1;
+  }
+  
+  .githubLink {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
   }
   
   .socialLinks {

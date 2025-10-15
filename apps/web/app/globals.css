@@ -34,7 +34,6 @@ body {
   background-color: var(--background);
 
   
-background: radial-gradient(circle, rgba(235, 218, 232, 1) 0%, rgba(219, 99, 230, 1) 50%, rgba(214, 156, 214, 1) 100%, rgba(38, 0, 0, 1) 87%);
 }
 
 * {

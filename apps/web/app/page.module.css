@@ -2,7 +2,7 @@
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-  color: #333;
+  color: #000;
   overflow-x: hidden;
   margin: 3rem 0 0 0;
   /* background: rgb(215, 201, 201); */

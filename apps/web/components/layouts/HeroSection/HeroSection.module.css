@@ -3,8 +3,8 @@
   padding: clamp(4rem, 10vw, 8rem) 0 clamp(2rem, 5vw, 4rem);
   position: relative;
   padding: 8rem 0 4rem 0;
-  background: rgb(215, 201, 201);
-
+  /* background: rgb(215, 201, 201); */
+background: radial-gradient(circle, rgba(235, 218, 232, 1) 0%, rgba(219, 99, 230, 1) 50%, rgba(214, 156, 214, 1) 100%, rgba(38, 0, 0, 1) 87%);
 }
 
 .container {
@@ -70,7 +70,7 @@
   font-size: clamp(1rem, 3vw, 1.25rem);
   line-height: 1.6;
   margin-bottom: 2.5rem;
-  color: #666;
+  color: #000;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

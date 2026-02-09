@@ -40,12 +40,6 @@ export default function Navbar() {
                     >
                         Features
                     </Link>
-                    <Link
-                        href="/#pricing"
-                        className="text-sm font-medium text-gray-600 transition-colors hover:text-black"
-                    >
-                        Pricing
-                    </Link>
                     {session && (
                         <Link
                             href="/dashboard"

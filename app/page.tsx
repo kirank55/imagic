@@ -1,8 +1,6 @@
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CTASection from "@/components/CTASection";
-import Footer from "@/components/Footer";
 
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -16,14 +14,12 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      <main>
+    <div className=" bg-white">
+      <main className="min-h-screen">
         <HeroSection />
         <FeaturesSection />
         <CTASection />
       </main>
-      <Footer />
     </div>
   );
 }

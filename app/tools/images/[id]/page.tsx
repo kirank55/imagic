@@ -80,7 +80,7 @@ export default function ImageDetailPage({
         if (width) params.set("width", width);
         if (height) params.set("height", height);
 
-        return `/api/assets/${image.userId}/${image.id}?${params.toString()}`;
+        return `${window.location.origin}/api/assets/${image.userId}/${image.id}?${params.toString()}`;
     };
 
     // Fetch optimized size when settings change
@@ -181,7 +181,7 @@ export default function ImageDetailPage({
                             My Images
                         </Link>
                         <span>/</span>
-                        <span className="text-black truncate max-w-[200px]">{image.name}</span>
+                        <span className="text-black truncate max-w-50">{image.name}</span>
                     </nav>
                 </div>
             </header>
@@ -196,7 +196,7 @@ export default function ImageDetailPage({
                             <dl className="space-y-3 text-sm">
                                 <div className="flex justify-between">
                                     <dt className="text-gray-500">Name</dt>
-                                    <dd className="text-black font-medium truncate max-w-[180px]">{image.name}</dd>
+                                    <dd className="text-black font-medium truncate max-w-45">{image.name}</dd>
                                 </div>
                                 <div className="flex justify-between">
                                     <dt className="text-gray-500">Size</dt>

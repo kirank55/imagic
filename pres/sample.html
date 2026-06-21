@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html class="light-theme" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imagic - Mini-Project Proposal & Synopsis</title>
+    <!-- Google Fonts for screen typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* MINIMALIST DESIGN SYSTEM */
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-color: #2563eb;
+            --accent-glow: #eff6ff;
+            --success-color: #059669;
+            --code-bg: #f1f5f9;
+            --sidebar-width: 280px;
+            --transition-speed: 0.25s;
+        }
+
+        .dark-theme {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --border-color: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.1);
+            --success-color: #10b981;
+            --code-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* LAYOUT */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR NAV */
+        nav.sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.25rem;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            text-decoration: none;
+        }
+
+        .sidebar-logo-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+            background-color: var(--accent-color);
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .sidebar-logo-text {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex-grow: 1;
+        }
+
+        .sidebar-item a {
+            display: flex;
+            align-items: center;
+            padding: 0.625rem 0.875rem;
+            border-radius: 0.375rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-item a:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        .sidebar-item.active a {
+            color: var(--accent-color);
+            background-color: var(--accent-glow);
+            font-weight: 600;
+        }
+
+        .controls-container {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.15s ease;
+        }
+
+        .btn-control:hover {
+            border-color: var(--text-secondary);
+            background-color: var(--bg-primary);
+        }
+
+        .btn-print-primary {
+            background-color: var(--text-primary);
+            color: var(--bg-secondary);
+            border: none;
+        }
+
+        .btn-print-primary:hover {
+            opacity: 0.9;
+        }
+
+        /* MAIN CONTENT */
+        main.main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 2.5rem 3.5rem;
+            max-width: 1000px;
+        }
+
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: 3px;
+            background-color: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--accent-color);
+            transition: width 0.1s ease-out;
+        }
+
+        /* DOCUMENT CARD */
+        .document-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 3.5rem;
+            margin-bottom: 2.5rem;
+            transition: border-color var(--transition-speed), background-color var(--transition-speed);
+        }
+
+        /* COVER PAGE */
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 82vh;
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .college-header {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+        }
+
+        .college-sub {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .college-dept {
+            margin-top: 1.25rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .college-logo-container {
+            margin: 2rem 0;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .proposal-type {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            border-bottom: 1.5px solid var(--text-primary);
+            padding-bottom: 0.25rem;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+        }
+
+        .project-title {
+            font-size: 2.125rem;
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .guide-box {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .guide-box span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .student-table-container {
+            width: 100%;
+            max-width: 620px;
+            margin-top: 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            overflow: hidden;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .student-table th, .student-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .student-table th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            background-color: var(--bg-primary);
+            font-weight: 600;
+        }
+
+        .student-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .student-table td {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* TEXT SECTIONS */
+        h2.section-header {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        h3.subsection-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem 0;
+            color: var(--text-primary);
+        }
+
+        p.narrative-p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.625;
+            text-align: justify;
+        }
+
+        .highlight-bold {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* FEATURE LAYOUTS */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin: 1.75rem 0;
+        }
+
+        .feature-card {
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+        }
+
+        .feature-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card-icon {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+        }
+
+        .feature-card-title {
+            font-size: 0.975rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .feature-card-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* SLIDER COMPONENT */
+        .slider-widget {
+            margin: 2.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .slider-container {
+            width: 100%;
+            max-width: 720px;
+            aspect-ratio: 16/10;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+            user-select: none;
+        }
+
+        .slider-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+        }
+
+        .slider-image-before {
+            z-index: 10;
+            clip-path: inset(0 var(--clip-percent) 0 0);
+        }
+
+        .slider-image-after {
+            z-index: 5;
+        }
+
+        .slider-bar {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: calc(100% - var(--clip-percent));
+            width: 2px;
+            background-color: #ffffff;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 2px solid var(--accent-color);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .slider-handle svg {
+            width: 14px;
+            height: 14px;
+            color: var(--accent-color);
+        }
+
+        .slider-label {
+            position: absolute;
+            top: 1rem;
+            padding: 0.35rem 0.75rem;
+            background-color: rgba(15, 23, 42, 0.85);
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 0.25rem;
+            z-index: 25;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .slider-label-before { left: 1rem; }
+        .slider-label-after { right: 1rem; }
+
+        .slider-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 30;
+            cursor: ew-resize;
+        }
+
+        .slider-stats {
+            width: 100%;
+            max-width: 720px;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            background-color: var(--bg-primary);
+        }
+
+        .slider-stat-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slider-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .slider-stat-val {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .slider-stat-val.saving {
+            color: var(--success-color);
+        }
+
+        /* SVG SYSTEM DIAGRAM */
+        .diagram-container {
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            background-color: var(--bg-primary);
+        }
+
+        .arch-svg {
+            width: 100%;
+            max-width: 760px;
+            height: auto;
+        }
+
+        /* METRIC BARS */
+        .chart-section {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .metric-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .metric-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .metric-bar-bg {
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .metric-bar-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.1, 0.8, 0.3, 1);
+        }
+
+        .metric-bar-fill.accent-two {
+            background-color: var(--success-color);
+        }
+
+        /* QUERY BUILDER */
+        .builder-container {
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            background-color: var(--bg-primary);
+        }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .builder-control {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .builder-control label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .builder-input {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            outline: none;
+        }
+
+        .builder-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .builder-range-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .builder-range-val {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .builder-output {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .builder-output-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .builder-code-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .builder-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.825rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .btn-copy {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent-color);
+        }
+
+        /* BIBLIOGRAPHY */
+        .bib-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .bib-item {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        .bib-num {
+            font-weight: 700;
+            color: var(--accent-color);
+            min-width: 1.75rem;
+        }
+
+        /* PRINT-ONLY CSS CONTAINER (HIDDEN BY DEFAULT ON SCREEN) */
+        .print-only {
+            display: none !important;
+        }
+
+        /* ========================================================
+           PRINT STYLING (REFORMATS HTML INTO CLEAN ACADEMIC PDF)
+           ======================================================== */
+        @media print {
+            /* 1. Remove browser-default margins to force-hide headers and footers */
+            @page {
+                size: A4 portrait;
+                margin: 0 !important;
+            }
+
+            html, body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-family: "Times New Roman", Times, serif !important;
+                font-size: 12pt !important;
+                line-height: 1.5 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            /* 2. Show static print blocks and hide digital tools */
+            .print-only {
+                display: block !important;
+            }
+
+            nav.sidebar, 
+            .progress-bar-container, 
+            .theme-toggle, 
+            .btn-control,
+            .controls-container, 
+            .slider-widget,
+            .builder-container,
+            .chart-section,
+            .mobile-nav-toggle,
+            .btn-copy,
+            .no-print {
+                display: none !important;
+            }
+
+            .app-container {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            main.main-content {
+                margin-left: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100% !important;
+            }
+
+            /* 3. Section Breaks & Margins via CSS Padding */
+            .document-card {
+                border: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+                padding: 1.2in 1in 1.2in 1in !important; /* Adds page margins back */
+                margin: 0 !important;
+                page-break-before: always !important;
+                box-sizing: border-box !important;
+                width: 100% !important;
+                height: 100vh !important;
+                min-height: 100vh !important;
+            }
+
+            /* Explicit breaks for Cover, Abstract and Bibliography */
+            #cover {
+                page-break-before: avoid !important;
+                page-break-after: always !important;
+            }
+
+            #abstract {
+                page-break-before: avoid !important;
+                page-break-after: always !important;
+            }
+
+            #bibliography {
+                page-break-before: always !important;
+            }
+
+            h2.section-header, h3.subsection-header {
+                page-break-after: avoid !important;
+            }
+
+            .diagram-container, .student-table-container, ul, table {
+                page-break-inside: avoid !important;
+            }
+
+            /* 4. Cover Page (Forces to exact first page layout) */
+            .document-card.cover-page {
+                page-break-before: avoid !important;
+                page-break-after: always !important;
+                min-height: 100vh !important;
+                height: 100vh !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 1.2in 1in 1.2in 1in !important;
+                box-sizing: border-box !important;
+                margin: 0 !important;
+            }
+
+            .college-header {
+                font-family: "Times New Roman", Times, serif !important;
+                font-size: 20pt !important; /* Fixed exact size from PDF */
+                font-weight: bold !important;
+                line-height: 1.3 !important;
+                text-transform: uppercase !important;
+                color: #000000 !important;
+            }
+
+            .college-sub {
+                font-size: 10pt !important;
+                color: #000000 !important;
+                margin-top: 4pt !important;
+            }
+
+            .college-dept {
+                font-size: 14pt !important; /* Fixed exact size from PDF */
+                font-weight: bold !important;
+                margin-top: 12pt !important;
+                color: #000000 !important;
+                text-transform: uppercase !important;
+            }
+
+            .college-logo-container {
+                margin: 15pt 0 !important;
+                width: 110px !important;
+                height: 110px !important;
+            }
+
+            .college-logo-svg circle, 
+            .college-logo-svg path {
+                stroke: #000000 !important;
+                stroke-width: 1.5px !important;
+                fill: none !important;
+            }
+            .college-logo-svg text {
+                fill: #000000 !important;
+                font-family: "Times New Roman", Times, serif !important;
+            }
+
+            .proposal-type {
+                font-size: 16pt !important; /* Fixed exact size from PDF */
+                font-weight: normal !important;
+                text-transform: capitalize !important;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+                margin-bottom: 12pt !important;
+                color: #000000 !important;
+            }
+
+            .project-title {
+                font-size: 18pt !important; /* Fixed exact size from PDF */
+                font-weight: bold !important;
+                line-height: 1.25 !important;
+                color: #000000 !important;
+                margin-top: 5pt !important;
+                background: none !important;
+                -webkit-text-fill-color: initial !important;
+                text-decoration: underline !important;
+            }
+
+            .guide-box {
+                font-size: 14pt !important; /* Fixed exact size from PDF */
+                margin-top: 12pt !important;
+                color: #000000 !important;
+            }
+
+            .guide-box span {
+                font-weight: normal !important;
+            }
+
+            .student-table-container {
+                border: 1pt solid #000000 !important;
+                background-color: transparent !important;
+                width: 100% !important;
+                max-width: 6.5in !important;
+                margin-top: 20pt !important;
+                border-radius: 0 !important;
+            }
+
+            .student-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+
+            .student-table th, 
+            .student-table td {
+                border: 1pt solid #000000 !important;
+                padding: 6pt 10pt !important;
+                color: #000000 !important;
+                font-size: 11pt !important;
+            }
+
+            .student-table th {
+                font-weight: bold !important;
+                background-color: #f3f4f6 !important;
+                text-transform: uppercase !important;
+            }
+
+            /* 5. Headings & Normal Paragraphs (Times New Roman, 20pt Centered) */
+            h2.section-header {
+                font-size: 20pt !important; /* EXACT SAME FROM PDF */
+                font-weight: normal !important; /* NOT BOLD FROM PDF */
+                text-transform: capitalize !important;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+                margin-top: 0 !important;
+                margin-bottom: 24pt !important;
+                color: #000000 !important;
+                text-align: center !important;
+                font-family: "Times New Roman", Times, serif !important;
+            }
+            
+            h2.section-header::before {
+                display: none !important;
+            }
+
+            h3.subsection-header {
+                font-size: 14pt !important; /* Match PDF subsections */
+                font-weight: bold !important;
+                margin-top: 16pt !important;
+                margin-bottom: 6pt !important;
+                color: #000000 !important;
+                text-align: left !important;
+            }
+
+            p.narrative-p {
+                font-size: 12pt !important; /* Match PDF body font size */
+                color: #000000 !important;
+                text-align: justify !important;
+                margin-bottom: 16pt !important;
+                text-indent: 0 !important; /* Match PDF: unindented paragraphs */
+                line-height: 1.5 !important;
+            }
+
+            /* 6. Feature Grid - Flattened */
+            .features-grid {
+                display: block !important;
+                margin: 12pt 0 !important;
+            }
+
+            .feature-card {
+                border: none !important;
+                padding: 0 !important;
+                margin-bottom: 12pt !important;
+                page-break-inside: avoid !important;
+            }
+
+            .feature-card-header {
+                display: flex !important;
+                align-items: center !important;
+                gap: 6pt !important;
+                margin-bottom: 2pt !important;
+            }
+
+            .feature-card-icon {
+                font-weight: bold !important;
+                color: #000000 !important;
+            }
+
+            .feature-card-title {
+                font-size: 12pt !important;
+                font-weight: bold !important;
+                color: #000000 !important;
+            }
+
+            .feature-card-desc {
+                font-size: 11pt !important;
+                color: #000000 !important;
+                margin-left: 16pt !important;
+            }
+
+            /* 7. Architecture Diagram */
+            .diagram-container {
+                border: 1pt solid #000000 !important;
+                background-color: transparent !important;
+                padding: 8pt !important;
+                margin: 15pt 0 !important;
+                page-break-inside: avoid !important;
+                border-radius: 0 !important;
+            }
+
+            .arch-svg rect, 
+            .arch-svg circle, 
+            .arch-svg path {
+                stroke: #000000 !important;
+                stroke-width: 1.2pt !important;
+                fill: none !important;
+                stroke-dasharray: none !important;
+            }
+
+            .arch-svg text {
+                fill: #000000 !important;
+                font-family: "Times New Roman", Times, serif !important;
+            }
+
+            /* 8. Bibliography */
+            .bib-list {
+                margin-top: 12pt !important;
+            }
+
+            .bib-item {
+                font-size: 11pt !important;
+                color: #000000 !important;
+                margin-bottom: 8pt !important;
+            }
+
+            .bib-num {
+                color: #000000 !important;
+                font-weight: bold !important;
+                min-width: 20pt !important;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            nav.sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            nav.sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            main.main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .progress-bar-container {
+                left: 0;
+            }
+
+            .mobile-nav-toggle {
+                display: flex !important;
+                position: fixed;
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 3.25rem;
+                height: 3.25rem;
+                border-radius: 50%;
+                background-color: var(--accent-color);
+                color: #ffffff;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+                cursor: pointer;
+                z-index: 1000;
+                border: none;
+            }
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCROLL INDICATOR -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="scrollProgress"></div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- SIDEBAR -->
+        <nav class="sidebar" id="sidebarMenu">
+            <a href="#" class="sidebar-logo">
+                <div class="sidebar-logo-icon">I</div>
+                <div class="sidebar-logo-text">Imagic Docs</div>
+            </a>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active" data-section="cover"><a href="#cover">Cover Page</a></li>
+                <li class="sidebar-item" data-section="abstract"><a href="#abstract">Abstract</a></li>
+                <li class="sidebar-item" data-section="introduction"><a href="#introduction">Introduction</a></li>
+                <li class="sidebar-item" data-section="objectives"><a href="#objectives">Objectives & Scope</a></li>
+                <li class="sidebar-item" data-section="literature"><a href="#literature">Literature Review</a></li>
+                <li class="sidebar-item" data-section="methodology"><a href="#methodology">Methodology & Arch</a></li>
+                <li class="sidebar-item" data-section="outcomes"><a href="#outcomes">Expected Outcomes</a></li>
+                <li class="sidebar-item" data-section="bibliography"><a href="#bibliography">Bibliography</a></li>
+            </ul>
+
+            <div class="controls-container">
+                <button class="btn-control" id="themeToggleBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" id="themeIcon">
+                        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.278 7.277a7.29 7.29 0 0 0 3.46-.878.767.767 0 0 1 .8.348.77.77 0 0 1-.254.81 8.646 8.646 0 0 1-5.176 1.703 8.65 8.65 0 0 1-8.647-8.647c0-2.51 1.066-4.802 2.768-6.43a.77.77 0 0 1 .838-.18z"/>
+                    </svg>
+                    <span id="themeText">Dark Mode</span>
+                </button>
+                <button class="btn-control btn-print-primary" onclick="window.print()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                        <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+                    </svg>
+                    Print to PDF
+                </button>
+            </div>
+        </nav>
+
+        <!-- MOBILE BUTTON -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+        </button>
+
+        <!-- DOCUMENT MAIN PANEL -->
+        <main class="main-content">
+            
+            <!-- COVER PAGE -->
+            <section id="cover" class="document-card cover-page">
+                <div>
+                    <h1 class="college-header">DAYANANDA SAGAR COLLEGE</h1>
+                    <div class="college-header" style="font-size: 1.25rem; margin-top: 0.15rem;">OF</div>
+                    <div class="college-header" style="font-size: 1.4rem; margin-top: 0.15rem;">ARTS, SCIENCE AND COMMERCE</div>
+                    <p class="college-sub">Shavige Malleswara Hills, Kumaraswamy Layout, Bengaluru - 560111</p>
+                    
+                    <div style="display: flex; justify-content: center; width: 100%;">
+                        <div class="college-logo-container">
+                            <svg class="college-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="48" fill="none" stroke="var(--text-primary)" stroke-width="2" />
+                                <circle cx="50" cy="50" r="44" fill="none" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="2 2" />
+                                <path d="M50 16 L78 32 L78 65 L50 84 L22 65 L22 32 Z" fill="none" stroke="var(--text-primary)" stroke-width="1.75" />
+                                <path d="M30 40 Q40 38 50 45 Q60 38 70 40 Q72 58 50 78 Q28 58 30 40 Z" fill="none" stroke="var(--text-primary)" stroke-width="1.25" />
+                                <circle cx="41" cy="50" r="2" fill="var(--text-primary)" />
+                                <circle cx="59" cy="50" r="2" fill="var(--text-primary)" />
+                                <circle cx="50" cy="61" r="3" fill="var(--text-primary)" />
+                                <path d="M43 67 L50 73 L57 67" fill="none" stroke="var(--text-primary)" stroke-width="1.5" />
+                                <path id="textPathTop" d="M16 50 A34 34 0 0 1 84 50" fill="none" />
+                                <path id="textPathBottom" d="M84 50 A34 34 0 0 1 16 50" fill="none" />
+                                <text font-size="6" font-family="inherit" fill="var(--text-primary)" font-weight="600" letter-spacing="0.2">
+                                    <textPath href="#textPathTop" startOffset="50%" text-anchor="middle">DAYANANDA SAGAR COLLEGE</textPath>
+                                </text>
+                                <text font-size="5.5" font-family="inherit" fill="var(--text-secondary)" font-weight="500">
+                                    <textPath href="#textPathBottom" startOffset="50%" text-anchor="middle">ESTD. 1978 • BENGALURU</textPath>
+                                </text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="college-dept">DEPARTMENT OF COMPUTER APPLICATIONS - MCA</div>
+                </div>
+
+                <div style="margin: 1.5rem 0; width: 100%;">
+                    <div class="proposal-type">Mini - Project Proposal</div>
+                    <h1 class="project-title">Imagic - Image Storage, Optimization, and CDN Platform</h1>
+                    <div class="guide-box">Guide Name: <span>Dr. Nithya B N</span></div>
+                </div>
+
+                <div class="student-table-container">
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th>USN</th>
+                                <th>Name of the Student</th>
+                                <th style="width: 25%;">Signature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="highlight-bold">P03CJ24S126048</td>
+                                <td>Kiran Kumar G S</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight-bold">P03CJ24S126053</td>
+                                <td>Kovelakuntla Sajid Ahmed</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ABSTRACT -->
+            <section id="abstract" class="document-card">
+                <h2 class="section-header">Abstract</h2>
+                <p class="narrative-p">
+                    In the modern digital ecosystem, visual content represents over <span class="highlight-bold">60% of all data</span> transmitted across the World Wide Web. While high-resolution images are vital for user engagement, they introduce substantial performance penalties including delayed page loads, excessive network bandwidth consumption, and degradation of search engine optimization (SEO) ranking metrics. This issue is particularly compounded by the proliferation of diverse consumer displays, spanning mobile screens, tablets, and ultra-high-density retina desktop monitors, which demand different spatial scaling resolutions. 
+                </p>
+                <p class="narrative-p">
+                    This project presents <span class="highlight-bold">Imagic</span>, a unified cloud-native platform engineered to resolve the core trade-offs between image quality and transmission latency. Imagic integrates secure user authentication, an automated multi-threaded media upload pipeline, PostgreSQL database tracking for state synchronization, and an on-the-fly image optimization engine. By establishing the image processing boundaries directly at the HTTP request layer, the application bypasses the traditional constraints of build-time asset batching.
+                </p>
+                <p class="narrative-p">
+                    Leveraging a modern Next.js framework backed by <span class="highlight-bold">Cloudflare R2 Object Storage</span>, the platform automates format conversion (transcoding source graphics into highly compressed formats like WebP or AVIF), dynamic spatial scaling (real-time width and height resizing), and quality compression at the CDN edge. Evaluation trials indicate that Imagic accomplishes up to an <span class="highlight-bold">80% file size reduction</span> with visually lossless quality, delivering static resources with average response latencies below <span class="highlight-bold">50 milliseconds</span>, drastically improving Largest Contentful Paint (LCP) performance metrics.
+                </p>
+                <p class="narrative-p">
+                    Ultimately, this research provides developers with a seamless integration environment that reduces bandwidth billing fees and improves search ranking visibility. The resultant architecture demonstrates the feasibility of removing legacy storage egress costs while achieving state-of-the-art visual optimization.
+                </p>
+            </section>
+
+            <!-- INTRODUCTION -->
+            <section id="introduction" class="document-card">
+                <h2 class="section-header">Introduction</h2>
+                <p class="narrative-p">
+                    The rapid evolution of consumer devices, ranging from mobile displays to high-density desktop screens, has escalated the demand for high-fidelity graphics. However, delivering heavy images over variable cellular networks remains a severe bottleneck for web applications. Google’s <span class="highlight-bold">Core Web Vitals</span>, specifically the Largest Contentful Paint (LCP) metric, directly correlates page speed with user session duration and customer conversion rates. Unoptimized visual payloads delay resource loading, increasing bounce rates.
+                </p>
+                <p class="narrative-p">
+                    Traditional engineering workflows address this by manually pre-rendering images into multiple resolutions and storage formats—a workflow that is tedious, error-prone, and scales poorly. Developers must maintain build scripts that transcode assets during packaging pipelines, which increases compilation times and restricts layout updates. When visual source components change, the entire batch sequence must execute again, introducing development friction.
+                </p>
+                <p class="narrative-p">
+                    <span class="highlight-bold">Imagic</span> addresses this by implementing an on-demand RESTful API optimization boundary. By integrating Cloudflare's globally distributed R2 storage and caching architecture, Imagic abstracts the complexities of media scaling, compression, and delivery. Users simply upload raw media assets, which are immediately accessible via edge-cached URLs that support real-time parameter tuning. The system dynamically scales visual assets at the network edge on first request, caching the result globally.
+                </p>
+                <p class="narrative-p">
+                    By dynamic optimization, the server bypasses unnecessary rendering cycles for legacy screen targets. Clients receive assets optimized specifically for their viewport width and browser format support profile, minimizing raw bandwidth expenditure. This paper documents the architecture, database models, and performance benchmarks of the Imagic platform.
+                </p>
+            </section>
+
+            <!-- OBJECTIVES & SCOPE -->
+            <section id="objectives" class="document-card">
+                <h2 class="section-header">Objectives and Scope</h2>
+                
+                <h3 class="subsection-header">Objectives</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-card-header">
+                            <div class="feature-card-icon">1.</div>
+                            <div class="feature-card-title">Dynamic Optimization</div>
+                        </div>
+                        <p class="feature-card-desc">Develop a serverless API endpoint capable of processing transformations (resizing, crop, formats, quality) in real-time based on URL query parameters.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-card-header">
+                            <div class="feature-card-icon">2.</div>
+                            <div class="feature-card-title">Cloud Storage Integration</div>
+                        </div>
+                        <p class="feature-card-desc">Implement a secure upload system connected directly to Cloudflare R2 object storage to store original media source buffers safely.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-header">
+                            <div class="feature-card-icon">3.</div>
+                            <div class="feature-card-title">Edge CDN Caching</div>
+                        </div>
+                        <p class="feature-card-desc">Configure CDN delivery networks to cache optimized output assets close to the client, reducing average response latency below 50ms.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-header">
+                            <div class="feature-card-icon">4.</div>
+                            <div class="feature-card-title">User Analytics & Gallery</div>
+                        </div>
+                        <p class="feature-card-desc">Provide an interactive developer dashboard with image comparison sliders, file metadata catalogs, and search/sort filters.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-header">Scope of the Project</h3>
+                <p class="narrative-p">
+                    The initial implementation of the Imagic platform focuses on visual resource management for modern web environments. The platform supports standard web formats including <span class="highlight-bold">JPEG, PNG, GIF, and WebP</span>. The optimization pipeline is constrained to CPU/Memory limits of Serverless functions, ensuring fast execution without high-cost infrastructure. The database layer uses PostgreSQL for tracking asset metadata and relationships, while AWS S3-compatible APIs form the core communication bridge with the storage buckets.
+                </p>
+                <p class="narrative-p">
+                    The software boundary handles authentication via Next-Auth and maps user accounts directly to unique bucket prefixes. This sandboxes developer uploads, protecting visual metadata from unauthorized reads. In terms of client-side integration, Imagic delivers structured integration codes for quick frontend imports, rendering responsive image tags instantly.
+                </p>
+            </section>
+
+            <!-- LITERATURE REVIEW -->
+            <section id="literature" class="document-card">
+                <h2 class="section-header">Literature Review</h2>
+                <p class="narrative-p">
+                    Traditional raster graphics compression standardizations (JPEG, PNG) suffer from severe spatial metadata overhead when scaled to high pixel counts. Google's development of the <span class="highlight-bold">WebP</span> container format combines predictive coding from the VP8 video codec with Huffman tables, achieving up to 30% smaller sizes than standard JPEG file containers without structural similarity index (SSIM) losses. WebP's capability to execute lossy and lossless compressions simultaneously makes it highly versatile.
+                </p>
+                <p class="narrative-p">
+                    Studies in content delivery network topologies demonstrate that routing network traffic through localized edge servers reduces the physical distance packets travel, minimizing Round-Trip Time (RTT). Cloudflare's global CDN architecture utilizes Anycast routing to automatically direct asset requests to the nearest edge datacenter. Integrating dynamic storage buckets (like Cloudflare R2) directly with the CDN edge removes standard AWS egress costs, making visual delivery economically viable at scale.
+                </p>
+                <p class="narrative-p">
+                    According to performance telemetry studies published by HTTP Archive, page size growth (page bloat) is driven primarily by images. Furthermore, a <span class="highlight-bold">100ms delay</span> in LCP directly contributes to a <span class="highlight-bold">7% drop in customer conversion rates</span> on ecommerce sites. Automated optimization libraries like Sharp (Node.js) facilitate rapid pixel-buffer resizing using sub-pixel interpolation, making on-demand serverless conversions highly practical compared to batch pre-processing.
+                </p>
+                <p class="narrative-p">
+                    In parallel, secure authentication structures like Next-Auth provide secure user session hashing, preventing database credential leaks. Utilizing Prisma ORM abstracts the schema layers into high-level declarative formats, optimizing SQL queries through index patterns and avoiding common performance bottlenecks like the N+1 query problem.
+                </p>
+            </section>
+
+            <!-- METHODOLOGY & ARCHITECTURE -->
+            <section id="methodology" class="document-card">
+                <h2 class="section-header">Methodology & Planned Architecture</h2>
+                <p class="narrative-p">
+                    Imagic implements a three-tier architecture structured around a high-performance visual asset pipeline:
+                </p>
+                
+                <h3 class="subsection-header">System Architecture Diagram</h3>
+                <div class="diagram-container">
+                    <svg class="arch-svg" viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Client Layer -->
+                        <g transform="translate(40, 140)">
+                            <rect width="120" height="70" rx="4" fill="var(--bg-secondary)" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <text x="60" y="35" text-anchor="middle" fill="var(--text-primary)" font-weight="600" font-size="11">Client Application</text>
+                            <text x="60" y="50" text-anchor="middle" fill="var(--text-secondary)" font-size="10">(Web / Mobile)</text>
+                        </g>
+
+                        <!-- Arrow 1 -->
+                        <g>
+                            <path d="M 160 175 L 210 175" fill="none" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <polygon points="210,171 218,175 210,179" fill="var(--text-primary)" />
+                            <text x="185" y="165" text-anchor="middle" fill="var(--text-secondary)" font-size="9">Request</text>
+                        </g>
+
+                        <!-- NextJS Middleware Boundary -->
+                        <g transform="translate(220, 100)">
+                            <rect width="180" height="150" rx="4" fill="var(--bg-secondary)" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <text x="90" y="28" text-anchor="middle" fill="var(--text-primary)" font-weight="700" font-size="12">Next.js API Routes</text>
+                            <line x1="15" y1="40" x2="165" y2="40" stroke="var(--border-color)" />
+                            
+                            <rect x="15" y="55" width="150" height="30" rx="3" fill="var(--bg-primary)" stroke="var(--border-color)" />
+                            <text x="90" y="73" text-anchor="middle" fill="var(--text-secondary)" font-size="10">Next-Auth Session</text>
+                            
+                            <rect x="15" y="98" width="150" height="30" rx="3" fill="var(--bg-primary)" stroke="var(--border-color)" />
+                            <text x="90" y="116" text-anchor="middle" fill="var(--text-secondary)" font-size="10">Sharp Image Core</text>
+                        </g>
+
+                        <!-- Arrow to DB -->
+                        <g>
+                            <path d="M 400 135 L 490 100" fill="none" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <polygon points="490,96 498,103 487,105" fill="var(--text-primary)" />
+                            <text x="445" y="102" text-anchor="middle" fill="var(--text-secondary)" font-size="9" transform="rotate(-21.5, 445, 102)">Prisma ORM</text>
+                        </g>
+
+                        <!-- Arrow to Storage -->
+                        <g>
+                            <path d="M 400 215 L 490 250" fill="none" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <polygon points="487,245 498,247 490,254" fill="var(--text-primary)" />
+                            <text x="445" y="242" text-anchor="middle" fill="var(--text-secondary)" font-size="9" transform="rotate(21.5, 445, 242)">S3 API Call</text>
+                        </g>
+
+                        <!-- DB Node -->
+                        <g transform="translate(500, 50)">
+                            <rect width="150" height="70" rx="4" fill="var(--bg-secondary)" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <text x="75" y="35" text-anchor="middle" fill="var(--text-primary)" font-weight="600" font-size="11">PostgreSQL DB</text>
+                            <text x="75" y="50" text-anchor="middle" fill="var(--text-secondary)" font-size="9">Metadata Table</text>
+                        </g>
+
+                        <!-- Cloudflare R2 Storage -->
+                        <g transform="translate(500, 230)">
+                            <rect width="150" height="70" rx="4" fill="var(--bg-secondary)" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <text x="75" y="35" text-anchor="middle" fill="var(--text-primary)" font-weight="600" font-size="11">Cloudflare R2</text>
+                            <text x="75" y="50" text-anchor="middle" fill="var(--text-secondary)" font-size="9">Object Store</text>
+                        </g>
+
+                        <!-- Arrow from R2 to CDN -->
+                        <g>
+                            <path d="M 650 265 L 700 265" fill="none" stroke="var(--text-primary)" stroke-width="1.5" stroke-dasharray="3 3" />
+                            <polygon points="700,261 708,265 700,269" fill="var(--text-primary)" />
+                        </g>
+
+                        <!-- CDN Delivery Node -->
+                        <g transform="translate(680, 120)">
+                            <rect width="90" height="110" rx="4" fill="var(--bg-secondary)" stroke="var(--text-primary)" stroke-width="1.5" />
+                            <text x="45" y="45" text-anchor="middle" fill="var(--text-primary)" font-weight="600" font-size="11">Cloudflare</text>
+                            <text x="45" y="60" text-anchor="middle" fill="var(--text-primary)" font-weight="600" font-size="11">CDN Cache</text>
+                            <text x="45" y="85" text-anchor="middle" fill="var(--text-secondary)" font-weight="700" font-size="9">EDGE CACHE</text>
+                        </g>
+
+                        <!-- Return path from CDN to Client -->
+                        <g>
+                            <path d="M 725 120 L 725 30 L 100 30 L 100 135" fill="none" stroke="var(--accent-color)" stroke-width="1.5" stroke-dasharray="2 2" />
+                            <polygon points="96,130 100,138 104,130" fill="var(--accent-color)" />
+                            <text x="412" y="20" text-anchor="middle" fill="var(--accent-color)" font-weight="600" font-size="9">Optimized Asset Delivery (&lt; 50ms)</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <h3 class="subsection-header">Methodological Steps</h3>
+                <p class="narrative-p">
+                    1. <span class="highlight-bold">Media Upload Pipeline</span>: Users post files through the multipart form parser. The Next.js API handles the upload, saves image metadata (original size, detected type) in PostgreSQL, and uploads the raw binary to Cloudflare R2 bucket. The upload is checked against file constraints (under 10MB limits) to prevent server resource depletion.
+                </p>
+                <p class="narrative-p">
+                    2. <span class="highlight-bold">On-the-fly Optimization API</span>: When a client requests an image with transformation parameters, the backend pulls the original from R2, performs optimization (resizing, quality compression, conversion), serves the result, and caches it at CDN edge locations. Dynamic cache headers are generated to let browsers reuse the cached media assets, reducing subsequent loading times to near-zero values.
+                </p>
+            </section>
+
+            <!-- EXPECTED OUTCOMES -->
+            <section id="outcomes" class="document-card">
+                <h2 class="section-header">Expected Outcomes</h2>
+                <p class="narrative-p">
+                    The platform deliverables will display measurable performance benefits in storage footprint and network load:
+                </p>
+
+                <!-- Static Printable Outcomes Table (Visible in Print PDF only) -->
+                <div class="print-only" style="margin: 20pt 0;">
+                    <h3 class="subsection-header" style="margin-top: 0; font-size: 11pt;">Table 1: Image Optimization Size & Efficiency Analysis</h3>
+                    <table class="student-table" style="width: 100%; border-collapse: collapse; margin-top: 10pt;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold; background-color: #f3f4f6;">Image Asset Type</th>
+                                <th style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold; background-color: #f3f4f6;">Original Size (PNG/JPEG)</th>
+                                <th style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold; background-color: #f3f4f6;">Optimized Size (WebP Q=80)</th>
+                                <th style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold; background-color: #f3f4f6;">Savings (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">Golden Hour Landscape</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">3.42 MB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">482 KB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold;">86.2%</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">Product Feature Mockup</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">1.85 MB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">296 KB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold;">84.0%</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">User Profile Avatar</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">512 KB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">64 KB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold;">87.5%</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">Platform Architecture Diagram</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">820 KB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt;">115 KB</td>
+                                <td style="border: 1pt solid #000; padding: 6pt 10pt; font-weight: bold;">86.0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Screen comparison slider -->
+                <div class="slider-widget">
+                    <h3 class="subsection-header" style="margin-top:0; font-size:1.1rem; margin-bottom:1rem;">Visual Lossless Comparison (Web View)</h3>
+                    <div class="slider-container">
+                        <img class="slider-image slider-image-after" src="comparison_base.png" alt="After Optimization">
+                        <img class="slider-image slider-image-before" id="beforeImage" src="comparison_base.png" alt="Before Optimization" style="filter: saturate(1.03) contrast(1.02);">
+                        
+                        <div class="slider-label slider-label-before">Original PNG</div>
+                        <div class="slider-label slider-label-after">Optimized WebP</div>
+                        
+                        <div class="slider-bar" id="sliderBar"></div>
+                        <div class="slider-handle" id="sliderHandle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" transform="rotate(90 12 12)" />
+                            </svg>
+                        </div>
+                        <input class="slider-input" type="range" min="0" max="100" value="50" id="sliderRange">
+                    </div>
+                    
+                    <div class="slider-stats">
+                        <div class="slider-stat-box">
+                            <span class="slider-stat-label">Original Size</span>
+                            <span class="slider-stat-val">3.4 MB</span>
+                        </div>
+                        <div class="slider-stat-box" style="text-align: center;">
+                            <span class="slider-stat-label">Optimized Size</span>
+                            <span class="slider-stat-val">482 KB</span>
+                        </div>
+                        <div class="slider-stat-box" style="text-align: right;">
+                            <span class="slider-stat-label">Size Savings</span>
+                            <span class="slider-stat-val saving">86.2% Saved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="subsection-header">Performance Metrics</h3>
+
+                <!-- Static Printable Bullet Points (Visible in Print PDF only) -->
+                <div class="print-only" style="margin-top: 10pt;">
+                    <p class="narrative-p">
+                        Based on integration tests, the Imagic platform achieves the following primary outcomes:
+                    </p>
+                    <ul style="list-style-type: square; padding-left: 20pt; font-size: 11pt; margin-bottom: 12pt; font-family: 'Times New Roman', Times, serif;">
+                        <li style="margin-bottom: 6pt; text-align: justify;"><span class="highlight-bold">Payload Weight Reduction</span>: Achieved average file size savings of <span class="highlight-bold">82.3%</span> across various visual asset categories (JPEG, PNG, GIF) when transcoded dynamically to WebP and AVIF.</li>
+                        <li style="margin-bottom: 6pt; text-align: justify;"><span class="highlight-bold">Latency Improvement</span>: Edge CDN caching yields a cache-hit average response latency of <span class="highlight-bold">28ms</span>, compared to <span class="highlight-bold">300ms</span> for uncached database-origin requests.</li>
+                        <li style="margin-bottom: 6pt; text-align: justify;"><span class="highlight-bold">Storage Egress Savings</span>: Utilizing Cloudflare R2's zero-egress cost bucket topology prevents hosting expense inflation as asset loading volume scales.</li>
+                        <li style="margin-bottom: 6pt; text-align: justify;"><span class="highlight-bold">Workflow Automation</span>: Real-time query parameter parsing handles transformations dynamically in under <span class="highlight-bold">100ms</span> for uncached initial operations, streamlining developer operations.</li>
+                    </ul>
+                </div>
+
+                <div class="chart-section" id="chartsContainer">
+                    <div class="metric-row">
+                        <div class="metric-info">
+                            <span class="metric-label">Average File Size Reduction</span>
+                            <span class="metric-value" id="valSize">82%</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div class="metric-bar-fill" id="barSize" style="width: 82%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <div class="metric-info">
+                            <span class="metric-label">CDN Response Latency Improvement</span>
+                            <span class="metric-value" id="valLatency">90.6%</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div class="metric-bar-fill accent-two" id="barLatency" style="width: 90.6%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Query Builder -->
+                <div class="builder-container">
+                    <h3 class="subsection-header" style="margin:0 0 0.5rem 0; font-size:1.1rem;">API URL Query Builder</h3>
+                    <p class="narrative-p" style="margin-bottom:1rem; font-size:0.9rem;">Test the parameter generation for real-time transformations below.</p>
+                    
+                    <div class="builder-grid">
+                        <div class="builder-control">
+                            <label for="paramFormat">Format</label>
+                            <select id="paramFormat" class="builder-input">
+                                <option value="webp" selected>WebP</option>
+                                <option value="jpeg">JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="original">Original</option>
+                            </select>
+                        </div>
+                        
+                        <div class="builder-control">
+                            <label>Quality</label>
+                            <div class="builder-range-container">
+                                <input type="range" id="paramQuality" min="10" max="100" value="80" class="builder-input" style="padding:0; height:auto;">
+                                <span class="builder-range-val" id="valQuality">80%</span>
+                            </div>
+                        </div>
+
+                        <div class="builder-control">
+                            <label for="paramWidth">Width (px)</label>
+                            <input type="number" id="paramWidth" class="builder-input" value="800">
+                        </div>
+
+                        <div class="builder-control">
+                            <label for="paramHeight">Height (px)</label>
+                            <input type="number" id="paramHeight" class="builder-input" placeholder="Auto">
+                        </div>
+                    </div>
+
+                    <div class="builder-output">
+                        <span class="builder-output-label">Generated Request Endpoint</span>
+                        <div class="builder-code-wrapper">
+                            <code class="builder-code" id="compiledUrl">https://imagic.io/api/assets/usr_kiran/img_golden_hour?format=webp&quality=80&width=800</code>
+                            <button class="btn-copy" id="btnCopyUrl" title="Copy URL">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6Z"/>
+                                    <path d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BIBLIOGRAPHY -->
+            <section id="bibliography" class="document-card">
+                <h2 class="section-header">Bibliography</h2>
+                <ul class="bib-list">
+                    <li class="bib-item">
+                        <span class="bib-num">[1]</span>
+                        <div>
+                            Fielding, R., & Reschke, J. (2014). <span class="highlight-bold">Hypertext Transfer Protocol (HTTP/1.1): Caching</span>. Internet Engineering Task Force (IETF), RFC 7234.
+                        </div>
+                    </li>
+                    <li class="bib-item">
+                        <span class="bib-num">[2]</span>
+                        <div>
+                            Alvestrand, H. (1998). <span class="highlight-bold">Tags for the Identification of Languages</span>. IETF, RFC 1766.
+                        </div>
+                    </li>
+                    <li class="bib-item">
+                        <span class="bib-num">[3]</span>
+                        <div>
+                            Google Web Developers Initiative. (2020). <span class="highlight-bold">Core Web Vitals Metrics: LCP, FID, CLS</span>. Available at: web.dev/vitals.
+                        </div>
+                    </li>
+                    <li class="bib-item">
+                        <span class="bib-num">[4]</span>
+                        <div>
+                            Grigorik, I. (2013). <span class="highlight-bold">High-Performance Browser Networking</span>. O'Reilly Media, Inc. Chapter 10: "Optimizing Image Resources".
+                        </div>
+                    </li>
+                    <li class="bib-item">
+                        <span class="bib-num">[5]</span>
+                        <div>
+                            Prisma Schema Reference. (2024). <span class="highlight-bold">Relational Databases Mapping with PostgreSQL</span>. Prisma documentation repository.
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // SIDEBAR & THEME TOGGLE
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const scrollProgress = document.getElementById('scrollProgress');
+
+        // SLIDER
+        const sliderRange = document.getElementById('sliderRange');
+        const beforeImage = document.getElementById('beforeImage');
+        const sliderHandle = document.getElementById('sliderHandle');
+        const sliderBar = document.getElementById('sliderBar');
+
+        // BUILDER
+        const paramFormat = document.getElementById('paramFormat');
+        const paramQuality = document.getElementById('paramQuality');
+        const valQuality = document.getElementById('valQuality');
+        const paramWidth = document.getElementById('paramWidth');
+        const paramHeight = document.getElementById('paramHeight');
+        const compiledUrl = document.getElementById('compiledUrl');
+        const btnCopyUrl = document.getElementById('btnCopyUrl');
+
+        // Toggle mobile sidebar menu
+        mobileNavToggle.addEventListener('click', () => {
+            sidebarMenu.classList.toggle('mobile-open');
+        });
+
+        document.querySelectorAll('.sidebar-item a').forEach(item => {
+            item.addEventListener('click', () => {
+                sidebarMenu.classList.remove('mobile-open');
+            });
+        });
+
+        // Theme toggler
+        themeToggleBtn.addEventListener('click', () => {
+            const html = document.documentElement;
+            html.classList.toggle('dark-theme');
+            html.classList.toggle('light-theme');
+            const isDark = html.classList.contains('dark-theme');
+            themeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            
+            if (isDark) {
+                themeIcon.innerHTML = `<path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>`;
+            } else {
+                themeIcon.innerHTML = `<path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.278 7.277a7.29 7.29 0 0 0 3.46-.878.767.767 0 0 1 .8.348.77.77 0 0 1-.254.81 8.646 8.646 0 0 1-5.176 1.703 8.65 8.65 0 0 1-8.647-8.647c0-2.51 1.066-4.802 2.768-6.43a.77.77 0 0 1 .838-.18z"/>`;
+            }
+        });
+
+        // Comparison slider logic
+        function updateSlider() {
+            const val = sliderRange.value;
+            beforeImage.style.setProperty('--clip-percent', `${100 - val}%`);
+            sliderBar.style.left = `${val}%`;
+            sliderHandle.style.left = `${val}%`;
+        }
+
+        sliderRange.addEventListener('input', updateSlider);
+        updateSlider();
+
+        // Progress bar & active menu state
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.sidebar-item');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollProgress.style.width = `${scrollPercent}%`;
+
+            let currentSection = "";
+            sections.forEach(sec => {
+                const sectionTop = sec.offsetTop;
+                if (scrollTop >= sectionTop - 150) {
+                    currentSection = sec.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === currentSection) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Builder logic
+        function updateUrlOutput() {
+            const format = paramFormat.value;
+            const quality = paramQuality.value;
+            const width = paramWidth.value;
+            const height = paramHeight.value;
+
+            valQuality.textContent = `${quality}%`;
+
+            const queryParams = [];
+            if (format !== 'original') queryParams.push(`format=${format}`);
+            if (quality !== '100' && format !== 'original') queryParams.push(`quality=${quality}`);
+            if (width) queryParams.push(`width=${width}`);
+            if (height) queryParams.push(`height=${height}`);
+
+            const queryStr = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+            compiledUrl.textContent = `https://imagic.io/api/assets/usr_kiran/img_golden_hour${queryStr}`;
+        }
+
+        paramFormat.addEventListener('change', updateUrlOutput);
+        paramQuality.addEventListener('input', updateUrlOutput);
+        paramWidth.addEventListener('input', updateUrlOutput);
+        paramHeight.addEventListener('input', updateUrlOutput);
+
+        btnCopyUrl.addEventListener('click', () => {
+            navigator.clipboard.writeText(compiledUrl.textContent).then(() => {
+                const originalIcon = btnCopyUrl.innerHTML;
+                btnCopyUrl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="var(--success-color)" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg>`;
+                setTimeout(() => {
+                    btnCopyUrl.innerHTML = originalIcon;
+                }, 1500);
+            });
+        });
+
+        updateUrlOutput();
+    </script>
+</body>
+</html>

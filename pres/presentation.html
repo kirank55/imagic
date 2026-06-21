@@ -1,0 +1,1565 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Imagic - Proposal Presentation Deck</title>
+    <!-- Google Fonts for premium presentation typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* COLOR SYSTEM & VARS */
+      :root {
+        --bg-dark: #f1f5f9;
+        --bg-slide: #ffffff;
+        --border-color: rgba(0, 0, 0, 0.08);
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --accent-color: #2563eb;
+        --accent-gradient: linear-gradient(135deg, #2563eb, #3b82f6);
+        --accent-glow: rgba(37, 99, 235, 0.05);
+        --success-color: #16a34a;
+        --slide-width: 100vw;
+        --slide-height: 100vh;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+        overflow: hidden;
+        user-select: none;
+      }
+
+      /* SLIDES Container */
+      .slides-wrapper {
+        width: var(--slide-width);
+        height: var(--slide-height);
+        position: relative;
+      }
+
+      /* INDIVIDUAL SLIDE */
+      .slide {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4rem 6rem;
+        background-color: var(--bg-slide);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease,
+          visibility 0.5s;
+        transform: translateX(100px);
+        z-index: 1;
+      }
+
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+        z-index: 10;
+      }
+
+      .slide.previous {
+        transform: translateX(-100px);
+      }
+
+      /* SLIDE CONTROLS */
+      .controls-overlay {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        z-index: 100;
+      }
+
+      .btn-slide-nav {
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.2s;
+        backdrop-filter: blur(8px);
+      }
+
+      .btn-slide-nav:hover {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: #ffffff;
+        transform: scale(1.05);
+      }
+
+      .slide-counter {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .slide-counter span {
+        color: var(--text-primary);
+        font-weight: 700;
+      }
+
+      /* BOTTOM PROGRESS BAR */
+      .progress-indicator {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background-color: var(--accent-color);
+        z-index: 100;
+        transition: width 0.3s ease;
+      }
+
+      /* CONTENT ELEMENTS */
+      .slide-header {
+        width: 100%;
+        max-width: 1100px;
+        margin-bottom: 2.5rem;
+        border-bottom: 1.5px solid var(--border-color);
+        padding-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .slide-title {
+        font-size: 2.75rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .slide-title::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 2.25rem;
+        background-color: var(--accent-color);
+        border-radius: 4px;
+      }
+
+      .slide-subtitle {
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-secondary);
+      }
+
+      .slide-body {
+        width: 100%;
+        max-width: 1100px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* SLIDE SPECIFIC TEMPLATES */
+
+      /* 1. COVER Slide */
+      .slide-cover {
+        background: radial-gradient(
+          circle at center,
+          #ffffff 0%,
+          var(--bg-dark) 100%
+        );
+        text-align: center;
+      }
+
+      .cover-college {
+        font-family: "Cinzel", serif;
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .cover-sub {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 2rem;
+      }
+
+      .cover-logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 2.5rem;
+      }
+
+      .cover-logo circle,
+      .cover-logo path {
+        stroke: var(--text-primary);
+        fill: none;
+        stroke-width: 2px;
+      }
+
+      .cover-logo text {
+        fill: var(--text-primary);
+        font-family: "Inter", sans-serif;
+      }
+
+      .cover-type {
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent-color);
+        margin-bottom: 0.75rem;
+      }
+
+      .cover-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: -1px;
+        margin-bottom: 2rem;
+        background: linear-gradient(to right, #0f172a, #2563eb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .cover-info {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 900px;
+        margin-top: 2rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 2rem;
+      }
+
+      .info-card {
+        text-align: left;
+      }
+
+      .info-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-secondary);
+        margin-bottom: 0.25rem;
+      }
+
+      .info-value {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      /* 2. GRID LIST Layout */
+      .bullets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 2.5rem;
+      }
+
+      .bullet-point-card {
+        background-color: rgba(0, 0, 0, 0.01);
+        border: 1px solid var(--border-color);
+        border-radius: 0.75rem;
+        padding: 1.75rem;
+        transition: all 0.2s;
+      }
+
+      .bullet-point-card:hover {
+        border-color: var(--accent-color);
+        background-color: rgba(37, 99, 235, 0.02);
+        transform: translateY(-2px);
+      }
+
+      .bullet-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .bullet-icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.375rem;
+        background-color: var(--accent-glow);
+        color: var(--accent-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+      }
+
+      .bullet-desc {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* 3. ARCHITECTURE Diagram Slide */
+      .arch-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .arch-container svg {
+        width: 100%;
+        max-width: 960px;
+        height: auto;
+      }
+
+      /* 4. DEMO Slide with comparison slider */
+      .demo-slide-wrapper {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 3rem;
+        align-items: center;
+      }
+
+      .demo-slider-container {
+        width: 100%;
+        aspect-ratio: 16/10;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid var(--border-color);
+      }
+
+      .demo-slider-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .demo-slider-image-before {
+        z-index: 10;
+        clip-path: inset(0 var(--clip-percent) 0 0);
+      }
+
+      .demo-slider-image-after {
+        z-index: 5;
+      }
+
+      .demo-slider-bar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(100% - var(--clip-percent));
+        width: 3px;
+        background-color: #ffffff;
+        z-index: 15;
+        pointer-events: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .demo-slider-handle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: #ffffff;
+        border: 2px solid var(--accent-color);
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .demo-slider-handle svg {
+        width: 16px;
+        height: 16px;
+        color: var(--accent-color);
+      }
+
+      .demo-slider-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: 30;
+        cursor: ew-resize;
+      }
+
+      .demo-slider-label {
+        position: absolute;
+        top: 1rem;
+        padding: 0.35rem 0.75rem;
+        background-color: rgba(255, 255, 255, 0.95);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        font-size: 0.7rem;
+        font-weight: 700;
+        border-radius: 0.25rem;
+        z-index: 25;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .demo-slider-label-before {
+        left: 1rem;
+      }
+      .demo-slider-label-after {
+        right: 1rem;
+      }
+
+      .demo-details {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .demo-stat-row {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .demo-stat-label {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+      }
+
+      .demo-stat-val {
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .demo-stat-val.saving {
+        color: var(--success-color);
+      }
+
+      /* ========================================================
+           PRINT STYLING (EXPORTS DECK AS A LANDSCAPE HANDOUT PDF)
+           ======================================================== */
+      @media print {
+        @page {
+          size: A4 landscape;
+          margin: 0;
+        }
+
+        html,
+        body {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 11.69in !important;
+          height: 8.27in !important;
+          overflow: visible !important;
+        }
+
+        .controls-overlay,
+        .progress-indicator,
+        .demo-slider-input,
+        .demo-slider-bar,
+        .demo-slider-handle {
+          display: none !important;
+        }
+
+        .slides-wrapper {
+          width: 100% !important;
+          height: auto !important;
+          display: block !important;
+        }
+
+        .slide {
+          position: relative !important;
+          display: flex !important;
+          width: 11.69in !important;
+          height: 8.27in !important;
+          page-break-after: always !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          padding: 0.75in 1in !important;
+          box-sizing: border-box !important;
+        }
+
+        .slide-cover {
+          background: #ffffff !important;
+        }
+
+        .slide-title {
+          color: #000000 !important;
+        }
+
+        .slide-title::before {
+          background-color: #000000 !important;
+        }
+
+        .slide-subtitle {
+          color: #333333 !important;
+        }
+
+        .slide-header {
+          border-bottom: 1.5pt solid #000000 !important;
+        }
+
+        .cover-title {
+          background: none !important;
+          -webkit-text-fill-color: initial !important;
+          color: #000000 !important;
+        }
+
+        .bullet-point-card {
+          border: 1pt solid #000000 !important;
+          background: transparent !important;
+        }
+
+        .bullet-icon {
+          background: transparent !important;
+          color: #000000 !important;
+          font-weight: bold !important;
+        }
+
+        .bullet-title,
+        .bullet-desc {
+          color: #000000 !important;
+        }
+
+        .arch-svg rect,
+        .arch-svg circle,
+        .arch-svg path {
+          stroke: #000000 !important;
+          stroke-width: 1.5pt !important;
+          fill: none !important;
+        }
+
+        .arch-svg text {
+          fill: #000000 !important;
+        }
+
+        .demo-slider-container {
+          border: 1pt solid #000000 !important;
+        }
+
+        /* Static print side-by-side layout for slider */
+        .demo-slide-wrapper {
+          display: block !important;
+        }
+
+        .demo-slider-image-before {
+          position: relative !important;
+          width: 48% !important;
+          display: inline-block !important;
+          clip-path: none !important;
+          aspect-ratio: 16/10 !important;
+        }
+
+        .demo-slider-image-after {
+          position: relative !important;
+          width: 48% !important;
+          display: inline-block !important;
+          margin-left: 4% !important;
+          aspect-ratio: 16/10 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- BOTTOM PRESENTATION BAR -->
+    <div class="progress-indicator" id="progressIndicator"></div>
+
+    <div class="slides-wrapper" id="slidesWrapper">
+      <!-- SLIDE 1: COVER -->
+      <div class="slide slide-cover active" id="slide-0">
+        <h2 class="cover-college">DAYANANDA SAGAR COLLEGE</h2>
+        <p class="cover-sub">Department of Computer Applications - MCA</p>
+
+        <svg
+          class="cover-logo"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="50" cy="50" r="46" />
+          <path d="M50 20 L75 35 L75 65 L50 80 L25 65 L25 35 Z" />
+          <path
+            d="M35 45 Q42 42 50 48 Q58 42 65 45 Q67 58 50 72 Q33 58 35 45 Z"
+            fill="var(--text-primary)"
+            opacity="0.15"
+          />
+          <path
+            d="M35 45 Q42 42 50 48 Q58 42 65 45 Q67 58 50 72 Q33 58 35 45 Z"
+          />
+        </svg>
+
+        <div class="cover-type">Mini-Project Proposal Defense</div>
+        <h1 class="cover-title">
+          Imagic: Dynamic Image Optimization & Storage CDN Platform
+        </h1>
+
+        <div class="cover-info">
+          <div class="info-card">
+            <p class="info-label">Submitted By</p>
+            <p class="info-value">Kiran Kumar G S (P03CJ24S126048)</p>
+          </div>
+          <div class="info-card">
+            <p class="info-label">Project Guide</p>
+            <p class="info-value">Dr. Nithya B N</p>
+            <p class="info-value" style="font-weight: 400; opacity: 0.8">
+              MCA Dept. Faculty Advisor
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: PROBLEM STATEMENT -->
+      <div class="slide" id="slide-1">
+        <div class="slide-header">
+          <h2 class="slide-title">Problem Statement</h2>
+          <span class="slide-subtitle">Context & Challenges</span>
+        </div>
+        <div class="slide-body">
+          <div class="bullets-grid">
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">1</div>
+                Visual Payload Overhead
+              </div>
+              <p class="bullet-desc">
+                Images compose over 60% of modern web page sizes. Loading
+                high-resolution, unoptimized resources drains cellular data and
+                increases network traffic bloat.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">2</div>
+                Core Web Vitals Degradation
+              </div>
+              <p class="bullet-desc">
+                Delayed loading directly degrades Largest Contentful Paint (LCP)
+                and First Input Delay (FID) metrics. Telemetry indicates a 100ms
+                load delay drops sales conversions by 7%.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">3</div>
+                Build Pipeline Friction
+              </div>
+              <p class="bullet-desc">
+                Batch pre-processing and dynamic scaling using scripts increases
+                server compile-times and limits design flexibility when
+                viewports or source assets update.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">4</div>
+                Cloud Storage Egress Expenses
+              </div>
+              <p class="bullet-desc">
+                Serving visual resources directly from typical database nodes
+                (e.g. AWS S3) incurs massive egress fees as page view volume
+                scales.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: ABSTRACT & PROPOSED SOLUTION -->
+      <div class="slide" id="slide-2">
+        <div class="slide-header">
+          <h2 class="slide-title">Abstract & Proposed Solution</h2>
+          <span class="slide-subtitle">Introducing Imagic</span>
+        </div>
+        <div class="slide-body">
+          <div class="bullets-grid">
+            <div class="bullet-point-card" style="grid-column: span 2">
+              <div class="bullet-title">
+                <div class="bullet-icon">⚡</div>
+                Dynamic Request-Level Optimization Architecture
+              </div>
+              <p
+                class="bullet-desc"
+                style="font-size: 1.1rem; line-height: 1.7"
+              >
+                Imagic resolves the trade-off between visual fidelity and
+                latency by automating optimization. Rather than manual
+                pre-processing, Imagic processes visual assets dynamically at
+                the network boundary. Tapping into S3-compatible cloud storage
+                (Cloudflare R2) and global Content Delivery Networks (CDNs),
+                Imagic intercepts resource requests, scales and transcodes
+                pixels on-the-fly, and caches outputs at global edge points for
+                subsequent sub-50ms retrievals.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">✓</div>
+                Automated WebP/AVIF Transcoding
+              </div>
+              <p class="bullet-desc">
+                Converts legacy PNG/JPEG files into modern WebP/AVIF formats
+                dynamically, achieving up to 80% file weight reduction visually
+                losslessly.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">✓</div>
+                Zero-Egress Cost Structure
+              </div>
+              <p class="bullet-desc">
+                Built directly on top of Cloudflare R2's S3 API boundary,
+                eliminating traditional egress bandwidth fees when distributing
+                optimized resources.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: OBJECTIVES -->
+      <div class="slide" id="slide-3">
+        <div class="slide-header">
+          <h2 class="slide-title">Project Objectives</h2>
+          <span class="slide-subtitle">Project Goals</span>
+        </div>
+        <div class="slide-body">
+          <div class="bullets-grid">
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">1</div>
+                Real-time Optimization Engine
+              </div>
+              <p class="bullet-desc">
+                Build a request-intercepting REST API endpoint which scales
+                dimensions (width/height), adjusts compression index (quality),
+                and converts media formats dynamically.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">2</div>
+                Direct Cloud Upload Pipeline
+              </div>
+              <p class="bullet-desc">
+                Develop a secure multipart uploader integrated with Cloudflare
+                R2 bucket storage to manage original source files under distinct
+                user prefixes.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">3</div>
+                Sub-50ms CDN Distribution
+              </div>
+              <p class="bullet-desc">
+                Configure CDN cache headers and Anycast route topologies to
+                serve optimized images locally from nearest edge datacenters
+                under average latency SLA limits.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">4</div>
+                Interactive Telemetry Console
+              </div>
+              <p class="bullet-desc">
+                Create a developer-focused management dashboard with file
+                search/sort, sizing comparisons, and dynamic query builders.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: PROJECT SCOPE -->
+      <div class="slide" id="slide-4">
+        <div class="slide-header">
+          <h2 class="slide-title">Project Scope & Bounds</h2>
+          <span class="slide-subtitle">Parameters & Boundaries</span>
+        </div>
+        <div class="slide-body">
+          <div class="bullets-grid">
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">⚙</div>
+                Supported Formats
+              </div>
+              <p class="bullet-desc">
+                Supports transcoding, scaling, and compression adjustments for
+                standard raster graphics formats: JPEG, PNG, GIF, WebP, and
+                AVIF.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">⚙</div>
+                System Limitations
+              </div>
+              <p class="bullet-desc">
+                Optimization is scoped to serverless runtime CPU/Memory
+                allocations (max 10MB input limits) to maintain high throughput
+                and prevent database starvation.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">⚙</div>
+                Database Boundary
+              </div>
+              <p class="bullet-desc">
+                PostgreSQL is utilized to persist user credentials, dynamic
+                session records, and image metadata profiles (sizes, creation
+                dates, hashes).
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">⚙</div>
+                Authentication Model
+              </div>
+              <p class="bullet-desc">
+                Session controls are governed by Next-Auth, hashing user records
+                securely and mapping them directly to dedicated object storage
+                keys.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: SYSTEM ARCHITECTURE -->
+      <div class="slide" id="slide-5">
+        <div class="slide-header">
+          <h2 class="slide-title">System Architecture</h2>
+          <span class="slide-subtitle">Flow Diagram</span>
+        </div>
+        <div class="slide-body">
+          <div class="arch-container">
+            <!-- Embedded Vector SVG Diagram (Print compliance stroke overrides) -->
+            <svg
+              class="arch-svg"
+              viewBox="0 0 800 320"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                width="100%"
+                height="100%"
+                fill="rgba(255,255,255,0.01)"
+                rx="8"
+              />
+              <!-- Client -->
+              <g transform="translate(30, 120)">
+                <rect
+                  width="130"
+                  height="70"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="var(--accent-color)"
+                  stroke-width="2"
+                />
+                <text
+                  x="65"
+                  y="32"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-weight="600"
+                  font-size="11"
+                >
+                  Client Application
+                </text>
+                <text
+                  x="65"
+                  y="48"
+                  text-anchor="middle"
+                  fill="var(--text-secondary)"
+                  font-size="9"
+                >
+                  Dynamic HTTP requests
+                </text>
+              </g>
+
+              <!-- Arrow 1 -->
+              <g>
+                <path
+                  d="M 160 155 L 210 155"
+                  fill="none"
+                  stroke="var(--text-secondary)"
+                  stroke-width="1.5"
+                />
+                <polygon points="210,151 218,155 210,159" fill="var(--text-secondary)" />
+              </g>
+
+              <!-- NextJS Middleware -->
+              <g transform="translate(220, 80)">
+                <rect
+                  width="190"
+                  height="150"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="var(--accent-color)"
+                  stroke-width="2"
+                />
+                <text
+                  x="95"
+                  y="28"
+                  text-anchor="middle"
+                  fill="var(--accent-color)"
+                  font-weight="700"
+                  font-size="12"
+                >
+                  NEXT.JS ROUTING CORE
+                </text>
+                <line
+                  x1="15"
+                  y1="40"
+                  x2="175"
+                  y2="40"
+                  stroke="var(--border-color)"
+                />
+
+                <rect
+                  x="15"
+                  y="55"
+                  width="160"
+                  height="30"
+                  rx="3"
+                  fill="var(--bg-dark)"
+                  stroke="var(--border-color)"
+                />
+                <text
+                  x="95"
+                  y="73"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-size="10"
+                >
+                  Next-Auth / Prisma State
+                </text>
+
+                <rect
+                  x="15"
+                  y="98"
+                  width="160"
+                  height="30"
+                  rx="3"
+                  fill="var(--bg-dark)"
+                  stroke="var(--border-color)"
+                />
+                <text
+                  x="95"
+                  y="116"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-size="10"
+                >
+                  Sharp Resampler Core
+                </text>
+              </g>
+
+              <!-- Arrow to DB -->
+              <g>
+                <path
+                  d="M 410 115 L 490 85"
+                  fill="none"
+                  stroke="var(--text-secondary)"
+                  stroke-width="1.5"
+                />
+                <polygon points="490,81 498,87 488,89" fill="var(--text-secondary)" />
+              </g>
+
+              <!-- Arrow to Storage -->
+              <g>
+                <path
+                  d="M 410 195 L 490 225"
+                  fill="none"
+                  stroke="var(--text-secondary)"
+                  stroke-width="1.5"
+                />
+                <polygon points="488,221 498,223 490,229" fill="var(--text-secondary)" />
+              </g>
+
+              <!-- PostgreSQL -->
+              <g transform="translate(500, 40)">
+                <rect
+                  width="140"
+                  height="65"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="var(--success-color)"
+                  stroke-width="2"
+                />
+                <text
+                  x="70"
+                  y="32"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-weight="600"
+                  font-size="11"
+                >
+                  PostgreSQL DB
+                </text>
+                <text
+                  x="70"
+                  y="47"
+                  text-anchor="middle"
+                  fill="var(--text-secondary)"
+                  font-size="9"
+                >
+                  Metadata Table
+                </text>
+              </g>
+
+              <!-- R2 -->
+              <g transform="translate(500, 210)">
+                <rect
+                  width="140"
+                  height="65"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="var(--success-color)"
+                  stroke-width="2"
+                />
+                <text
+                  x="70"
+                  y="32"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-weight="600"
+                  font-size="11"
+                >
+                  Cloudflare R2
+                </text>
+                <text
+                  x="70"
+                  y="47"
+                  text-anchor="middle"
+                  fill="var(--text-secondary)"
+                  font-size="9"
+                >
+                  Original Image Store
+                </text>
+              </g>
+
+              <!-- Arrow to CDN -->
+              <g>
+                <path
+                  d="M 640 242 L 685 242"
+                  fill="none"
+                  stroke="var(--text-secondary)"
+                  stroke-width="1.5"
+                  stroke-dasharray="3 3"
+                />
+                <polygon points="685,238 693,242 685,246" fill="var(--text-secondary)" />
+              </g>
+
+              <!-- CDN Cache -->
+              <g transform="translate(670, 100)">
+                <rect
+                  width="90"
+                  height="110"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="var(--accent-color)"
+                  stroke-width="2"
+                />
+                <text
+                  x="45"
+                  y="45"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-weight="600"
+                  font-size="11"
+                >
+                  Cloudflare
+                </text>
+                <text
+                  x="45"
+                  y="60"
+                  text-anchor="middle"
+                  fill="var(--text-primary)"
+                  font-weight="600"
+                  font-size="11"
+                >
+                  CDN edge
+                </text>
+                <text
+                  x="45"
+                  y="85"
+                  text-anchor="middle"
+                  fill="var(--success-color)"
+                  font-weight="700"
+                  font-size="9"
+                >
+                  CACHE HIT
+                </text>
+              </g>
+
+              <!-- Cache response arrow -->
+              <g>
+                <path
+                  d="M 715 100 L 715 15 L 95 15 L 95 115"
+                  fill="none"
+                  stroke="var(--success-color)"
+                  stroke-width="1.5"
+                  stroke-dasharray="2 2"
+                />
+                <polygon points="91,110 95,118 99,110" fill="var(--success-color)" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: METHODOLOGY -->
+      <div class="slide" id="slide-6">
+        <div class="slide-header">
+          <h2 class="slide-title">Methodology</h2>
+          <span class="slide-subtitle">Technical Pipeline</span>
+        </div>
+        <div class="slide-body">
+          <div class="bullets-grid">
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">1</div>
+                Direct Binary Ingestion
+              </div>
+              <p class="bullet-desc">
+                Clients drag-and-drop imagery onto the frontend uploader.
+                Next.js boundary files process chunks, write state profiles to
+                PostgreSQL, and stream buffers directly to the target R2 bucket.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">2</div>
+                Query Param Interceptor
+              </div>
+              <p class="bullet-desc">
+                On asset request, the optimizer endpoint parses query parameters
+                (`?format=webp&quality=80&width=800`). If cached, the CDN serves
+                the image instantly; if not, the original is fetched from R2.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">3</div>
+                Lanczos Sub-pixel Resampling
+              </div>
+              <p class="bullet-desc">
+                The uncached original buffer is processed in-memory using
+                Sharp’s C-bound resampler. Quality reduction is applied,
+                transcoding pixels into target containers.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">4</div>
+                Edge Header Injection
+              </div>
+              <p class="bullet-desc">
+                The server output includes caching headers (`s-maxage=31536000`)
+                and optimization telemetry headers (`X-Optimized-Size`), caching
+                the file at globally distributed CDN endpoints.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: EXPECTED OUTCOMES & METRICS -->
+      <div class="slide" id="slide-7">
+        <div class="slide-header">
+          <h2 class="slide-title">Expected Outcomes</h2>
+          <span class="slide-subtitle">Benchmarks & Savings</span>
+        </div>
+        <div class="slide-body">
+          <div class="bullets-grid">
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">⚖</div>
+                Up to 80% Size Reduction
+              </div>
+              <p class="bullet-desc">
+                Achieves massive storage footprint and transfer bandwidth
+                savings across all visual asset formats visually losslessly (86%
+                reduction for standard PNG landscape files).
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">⏰</div>
+                Sub-50ms Response Latency
+              </div>
+              <p class="bullet-desc">
+                CDN edge caches redirect subsequent requests directly, dropping
+                standard database roundtrip times from 300ms down to 28ms
+                average response times.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">✓</div>
+                Zero-Egress Cost Distribution
+              </div>
+              <p class="bullet-desc">
+                Cloudflare R2 bucket bindings bypass AWS S3-style download
+                egress charges, lowering hosting infrastructure bills for
+                developers as visual asset scale increases.
+              </p>
+            </div>
+
+            <div class="bullet-point-card">
+              <div class="bullet-title">
+                <div class="bullet-icon">✓</div>
+                Development Automation
+              </div>
+              <p class="bullet-desc">
+                API queries handle transformations dynamically in under 100ms
+                for uncached requests, completely removing the need for manual
+                image pre-rendering workflows.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: LIVE DEMO (COMPARISON WIDGET) -->
+      <div class="slide" id="slide-8">
+        <div class="slide-header">
+          <h2 class="slide-title">Interactive Comparison</h2>
+          <span class="slide-subtitle">Live Demonstration</span>
+        </div>
+        <div class="slide-body">
+          <div class="demo-slide-wrapper">
+            <!-- Interactive Slide Compare Widget -->
+            <div class="demo-slider-container">
+              <img
+                class="demo-slider-image demo-slider-image-after"
+                src="comparison_base.png"
+                alt="After Optimization"
+              />
+              <img
+                class="demo-slider-image demo-slider-image-before"
+                id="slideBeforeImage"
+                src="comparison_base.png"
+                alt="Before Optimization"
+                style="filter: saturate(1.03) contrast(1.02)"
+              />
+
+              <div class="demo-slider-label demo-slider-label-before">
+                Original PNG
+              </div>
+              <div class="demo-slider-label demo-slider-label-after">
+                Optimized WebP
+              </div>
+
+              <div class="demo-slider-bar" id="slideSliderBar"></div>
+              <div class="demo-slider-handle" id="slideSliderHandle">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                    transform="rotate(90 12 12)"
+                  />
+                </svg>
+              </div>
+              <input
+                class="demo-slider-input"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                id="slideSliderRange"
+              />
+            </div>
+
+            <div class="demo-details">
+              <div>
+                <h3 class="subsection-header" style="margin-top: 0">
+                  Telemetry Benchmarks
+                </h3>
+                <p
+                  class="narrative-p"
+                  style="
+                    font-size: 0.95rem;
+                    color: var(--text-secondary);
+                    margin-bottom: 1.5rem;
+                  "
+                >
+                  Slide the comparison separator to review the visual parity
+                  between the original high-resolution graphic and the optimized
+                  edge output.
+                </p>
+              </div>
+              <div class="demo-stat-row">
+                <span class="demo-stat-label">Original PNG Size</span>
+                <span class="demo-stat-val">3.42 MB</span>
+              </div>
+              <div class="demo-stat-row">
+                <span class="demo-stat-label">Optimized WebP Size</span>
+                <span class="demo-stat-val">482 KB</span>
+              </div>
+              <div class="demo-stat-row">
+                <span class="demo-stat-label">Dynamic Egress Savings</span>
+                <span class="demo-stat-val saving">86.2% Saved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 10: SUMMARY / CONCLUSION -->
+      <div class="slide slide-cover" id="slide-9">
+        <h1
+          class="cover-title"
+          style="font-size: 3.75rem; margin-bottom: 1.5rem"
+        >
+          Thank You!
+        </h1>
+        <p
+          class="cover-type"
+          style="color: var(--text-secondary); letter-spacing: 1px"
+        >
+          Imagic Project Synopsis Defense
+        </p>
+        <p class="cover-college" style="font-size: 1.15rem; margin-top: 2.5rem">
+          Questions & Open Discussion
+        </p>
+
+        <div
+          style="
+            margin-top: 4rem;
+            display: inline-flex;
+            gap: 2.5rem;
+            text-align: left;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+          "
+        >
+          <div>
+            <p class="info-label">Kiran Kumar G S</p>
+            <p class="info-value" style="font-size: 0.9rem">P03CJ24S126048</p>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRESENTATION SLIDE OVERLAYS -->
+    <div class="controls-overlay">
+      <div class="slide-counter">
+        <span id="currentSlideNum">1</span> /
+        <span id="totalSlidesNum">10</span>
+      </div>
+      <button
+        class="btn-slide-nav"
+        id="prevSlideBtn"
+        title="Previous Slide (Left Arrow)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+      <button
+        class="btn-slide-nav"
+        id="nextSlideBtn"
+        title="Next Slide (Right Arrow / Spacebar)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <script>
+      // PRESENTATION VARIABLES
+      let currentSlideIndex = 0;
+      const slides = document.querySelectorAll(".slide");
+      const totalSlides = slides.length;
+
+      // DOM ELEMENTS
+      const currentSlideNum = document.getElementById("currentSlideNum");
+      const totalSlidesNum = document.getElementById("totalSlidesNum");
+      const prevSlideBtn = document.getElementById("prevSlideBtn");
+      const nextSlideBtn = document.getElementById("nextSlideBtn");
+      const progressIndicator = document.getElementById("progressIndicator");
+
+      // SLIDER ELEMENTS
+      const slideSliderRange = document.getElementById("slideSliderRange");
+      const slideBeforeImage = document.getElementById("slideBeforeImage");
+      const slideSliderHandle = document.getElementById("slideSliderHandle");
+      const slideSliderBar = document.getElementById("slideSliderBar");
+
+      // Set total slide count
+      totalSlidesNum.textContent = totalSlides;
+
+      // SHOW CURRENT SLIDE
+      function showSlide(index) {
+        // Bounds check
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        slides.forEach((slide, i) => {
+          slide.classList.remove("active", "previous");
+          if (i === index) {
+            slide.classList.add("active");
+          } else if (i < index) {
+            slide.classList.add("previous");
+          }
+        });
+
+        currentSlideIndex = index;
+        currentSlideNum.textContent = currentSlideIndex + 1;
+
+        // Progress Bar Width
+        const progressPercent = ((currentSlideIndex + 1) / totalSlides) * 100;
+        progressIndicator.style.width = `${progressPercent}%`;
+      }
+
+      // NEXT / PREVIOUS NAV ACTIONS
+      function nextSlide() {
+        if (currentSlideIndex < totalSlides - 1) {
+          showSlide(currentSlideIndex + 1);
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlideIndex > 0) {
+          showSlide(currentSlideIndex - 1);
+        }
+      }
+
+      // KEYBOARD SHORTCUTS
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === "ArrowLeft" || e.key === "Backspace") {
+          e.preventDefault();
+          prevSlide();
+        }
+      });
+
+      // BUTTON ACTIONS
+      nextSlideBtn.addEventListener("click", nextSlide);
+      prevSlideBtn.addEventListener("click", prevSlide);
+
+      // SLIDER DRAG LOGIC
+      function updateSlideSlider() {
+        const val = slideSliderRange.value;
+        slideBeforeImage.style.setProperty("--clip-percent", `${100 - val}%`);
+        slideSliderBar.style.left = `${val}%`;
+        slideSliderHandle.style.left = `${val}%`;
+      }
+
+      slideSliderRange.addEventListener("input", updateSlideSlider);
+      // Initialize comparison slider once
+      updateSlideSlider();
+
+      // Initialize slideshow once
+      showSlide(0);
+    </script>
+  </body>
+</html>
